@@ -20,29 +20,44 @@ typedef struct superblock {
  * @param base - base of the mapped memory
  * @param nBlocks - the total number of blocks
  * @param nInodes - the total number of Inodes
+ * @param tableBlock - the block number of the inode table
  */
-void* initSuperBlock(void* base, int nBlocks, int nInodes);
+void* initSuperBlock(void* base, int nBlocks, int nInodes, int tableBlock);
+
+/**
+ * Returns the superblock object in the given pointer.
+ * Assuming the pointer points to the superblock memory.
+ * 
+ * @return
+*/
+superblock_t* getSuperBlock(void* ptr);
 
 /**
  * Returns the file system type.
+ * 
+ * @return
  */
-int getMagic();
+int getMagic(superblock_t* sb);
 
 /**
  * Returns the number of Inodes in this File System.
- */
-int getInodes();
-
-/**
- * Returns the block number of the Inode Table. 
- */
-int getInodeTable();
-
-/**
- * Sets the given block number as the Inode Table.
  * 
- * @param bnum
+ * @return
  */
-void setInodeTable(int bnum);
+int getInodes(superblock_t* sb);
+
+/**
+ * Returns the block number of the Inode Table.
+ * 
+ * @return 
+ */
+int getInodeTable(superblock_t* sb);
+
+/**
+ * Returns the number of blocks
+ * 
+ * @return 
+ */
+int getNumBlocks(superblock_t* sb);
 
 #endif
