@@ -2,7 +2,7 @@
  * @file blocks.c
  * @author CS3650 staff
  *
- * Implementatino of a block-based abstraction over a disk image file.
+ * Implementation of a block-based abstraction over a disk image file.
  */
 #define _GNU_SOURCE
 #include <string.h>
@@ -20,11 +20,12 @@
 #include "bitmap.h"
 #include "blocks.h"
 #include "superblock.h"
+#include "inode.h"
 
-extern const int BLOCK_COUNT = 256; // we split the "disk" into 256 blocks
-extern const int NUFS_SIZE = BLOCK_SIZE * BLOCK_COUNT; // = 1MB
-
+const int BLOCK_COUNT = 256; // we split the "disk" into 256 blocks
+const int NUFS_SIZE = BLOCK_SIZE * BLOCK_COUNT; // = 1MB
 const int BLOCK_BITMAP_SIZE = BLOCK_COUNT / 8;
+const int INODE_LIMIT = (30 * BLOCK_SIZE * KBtoB) / sizeof(inode_t);
 // Note: assumes block count is divisible by 8
 
 static int blocks_fd = -1;
@@ -56,11 +57,15 @@ void blocks_init(const char *image_path) {
   assert(blocks_base != MAP_FAILED);
 
   // block 0 stores the superblock
-  initSuperBlock(blocks_base, BLOCK_COUNT, )
+  initSuperBlock(blocks_base, BLOCK_COUNT, INODE_LIMIT, 2);
   
   // block 1 stores the block bitmap and the inode bitmap
   void *bbm = get_blocks_bitmap();
-  bitmap_put(bbm, 0, 1);
+  bitmap_put(bbm, 0, 1); // set block 0 to used
+  bitmap_put(bbm, 1, 1); // set block 1 to used
+  
+  // block 2 - 32 stores the inode table
+  
 }
 
 // Close the disk image.
@@ -85,6 +90,29 @@ void *get_inode_bitmap() {
 
   // The inode bitmap is stored immediately after the block bitmap
   return (void *) (block + BLOCK_BITMAP_SIZE);
+}
+// Return a pointer to the beginning of the inode table.
+void *get_inode_table() {
+  return blocks_get_block(2);
+}
+
+// Initialize the inode table and return the beginning of the table.
+void *init_inode_table() {
+  // Assumes the first two blocks are in use for superblock and bitmap
+  assert(bitmap_get(get_blocks_bitmap(), 0) == 1);
+  assert(bitmap_get(get_blocks_bitmap(), 1) == 1);
+
+  // allocate blocks for 30 blocks
+  for(int ii = 0; ii < 30; ++ii) {
+    alloc_block();
+  }
+
+  // make sure the first 32 bits are in-use
+  for(int ii = 0; ii < (BLOCK_COUNT / 8); ++ii) {
+    assert(bitmap_get(get_blocks_bitmap(), ii) == 1);
+  }
+
+  return get_inode_table();
 }
 
 // Allocate a new block and return its index.

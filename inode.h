@@ -6,10 +6,15 @@
 #ifndef INODE_H
 #define INODE_H
 
-#include "blocks.h"
+// Required Libraries
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 
+// Global Variables
 #define INODE_SIZE sizeof(inode_t)
 
+// inode structure
 typedef struct inode {
   int refs;  // reference count (4B)
   int mode;  // permission & type (4B)

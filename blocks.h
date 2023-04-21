@@ -10,11 +10,11 @@
 #define BLOCKS_H
 
 #include <stdio.h>
+#define KBtoB 1024
 
 const int BLOCK_COUNT; // we split the "disk" into blocks (default = 256)
-const int BLOCK_SIZE;  // default = 4K
 const int NUFS_SIZE;   // default = 1MB
-
+const int INODE_LIMIT; // Number of inodes
 const int BLOCK_BITMAP_SIZE; // default = 256 / 8 = 32
 
 /** 
@@ -67,6 +67,20 @@ void *get_blocks_bitmap();
  * @return A pointer to the beginning of the free inode bitmap.
  */
 void *get_inode_bitmap();
+
+/**
+ * Return a pointer to the beginning of the inode table.
+ * 
+ * @return A pointer to the beginning of the inode table
+ */
+void *get_inode_table();
+
+/**
+ * Initialize the Inode Table and return the beginning of the table.
+ * 
+ * @return A pointer to the beginning of the inode table
+ */
+void *init_inode_table();
 
 /**
  * Allocate a new block and return its number.
