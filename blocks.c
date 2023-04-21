@@ -19,10 +19,10 @@
 
 #include "bitmap.h"
 #include "blocks.h"
+#include "superblock.h"
 
-const int BLOCK_COUNT = 256; // we split the "disk" into 256 blocks
-const int BLOCK_SIZE = 4096; // = 4K
-const int NUFS_SIZE = BLOCK_SIZE * BLOCK_COUNT; // = 1MB
+extern const int BLOCK_COUNT = 256; // we split the "disk" into 256 blocks
+extern const int NUFS_SIZE = BLOCK_SIZE * BLOCK_COUNT; // = 1MB
 
 const int BLOCK_BITMAP_SIZE = BLOCK_COUNT / 8;
 // Note: assumes block count is divisible by 8
@@ -55,7 +55,10 @@ void blocks_init(const char *image_path) {
       mmap(0, NUFS_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, blocks_fd, 0);
   assert(blocks_base != MAP_FAILED);
 
-  // block 0 stores the block bitmap and the inode bitmap
+  // block 0 stores the superblock
+  initSuperBlock(blocks_base, BLOCK_COUNT, )
+  
+  // block 1 stores the block bitmap and the inode bitmap
   void *bbm = get_blocks_bitmap();
   bitmap_put(bbm, 0, 1);
 }
@@ -69,13 +72,16 @@ void blocks_free() {
 // Get the given block, returning a pointer to its start.
 void *blocks_get_block(int bnum) { return blocks_base + BLOCK_SIZE * bnum; }
 
+// Return the pointer to the beginning of the superblock.
+void *get_superblock() { return blocks_get_block(0); }
+
 // Return a pointer to the beginning of the block bitmap.
 // The size is BLOCK_BITMAP_SIZE bytes.
-void *get_blocks_bitmap() { return blocks_get_block(0); }
+void *get_blocks_bitmap() { return blocks_get_block(1); }
 
 // Return a pointer to the beginning of the inode table bitmap.
 void *get_inode_bitmap() {
-  uint8_t *block = blocks_get_block(0);
+  uint8_t *block = blocks_get_block(1);
 
   // The inode bitmap is stored immediately after the block bitmap
   return (void *) (block + BLOCK_BITMAP_SIZE);
@@ -85,7 +91,8 @@ void *get_inode_bitmap() {
 int alloc_block() {
   void *bbm = get_blocks_bitmap();
 
-  for (int ii = 1; ii < BLOCK_COUNT; ++ii) {
+  // first two are being used for superblock and bitmap
+  for (int ii = 2; ii < BLOCK_COUNT; ++ii) {
     if (!bitmap_get(bbm, ii)) {
       bitmap_put(bbm, ii, 1);
       printf("+ alloc_block() -> %d\n", ii);

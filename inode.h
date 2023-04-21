@@ -8,11 +8,12 @@
 
 #include "blocks.h"
 
-// represents an inode block
+#define INODE_SIZE sizeof(inode_t)
+
 typedef struct inode {
-  int refs;  // reference count
-  int mode;  // permission & type
-  int size;  // bytes
+  int refs;  // reference count (4B)
+  int mode;  // permission & type (4B)
+  int size;  // bytes (4B)
   int block; // single block pointer (if max file size <= 4K)
 } inode_t;
 

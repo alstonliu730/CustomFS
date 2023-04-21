@@ -48,6 +48,13 @@ void blocks_free();
 void *blocks_get_block(int bnum);
 
 /**
+ * Returns the pointer to the superblock.
+ * 
+ * @return A pointer to the superblock of the file system.
+ */
+void *get_superblock();
+
+/**
  * Return a pointer to the beginning of the block bitmap.
  *
  * @return A pointer to the beginning of the free blocks bitmap.
