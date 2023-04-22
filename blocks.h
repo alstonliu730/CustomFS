@@ -9,8 +9,8 @@
 #ifndef BLOCKS_H
 #define BLOCKS_H
 
-#include <stdio.h>
 #define KBtoB 1024
+#define BLOCK_SIZE (4 * KBtoB) //4KB (4096 B)
 
 const int BLOCK_COUNT; // we split the "disk" into blocks (default = 256)
 const int NUFS_SIZE;   // default = 1MB

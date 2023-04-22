@@ -3,7 +3,10 @@
 #ifndef SUPERBLOCK_H
 #define SUPERBLOCK_H
 
-#define BLOCK_SIZE 4096 //4KB
+#include <stdio.h>
+#include <stdint.h>
+
+#include "blocks.h"
 
 // File System MetaData
 typedef struct superblock {

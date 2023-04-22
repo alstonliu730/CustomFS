@@ -10,16 +10,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 // Global Variables
 #define INODE_SIZE sizeof(inode_t)
+#define MAX_BLOCKS 12 // max number of blocks (Max file size = 48KB)
 
 // inode structure
 typedef struct inode {
   int refs;  // reference count (4B)
   int mode;  // permission & type (4B)
-  int size;  // bytes (4B)
-  int block; // single block pointer (if max file size <= 4K)
+  int size;  // bytes written (4B)
+  int blocks; // blocks allocated (4B)
+  int block[12]; // 12 direct block number (if max file size <= 48KB)
+  int indirect; // single indirect block when file size >= 48KB
 } inode_t;
 
 void print_inode(inode_t *node);

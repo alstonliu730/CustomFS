@@ -5,6 +5,7 @@
  * Implementation of a block-based abstraction over a disk image file.
  */
 #define _GNU_SOURCE
+
 #include <string.h>
 
 #include <assert.h>
@@ -25,7 +26,7 @@
 const int BLOCK_COUNT = 256; // we split the "disk" into 256 blocks
 const int NUFS_SIZE = BLOCK_SIZE * BLOCK_COUNT; // = 1MB
 const int BLOCK_BITMAP_SIZE = BLOCK_COUNT / 8;
-const int INODE_LIMIT = (30 * BLOCK_SIZE * KBtoB) / sizeof(inode_t);
+const int INODE_LIMIT = BLOCK_SIZE - (BLOCK_BITMAP_SIZE * 8);
 // Note: assumes block count is divisible by 8
 
 static int blocks_fd = -1;
@@ -65,7 +66,7 @@ void blocks_init(const char *image_path) {
   bitmap_put(bbm, 1, 1); // set block 1 to used
   
   // block 2 - 32 stores the inode table
-  
+  init_inode_table();
 }
 
 // Close the disk image.
@@ -102,14 +103,19 @@ void *init_inode_table() {
   assert(bitmap_get(get_blocks_bitmap(), 0) == 1);
   assert(bitmap_get(get_blocks_bitmap(), 1) == 1);
 
-  // allocate blocks for 30 blocks
-  for(int ii = 0; ii < 30; ++ii) {
-    alloc_block();
+  uint8_t max_blocks = bytes_to_blocks(INODE_LIMIT * sizeof(inode_t));
+
+  // allocate blocks for 'max_blocks' blocks
+  for(int ii = 0; ii < max_blocks; ++ii) {
+    // make sure the bitmaps of those blocks are free
+    if(!bitmap_get(get_blocks_bitmap(), ii + 2)) {
+      alloc_block();
+    }
   }
 
-  // make sure the first 32 bits are in-use
-  for(int ii = 0; ii < (BLOCK_COUNT / 8); ++ii) {
-    assert(bitmap_get(get_blocks_bitmap(), ii) == 1);
+  // make sure the first max_blocks + 2 bits are in-use
+  for(int ii = 0; ii < max_blocks + 2; ++ii) {
+    assert(bitmap_get(get_blocks_bitmap(), ii));
   }
 
   return get_inode_table();
