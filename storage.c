@@ -227,7 +227,7 @@ void get_parent(const char *path, char* str) {
     slist_t* copy = path_names;
     str[0] = '\0';
     while (copy->next) {
-        strncat(str, "/", 1);
+        strncat(str, "/", 2);
         strncat(str, copy->data, strlen(copy->data) + 1);
         copy = copy->next;
     }
