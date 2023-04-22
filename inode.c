@@ -7,8 +7,6 @@
 #include <assert.h>
 
 #include "inode.h"
-#include "blocks.h"
-#include "bitmap.h"
 
 // Prints information about the inode
 void print_inode(inode_t *node) {

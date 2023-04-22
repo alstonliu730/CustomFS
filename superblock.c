@@ -11,7 +11,7 @@ void* initSuperBlock(void* base, int nBlocks, int nInodes, int tableBlock) {
     // initialize the meta data block
     fsMetaData->magic = 0xf0f03410;
     fsMetaData->blocks = nBlocks;
-    fsMetaData->blockSize = BLOCK_SIZE; // 4KB
+    fsMetaData->blockSize = 4096; // 4KB
     fsMetaData->inodes = nInodes;
     fsMetaData->inodeTable = tableBlock;
     

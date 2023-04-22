@@ -12,6 +12,9 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "blocks.h"
+#include "bitmap.h"
+
 // Global Variables
 #define INODE_SIZE sizeof(inode_t)
 #define MAX_BLOCKS 12 // max number of blocks (Max file size = 48KB)
