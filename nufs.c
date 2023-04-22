@@ -12,20 +12,17 @@
 
 #define FUSE_USE_VERSION 26
 #include <fuse.h>
+#include "storage.h"
 
 // implementation for: man 2 access
 // Checks if a file exists.
 int nufs_access(const char *path, int mask) {
-  int rv = 0;
-
-  // Only the root directory and our simulated file are accessible for now...
-  if (strcmp(path, "/") == 0 || strcmp(path, "/hello.txt") == 0) {
-    rv = 0;
-  } else { // ...others do not exist
-    rv = -ENOENT;
+  int rv = get_inode_path(path);
+  if(rv < 0) {
+    return -1;
   }
-
   printf("access(%s, %04o) -> %d\n", path, mask, rv);
+  get_inode(inum)->atime = time(NULL);
   return rv;
 }
 
@@ -33,22 +30,11 @@ int nufs_access(const char *path, int mask) {
 // Implementation for: man 2 stat
 // This is a crucial function.
 int nufs_getattr(const char *path, struct stat *st) {
-  int rv = 0;
+  int rv = storage_stat(path, st);
+  if (rv < 0) {
+    return -1;
+  }
 
-  // Return some metadata for the root directory...
-  if (strcmp(path, "/") == 0) {
-    st->st_mode = 040755; // directory
-    st->st_size = 0;
-    st->st_uid = getuid();
-  }
-  // ...and the simulated file...
-  else if (strcmp(path, "/hello.txt") == 0) {
-    st->st_mode = 0100644; // regular file
-    st->st_size = 6;
-    st->st_uid = getuid();
-  } else { // ...other files do not exist on this filesystem
-    rv = -ENOENT;
-  }
   printf("getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
          st->st_size);
   return rv;
@@ -61,17 +47,12 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   struct stat st;
   int rv;
 
-  rv = nufs_getattr("/", &st);
-  assert(rv == 0);
+  rv = nufs_getattr(path, &st);
+  assert(!rv);
 
   filler(buf, ".", &st, 0);
 
-  rv = nufs_getattr("/hello.txt", &st);
-  assert(rv == 0);
-  filler(buf, "hello.txt", &st, 0);
-
-  printf("readdir(%s) -> %d\n", path, rv);
-  return 0;
+  return rv;
 }
 
 // mknod makes a filesystem object like a file or directory
