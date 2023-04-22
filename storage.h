@@ -13,6 +13,10 @@
 #include <unistd.h>
 
 #include "slist.h"
+#include "blocks.h"
+#include "directory.h"
+#include "bitmap.h"
+#include "inode.h"
 
 void storage_init(const char *path);
 int storage_stat(const char *path, struct stat *st);
@@ -25,5 +29,7 @@ int storage_link(const char *from, const char *to);
 int storage_rename(const char *from, const char *to);
 int storage_set_time(const char *path, const struct timespec ts[2]);
 slist_t *storage_list(const char *path);
+void get_parent(const char *path, char *str);
+void get_child(const char *path, char *str);
 
 #endif

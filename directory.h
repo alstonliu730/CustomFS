@@ -15,7 +15,8 @@
 typedef struct dirent {
   char name[DIR_NAME_LENGTH]; // the string name of directory
   int inum; // inode number
-  char _reserved[12];
+  int used;
+  char _reserved[8];
 } dirent_t; 
 
 void directory_init();

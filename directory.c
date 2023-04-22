@@ -23,7 +23,7 @@ void directory_init() {
 int directory_lookup(inode_t *di, const char *name) {
     if (!strcmp(name, "")) {
         printf("Invalid Directory Lookup.\n");
-        return 0;
+        return -1;
     }
 
     // gets subdirectories
@@ -32,7 +32,7 @@ int directory_lookup(inode_t *di, const char *name) {
     // go through the directories
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
-        if(!strcmp(name, subdir[ii].name)) {
+        if(!strcmp(name, subdir[ii].name) && subdir[ii].used) {
             return subdir[ii].inum; // return the inum
         }
     }
@@ -61,6 +61,7 @@ int directory_put(inode_t *di, const char *name, int inum) {
     // set properties of entry
     strncpy(new_entry.name, name, nameLen); // copy name to entry
     new_entry.inum = inum;
+    new_entry.used = 1;
     
     // add new entry to the list of entries
     entries[di->refs + 1] = new_entry;
@@ -77,15 +78,10 @@ int directory_delete(inode_t *di, const char *name) {
     // find the entry
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
-        if(!strcmp(entries[ii].name, name)) {
+        if(!strcmp(entries[ii].name, name) && entries[ii].used) {
             // found entry and delete any sub files
             delete_entry(entries[ii]);
-
-            // move entries up
-            int inc = 1;
-            while(ii + inc < di->refs) {
-            }
-            return 1;
+            entries[ii].used = 0;
         }
     }
 }
@@ -144,7 +140,7 @@ int get_inode_path(const char* path) {
     int inum = nROOT;
     while(tmp) {
         inum = directory_lookup(get_inode(inum), tmp->data);
-        if(inum <= 0) {
+        if(inum < 0) {
             slist_free(tmp);
             printf("Failed to find directory.\n");
             return -1;
