@@ -7,18 +7,16 @@
 #include "inode.h"
 
 #define nROOT 0
-/*typedef struct dirent {
-  char name[DIR_NAME_LENGTH];
-  int inum;
-  char _reserved[12];
-} dirent_t;*/ 
 
 // initialize the directory inode
 void directory_init() {
     int inum = alloc_block();
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
     root->mode = 40755;
-    directory_put(root, '.', inum);
+
+    // add reference to itself
+    const char* child_dir = '.';
+    directory_put(root, child_dir, inum);
 
     root->refs = 2;
 }
