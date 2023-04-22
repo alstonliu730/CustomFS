@@ -3,9 +3,6 @@
 #include <assert.h>
 
 #include "directory.h"
-#include "slist.h"
-#include "bitmap.h"
-#include "inode.h"
 
 #define nROOT 0
 
