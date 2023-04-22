@@ -223,7 +223,7 @@ slist_t *storage_list(const char *path) {
 
 // set the parent path to the given str
 void get_parent(const char *path, char* str) {
-    slist_t* path_names = s_explode(path, '/');
+    slist_t* path_names = slist_explode(path, '/');
     slist_t* copy = path_names;
     str[0] = '\0';
     while (copy->next) {
@@ -236,7 +236,7 @@ void get_parent(const char *path, char* str) {
 
 // set the child name to the given str
 void get_child(const char *path, char* str) {
-    slist_t* path_names = s_explode(path, '/');
+    slist_t* path_names = slist_explode(path, '/');
     slist_t* copy = path_names;
     while (copy->next) {
         copy = copy->next; // NULL
