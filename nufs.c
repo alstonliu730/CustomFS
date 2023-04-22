@@ -22,7 +22,7 @@ int nufs_access(const char *path, int mask) {
     return -1;
   }
   printf("access(%s, %04o) -> %d\n", path, mask, rv);
-  get_inode(inum)->atime = time(NULL);
+  get_inode(rv)->atime = time(NULL);
   return rv;
 }
 
