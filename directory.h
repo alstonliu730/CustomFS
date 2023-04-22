@@ -12,7 +12,7 @@
 #include "inode.h"
 #include "slist.h"
 
-typedef struct dirent {
+typedef struct direntry {
   char name[DIR_NAME_LENGTH]; // the string name of directory
   int inum; // inode number
   int used;
