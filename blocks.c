@@ -59,7 +59,7 @@ void blocks_init(const char *image_path) {
   bitmap_put(bbm, 0, 1); // set block 0 to used
   bitmap_put(bbm, 1, 1); // set block 1 to used
   
-  // block 2 - 32 stores the inode table
+  // block 2 - max_blocks stores the inode table
   init_inode_table();
 }
 

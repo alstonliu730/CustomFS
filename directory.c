@@ -8,7 +8,7 @@
 
 // initialize the directory inode
 void directory_init() {
-    int inum = alloc_block();
+    int inum = alloc_inode();
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
     root->mode = 40755;
 
