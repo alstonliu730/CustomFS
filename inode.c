@@ -31,8 +31,8 @@ inode_t *get_inode(int inum) {
 // creates a new inode and returns the index number of the inode.
 int alloc_inode() {
     int inum;
+    // find an available inode
     for(int ii = 0; ii < INODE_LIMIT; ++ii) {
-        // find an available inode
         if (!bitmap_get(get_inode_bitmap(), ii)) {
             // set the inode status as used
             bitmap_put(get_inode_bitmap(), ii, 1);
@@ -48,6 +48,13 @@ int alloc_inode() {
     new_inode->mode = 0;
     new_inode->blocks = 0;
     new_inode->indirect = -1; // nonexistent bnum
+
+    // set time of creation
+    time_t curr = time(NULL);
+    new_inode->ctime = curr;
+    new_inode->atime = curr;
+    new_inode->mtime = curr;
+
     // set every block bnum to -1
     for(int ii = 0; ii < MAX_BLOCKS; ++ii) {
         new_inode->block[ii] = -1; 
@@ -161,18 +168,19 @@ int shrink_inode(inode_t *node, int size) {
     return 1;
 }
 
-// file block number is the index for the block number in this inode
-int inode_get_bnum(inode_t *node, int file_bnum) {
-    assert(file_bnum > 0);
-    if(file_bnum < 12) {
-        return node->block[file_bnum];
+// file block number is the offset in this inode in bytes
+int inode_get_bnum(inode_t *node, int offset) {
+    assert(offset >= 0);
+    int nBlocks = offset / BLOCK_SIZE;
+    if(offset < 12) {
+        return node->block[nBlocks];
     } else {
         int* ind_block = blocks_get_block(node->indirect);
-        return ind_block[file_bnum];
+        return ind_block[nBlocks - 12];
     }
 }
 
 // returns the pointer to the block given the block index of the inode
-void *inode_get_block(inode_t *node, int file_bnum) {
-    return blocks_get_block(inode_get_bnum(node, file_bnum));
+void *inode_get_block(inode_t *node, int offset) {
+    return blocks_get_block(inode_get_bnum(node, offset));
 }
