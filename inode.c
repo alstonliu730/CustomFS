@@ -4,6 +4,8 @@
  * 
  * Implementation of Inode Data Structure
  */
+#include <assert.h>
+
 #include "inode.h"
 #include "blocks.h"
 #include "bitmap.h"
@@ -16,7 +18,7 @@ void print_inode(inode_t *node) {
     printf("Permission & File Type: %d\n", node->mode);
     printf("Size: %d\n", node->size);
     for(int ii = 0; ii < MAX_BLOCKS; ++ii)
-        printf("Block bnum %d: %d\n", ii, (node->block + ii));
+        printf("Block bnum %d: %i\n", ii, (node->block + ii));
     printf("Indirect bnum: %d\n", node->indirect);
 }
 

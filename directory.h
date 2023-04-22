@@ -8,12 +8,9 @@
 
 #define DIR_NAME_LENGTH 48
 
-#include <assert.h>
-
 #include "blocks.h"
 #include "inode.h"
 #include "slist.h"
-
 
 typedef struct dirent {
   char name[DIR_NAME_LENGTH]; // the string name of directory
