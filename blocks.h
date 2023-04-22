@@ -12,10 +12,18 @@
 #define KBtoB 1024
 #define BLOCK_SIZE (4 * KBtoB) //4KB (4096 B)
 
-const int BLOCK_COUNT; // we split the "disk" into blocks (default = 256)
-const int NUFS_SIZE;   // default = 1MB
-const int INODE_LIMIT; // Number of inodes
-const int BLOCK_BITMAP_SIZE; // default = 256 / 8 = 32
+//#define INODE_LIMIT BLOCK_SIZE - (BLOCK_BITMAP_SIZE * 8)
+// max number of inodes
+#define INODE_LIMIT 64
+
+// we split the "disk" into 256 blocks
+#define BLOCK_COUNT 256 
+
+// = 1MB
+#define NUFS_SIZE (BLOCK_SIZE * BLOCK_COUNT) 
+
+// Note: assumes block count is divisible by 8
+#define BLOCK_BITMAP_SIZE (BLOCK_COUNT / 8)
 
 /** 
  * Compute the number of blocks needed to store the given number of bytes.
