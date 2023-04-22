@@ -70,6 +70,13 @@ void *get_superblock();
 void *get_blocks_bitmap();
 
 /**
+ * Return a pointer to the beginning of the inode table bitmap.
+ *
+ * @return A pointer to the beginning of the free inode bitmap.
+ */
+void *get_inode_bitmap();
+
+/**
  * Return a pointer to the beginning of the inode table.
  * 
  * @return A pointer to the beginning of the inode table
