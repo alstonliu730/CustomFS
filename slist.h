@@ -12,7 +12,7 @@
 typedef struct slist {
   char *data;
   int refs;
-  struct slist *next;
+  slist_t *next;
 } slist_t;
 
 /**

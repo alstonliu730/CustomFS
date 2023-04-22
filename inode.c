@@ -17,7 +17,7 @@ void print_inode(inode_t *node) {
     printf("Size: %d\n", node->size);
     for(int ii = 0; ii < MAX_BLOCKS; ++ii)
         printf("Block bnum %d: %p\n", ii, (node->block + ii));
-    printf("Indirect Pointer: %p\n", node->indirect)
+    printf("Indirect Pointer: %p\n", node->indirect);
 }
 
 // gets the inode from the given index number
@@ -72,8 +72,8 @@ void free_inode(int inum) {
     // clear the block location in the inode
     inode_t* node = get_inode(inum);
 
-    // Shrink the inode to the default size
-    shrink_inode(node, node->blocks);
+    // Shrink the inode size to 0
+    shrink_inode(node, node->blocks*BLOCK_SIZE);
 
     // clear the bit at the given index number
     bitmap_put(get_inode_bitmap(), inum, 0); 
@@ -161,7 +161,18 @@ int shrink_inode(inode_t *node, int size) {
     return 1;
 }
 
-// 
+// file block number is the index for the block number in this inode
 int inode_get_bnum(inode_t *node, int file_bnum) {
-    
+    assert(file_bnum > 0);
+    if(file_bnum < 12) {
+        return node->block[file_bnum];
+    } else {
+        int* ind_block = blocks_get_block(node->indirect);
+        return ind_block[file_bnum];
+    }
+}
+
+// returns the pointer to the block given the block index of the inode
+void *inode_get_block(inode_t *node, int file_bnum) {
+    return blocks_get_block(inode_get_bnum(node, file_bnum));
 }

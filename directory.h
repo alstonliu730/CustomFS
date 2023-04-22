@@ -13,16 +13,18 @@
 #include "slist.h"
 
 typedef struct dirent {
-  char name[DIR_NAME_LENGTH];
-  int inum;
+  char name[DIR_NAME_LENGTH]; // the string name of directory
+  int inum; // inode number
   char _reserved[12];
-} dirent_t;
+} dirent_t; 
 
 void directory_init();
 int directory_lookup(inode_t *di, const char *name);
 int directory_put(inode_t *di, const char *name, int inum);
 int directory_delete(inode_t *di, const char *name);
+int delete_entry(dirent_t entry);
 slist_t *directory_list(const char *path);
 void print_directory(inode_t *dd);
+int get_inode_path(const char* path);
 
 #endif

@@ -25,9 +25,10 @@
 
 const int BLOCK_COUNT = 256; // we split the "disk" into 256 blocks
 const int NUFS_SIZE = BLOCK_SIZE * BLOCK_COUNT; // = 1MB
-const int BLOCK_BITMAP_SIZE = BLOCK_COUNT / 8;
-const int INODE_LIMIT = BLOCK_SIZE - (BLOCK_BITMAP_SIZE * 8);
-// Note: assumes block count is divisible by 8
+const int BLOCK_BITMAP_SIZE = BLOCK_COUNT / 8;// Note: assumes block count is divisible by 8
+
+//const int INODE_LIMIT = BLOCK_SIZE - (BLOCK_BITMAP_SIZE * 8);
+const int INODE_LIMIT = 64;
 
 static int blocks_fd = -1;
 static void *blocks_base = 0;

@@ -20,7 +20,7 @@
 typedef struct inode {
   int refs;  // reference count (4B)
   int mode;  // permission & type (4B)
-  int size;  // bytes written (4B)
+  int size;  // bytes contained (4B)
   int blocks; // blocks allocated (4B)
   int block[12]; // 12 direct block number (if max file size <= 48KB)
   int indirect; // single indirect block when file size >= 48KB
@@ -33,5 +33,6 @@ void free_inode(int inum);
 int grow_inode(inode_t *node, int size);
 int shrink_inode(inode_t *node, int size);
 int inode_get_bnum(inode_t *node, int file_bnum);
+void *inode_get_block(inode_t *node, int file_bnum);
 
 #endif
