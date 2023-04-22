@@ -16,8 +16,8 @@ void print_inode(inode_t *node) {
     printf("Permission & File Type: %d\n", node->mode);
     printf("Size: %d\n", node->size);
     for(int ii = 0; ii < MAX_BLOCKS; ++ii)
-        printf("Block bnum %d: %p\n", ii, (node->block + ii));
-    printf("Indirect Pointer: %p\n", node->indirect);
+        printf("Block bnum %d: %d\n", ii, (node->block + ii));
+    printf("Indirect bnum: %d\n", node->indirect);
 }
 
 // gets the inode from the given index number

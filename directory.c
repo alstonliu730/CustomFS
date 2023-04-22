@@ -15,7 +15,7 @@ void directory_init() {
     root->mode = 40755;
 
     // add reference to itself
-    const char* child_dir = '.';
+    char* child_dir = ".";
     directory_put(root, child_dir, inum);
 
     root->refs = 2;
@@ -23,18 +23,18 @@ void directory_init() {
 
 // Look through directories to find given name and return the inode number.
 int directory_lookup(inode_t *di, const char *name) {
-    if (streq(name, "")) {
+    if (!strcmp(name, "")) {
         printf("Invalid Directory Lookup.\n");
         return 0;
     }
 
     // gets subdirectories
-    dirent_t* subdir = blocks_get_block(di->block);
+    dirent_t* subdir = inode_get_block(di, 0);
     
     // go through the directories
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
-        if(streq(name, subdir[ii].name)) {
+        if(!strcmp(name, subdir[ii].name)) {
             return subdir[ii].inum; // return the inum
         }
     }
@@ -79,7 +79,7 @@ int directory_delete(inode_t *di, const char *name) {
     // find the entry
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
-        if(streq(entries[ii].name, name)) {
+        if(!strcmp(entries[ii].name, name)) {
             // found entry and delete any sub files
             delete_entry(entries[ii]);
 
@@ -99,7 +99,7 @@ int delete_entry(dirent_t entry) {
     
     // check if the entry is a file
     if(node->mode != 40755) {
-        free_inode(node);
+        free_inode(entry.inum);
         return 1;
     } 
     // case where the entry is a directory
