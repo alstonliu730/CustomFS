@@ -18,6 +18,9 @@ void directory_init() {
 
 // Look through directories to find given name and return the inode number.
 int directory_lookup(inode_t *di, const char *name) {
+    // DEBUG:
+    printf("+ directory_lookup(%s)\n", name);
+
     if (strcmp(name, "") == 0) {
         printf("Invalid Directory Lookup.\n");
         return -1;
@@ -30,6 +33,7 @@ int directory_lookup(inode_t *di, const char *name) {
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
         if(!strcmp(name, subdir[ii].name) && subdir[ii].used) {
+            printf("DEBUG: Inode Num: %i", subdir[ii].inum);
             return subdir[ii].inum; // return the inum
         }
     }
@@ -135,17 +139,22 @@ int get_inode_path(const char* path) {
     slist_t* path_list = slist_explode(path, '/');
     slist_t* tmp = path_list;
     
+    int count = 0;
     int inum = nROOT;
     while(tmp) {
+        //DEBUG: Get Path Names
+        printf("DEBUG: Path Name %i: %s\n", count, path_list->data);
         inum = directory_lookup(get_inode(inum), path_list->data);
+        printf("DEBUG: Inum: %i", inum);
         if(inum < 0) {
             slist_free(path_list);
             printf("Failed to find directory.\n");
             return -1;
         }
         tmp = tmp->next;
+        count++;
     }
     slist_free(path_list);
-
+    printf("+ get_inode_path(%s) -> %i\n", path, inum);
     return inum;
 }
