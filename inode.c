@@ -47,7 +47,7 @@ int alloc_inode() {
     if(inum == -1) {
         fprintf(stderr, "ERROR: alloc_inode() -> No more inodes left!\n");
     }
-    
+
     // Initialize inode information
     inode_t* new_inode = get_inode(inum);
     new_inode->refs = 1;
@@ -74,7 +74,7 @@ int alloc_inode() {
     if(new_inode->block[0]) {
         new_inode->blocks++;
     }
-    printf("+ alloc_inode() -> %d\n", inum);
+    printf("DEBUG: alloc_inode() -> %d\n", inum);
     // return index number
     return inum;
 }
@@ -91,7 +91,7 @@ void free_inode(int inum) {
 
     // clear the bit at the given index number
     bitmap_put(get_inode_bitmap(), inum, 0); 
-    printf("+ free_inode(%d)\n", inum);
+    printf("DEBUG: free_inode(%d)\n", inum);
 }
 
 // grows the inode by the given size in bytes
@@ -179,16 +179,21 @@ int shrink_inode(inode_t *node, int size) {
 // file block number is the offset in this inode in bytes
 int inode_get_bnum(inode_t *node, int offset) {
     assert(offset >= 0);
+    printf("DEBUG: inode_get_bnum(%i) -> Called Function\n", offset);
     int nBlocks = offset / BLOCK_SIZE;
-    if(offset < 12) {
+    if(nBlocks < 12) {
+        printf("DEBUG: inode_get_bnum(%i) -> Direct bnum: %i\n", offset, nBlocks);
         return node->block[nBlocks];
     } else {
-        int* ind_block = blocks_get_block(node->indirect);
+        int *ind_block = blocks_get_block(node->indirect);
+        printf("DEBUG: inode_get_bnum(%i) -> Indirect bnum: %i\n", offset, ind_block[nBlocks-12]);
         return ind_block[nBlocks - 12];
     }
 }
 
 // returns the pointer to the block given the block index of the inode
 void *inode_get_block(inode_t *node, int offset) {
+    printf("DEBUG: inode_get_block(%i) -> %p\n",
+        offset, blocks_get_block(inode_get_bnum(node, offset)));
     return blocks_get_block(inode_get_bnum(node, offset));
 }
