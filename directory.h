@@ -26,6 +26,6 @@ int directory_delete(inode_t *di, const char *name);
 int delete_entry(dirent_t entry);
 slist_t *directory_list(const char *path);
 void print_directory(inode_t *dd);
-int get_inode_path(const char* path);
+int path_lookup(const char* path);
 
 #endif

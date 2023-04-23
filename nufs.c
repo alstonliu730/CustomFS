@@ -67,7 +67,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   }
   
   // get the inode number from the path
-  int inum = get_inode_path(path);
+  int inum = path_lookup(path);
   if(inum < 0) {
     fprintf(stderr, "ERROR: nufs_readdir(%s, %p, %ld) -> Cannot get inode from path!\n",
       path, buf, offset);

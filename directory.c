@@ -134,7 +134,7 @@ int delete_entry(dirent_t entry) {
 
 // get list of names of the entries in the directory
 slist_t *directory_list(const char *path) {
-    int p_inum = get_inode_path(path);
+    int p_inum = path_lookup(path);
     inode_t* node = get_inode(p_inum);
     assert(node->mode == 040755);
 
@@ -160,15 +160,16 @@ void print_directory(inode_t *dd) {
 }
 
 // get inode number from the given path
-int get_inode_path(const char* path) {
-    printf("DEBUG: get_inode_path(%s) -> First Char: %c\n", path, path[0]);
-    assert(path[0] == '/');
+int path_lookup(const char* path) {
+    printf("DEBUG: path_lookup(%s) -> First Char: %c\n", path, path[0]);
+    // assert(path[0] == '/');
     if(strcmp(path, "/") == 0) {
-        printf("DEBUG: get_inode_path(%s) -> returned root inum (%i)\n", path, nROOT);
+        printf("DEBUG: path_lookup(%s) -> returned root inum (%i)\n", path, nROOT);
         return nROOT;
     }
     char* name = strdup(path);
-    name += 1;
+    // name += 1;
+    
     // Get the path names
     slist_t* path_list = slist_explode(name, '/');
     slist_t* tmp = path_list;
@@ -176,18 +177,18 @@ int get_inode_path(const char* path) {
     int inum = nROOT;
     while(tmp) {
         //DEBUG: Get Path Names
-        printf("DEBUG: get_inode_path(%s) -> Path Name %s\n", name, tmp->data);
+        printf("DEBUG: path_lookup(%s) -> Path Name %s\n", name, tmp->data);
         inum = directory_lookup(get_inode(inum), tmp->data);
-        printf("DEBUG: get_inode_path(%s) -> Inum: %i\n", name, inum);
+        printf("DEBUG: path_lookup(%s) -> Inum: %i\n", name, inum);
         if(inum < 0) {
             slist_free(path_list);
-            fprintf(stderr, "ERROR: get_inode_path(%s) -> Failed to find inode in this path.\n",
+            fprintf(stderr, "ERROR: path_lookup(%s) -> Failed to find inode in this path.\n",
                 name);
             return -1;
         }
         tmp = tmp->next;
     }
     slist_free(path_list);
-    printf("DEBUG: get_inode_path(%s) -> (%i)\n", name, inum);
+    printf("DEBUG: path_lookup(%s) -> (%i)\n", name, inum);
     return inum;
 }

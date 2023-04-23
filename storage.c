@@ -14,7 +14,7 @@ void storage_init(const char *path) {
 
 // returns if the given path has access
 int storage_access(const char *path) {
-    int inum = get_inode_path(path);
+    int inum = path_lookup(path);
 
     if (inum < 0) {
         return -1;
@@ -36,7 +36,7 @@ int storage_stat(const char *path, struct stat *st) {
     }
 
     // gets the inode from the path
-    int inum = get_inode_path(path);
+    int inum = path_lookup(path);
     if(inum >= 0) {
         memset(st, 0, sizeof(struct stat));
         inode_t* node = get_inode(inum);
@@ -61,7 +61,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         path, buf, size, (int)offset);
     
     // get the node from the path
-    int inum = get_inode_path(path);
+    int inum = path_lookup(path);
     if (inum < 0) {
         fprintf(stderr, "ERROR: storage_read(%s, %s, %zu, %d) -> Cannot find file path\n",
             path, buf, size, (int)offset);
@@ -111,13 +111,13 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         return -1;
     }
 
-    if(get_inode_path(path) < 0) {
+    if(path_lookup(path) < 0) {
         fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Could not get inode from path.\n",
             path, buf, size, (int)offset);
         return -1;
     }
 
-    inode_t* node = get_inode(get_inode_path(path));
+    inode_t* node = get_inode(path_lookup(path));
     int bytesWritten = 0;
     int bytesRem = size;
     while (bytesWritten < size) {
@@ -145,7 +145,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
 
 // truncate the file to the given size
 int storage_truncate(const char *path, off_t size) {
-    int inum = get_inode_path(path);
+    int inum = path_lookup(path);
     if(inum < 0) {
         fprintf(stderr, "ERROR: storage_truncate(%s, %zu) -> Could not get inode from path.\n",
             path, size);
@@ -163,7 +163,7 @@ int storage_truncate(const char *path, off_t size) {
 // creates a new inode for an entry at the path depending on given mode
 int storage_mknod(const char *path, int mode) {
     printf("DEBUG: storage_mknod(%s, %i) -> Called Function.\n", path, mode);
-    int inum = get_inode_path(path);
+    int inum = path_lookup(path);
     if (inum >= 0) {
         fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Inode already exists!\n", path, mode);
         return -1;
@@ -180,7 +180,7 @@ int storage_mknod(const char *path, int mode) {
     printf("DEBUG: storage_mknod(%s, %i) -> Child: %s\n", path, mode, sub);
 
     // get the parent inode
-    int parent_inum = get_inode_path(dir);
+    int parent_inum = path_lookup(dir);
     if (parent_inum < 0) {
         fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Parent Inode cannot be found!\n", 
             path, mode);
@@ -222,7 +222,7 @@ int storage_unlink(const char *path) {
     get_child(path, sub);
     get_parent(path, dir);
 
-    int parent_inum = get_inode_path(dir);
+    int parent_inum = path_lookup(dir);
     if (parent_inum < 0) {
         fprintf(stderr, "ERROR: storage_unlink(%s) -> Parent Inode cannot be found!\n", path);
         free(sub);
@@ -241,7 +241,7 @@ int storage_unlink(const char *path) {
 // link the given name of the directories
 int storage_link(const char *from, const char *to) {
     // make sure 'to' exist
-    int dest_inum = get_inode_path(to);
+    int dest_inum = path_lookup(to);
     if (dest_inum < 0) {
         fprintf(stderr, "ERROR: storage_link(%s, %s) -> Could not find path \'to\'.\n", from, to);
         return -1;
@@ -253,7 +253,7 @@ int storage_link(const char *from, const char *to) {
     get_child(from, sub);
     get_parent(from, dir);
 
-    int parent_inum = get_inode_path(dir);
+    int parent_inum = path_lookup(dir);
     if (parent_inum < 0) {
         fprintf(stderr, "ERROR: storage_link(%s, %s) -> Parent Inode cannot be found!\n", from, to);
         free(sub);
@@ -279,7 +279,7 @@ int storage_rename(const char *from, const char *to) {
 
 // set the time of the given file to the given timespec
 int storage_set_time(const char *path, const struct timespec ts[2]) {
-    int inum = get_inode_path(path);
+    int inum = path_lookup(path);
     if (inum < 0) {
         fprintf(stderr, "ERROR: storage_set_time(%s) -> Could not find inode of given path.\n", path);
         return -1;
