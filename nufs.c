@@ -64,6 +64,9 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     rv = nufs_getattr(parent, &st);
     assert(!rv);
     filler(buf, "..", &st, 0);
+  } else {
+    // root self references since it's the parent
+    filler(buf, "..", &st, 0);
   }
   
   // get the inode number from the path
@@ -71,6 +74,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   if(inum < 0) {
     fprintf(stderr, "ERROR: nufs_readdir(%s, %p, %ld) -> Cannot get inode from path!\n",
       path, buf, offset);
+    free(parent);
     return -1;
   }
 
@@ -80,25 +84,27 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   // make sure this inode is a directory inode
   assert(node->mode == 040755);
 
-  // get the entries in this directory
-  dirent_t* entries = inode_get_block(node, 0);
+  if(node->refs > 2) {
+    // get the entries in this directory
+    dirent_t* entries = inode_get_block(node, 0);
 
-  // go through each entry
-  for(int ii = 0; ii < node->refs; ++ii) {
-    dirent_t entry = entries[ii];
-    char *child = entry.name;
-    strcat(child,"/");
-    char *child_path = strcat(child, path);
-    printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Child Path: %s\n", 
-      path, buf, offset, child_path);
-    
-    // get attributes of this child
-    rv = nufs_getattr(child_path, &st);
-    assert(!rv);
+    // go through each entry
+    for(int ii = 0; ii < node->refs; ++ii) {
+      dirent_t entry = entries[ii];
+      char *child = entry.name;
+      strcat(child,"/");
+      char *child_path = strcat(child, path);
+      printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Child Path: %s\n", 
+        path, buf, offset, child_path);
+      
+      // get attributes of this child
+      rv = nufs_getattr(child_path, &st);
+      assert(!rv);
 
-    filler(buf, child, &st, 0);
+      filler(buf, child, &st, 0);
+    }
   }
-
+  
   return rv;
 }
 
