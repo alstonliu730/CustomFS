@@ -31,7 +31,7 @@ int nufs_access(const char *path, int mask) {
 // This is a crucial function.
 int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
-  printf("DEBUG: nufs_getattr(%s) -> Function called\n");
+  printf("DEBUG: nufs_getattr(%s) -> Function called\n", path);
   if (rv < 0) {
     fprintf(stderr, "ERROR: nufs_getattr(%s) -> (%i)\n", path, rv);
     return -1;
