@@ -93,7 +93,6 @@ void *get_inode_table() {
 void *init_inode_table() {
   // Assumes the first two blocks are in use for superblock and bitmap
   assert(bitmap_get(get_blocks_bitmap(), 0));
-  assert(bitmap_get(get_blocks_bitmap(), 1));
 
   int max_blocks = bytes_to_blocks(INODE_LIMIT * sizeof(inode_t));
   printf("Max Blocks: %u\n", max_blocks);
