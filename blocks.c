@@ -97,7 +97,7 @@ void *init_inode_table() {
   assert(bitmap_get(get_blocks_bitmap(), 0) == 1);
   assert(bitmap_get(get_blocks_bitmap(), 1) == 1);
 
-  uint8_t max_blocks = bytes_to_blocks(INODE_LIMIT * sizeof(inode_t));
+  int max_blocks = bytes_to_blocks(INODE_LIMIT * sizeof(inode_t));
 
   // allocate blocks for 'max_blocks' blocks
   for(int ii = 0; ii < max_blocks; ++ii) {
