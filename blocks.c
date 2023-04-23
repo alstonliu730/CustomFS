@@ -53,11 +53,17 @@ void blocks_init(const char *image_path) {
 
   // block 0 stores the superblock
   initSuperBlock(blocks_base, BLOCK_COUNT, INODE_LIMIT, 2);
+
+  // DEBUGGING: make sure bitmap is free
+  bitmap_print(get_blocks_bitmap(), 10);
   
   // block 1 stores the block bitmap and the inode bitmap
   void *bbm = get_blocks_bitmap();
   bitmap_put(bbm, 0, 1); // set block 0 to used
   bitmap_put(bbm, 1, 1); // set block 1 to used
+
+  // DEBUGGING: make sure first two bit is used and only the first two
+  bitmap_print(bbm, 5);
   
   // block 2 - max_blocks stores the inode table
   init_inode_table();
@@ -94,13 +100,17 @@ void *get_inode_table() {
 // Initialize the inode table and return the beginning of the table.
 void *init_inode_table() {
   // Assumes the first two blocks are in use for superblock and bitmap
-  assert(bitmap_get(get_blocks_bitmap(), 0) == 1);
-  assert(bitmap_get(get_blocks_bitmap(), 1) == 1);
+  assert(bitmap_get(get_blocks_bitmap(), 0));
+  assert(bitmap_get(get_blocks_bitmap(), 1));
 
   int max_blocks = bytes_to_blocks(INODE_LIMIT * sizeof(inode_t));
+  printf("Max Blocks: %ls", max_blocks);
 
   // allocate blocks for 'max_blocks' blocks
   for(int ii = 0; ii < max_blocks; ++ii) {
+    // DEBUG: Make sure the next two blocks are free
+    bitmap_print(get_blocks_bitmap(), 5);
+
     // make sure the bitmaps of those blocks are free
     if(!bitmap_get(get_blocks_bitmap(), ii + 2)) {
       alloc_block();
