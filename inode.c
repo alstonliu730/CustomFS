@@ -23,6 +23,7 @@ void print_inode(inode_t *node) {
 // gets the inode from the given index number
 // table is from block 
 inode_t *get_inode(int inum) {
+    assert(inum < INODE_LIMIT);
     inode_t* table = get_inode_table();
     
     return table + inum;
@@ -67,7 +68,7 @@ int alloc_inode() {
     if(new_inode->block[0]) {
         new_inode->blocks++;
     }
-    
+    printf("+ alloc_inode() -> %d\n", inum);
     // return index number
     return inum;
 }
@@ -84,6 +85,7 @@ void free_inode(int inum) {
 
     // clear the bit at the given index number
     bitmap_put(get_inode_bitmap(), inum, 0); 
+    printf("+ free_inode(%d)\n", inum);
 }
 
 // grows the inode by the given size in bytes
