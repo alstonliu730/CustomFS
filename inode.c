@@ -48,14 +48,13 @@ int alloc_inode() {
     if(inum == -1) {
         fprintf(stderr, "ERROR: alloc_inode() -> No more inodes left!\n");
         return inum;
-    }
     
     // Initialize inode information
     inode_t* new_inode = get_inode(inum);
     memset(new_inode, 0, sizeof(inode_t)); // clear any previous information
     new_inode->refs = 0;
     new_inode->size = 0;
-    new_inode->mode = 10644;
+    new_inode->mode = 0;
     new_inode->blocks = 0;
     new_inode->indirect = -1; // nonexistent bnum
 

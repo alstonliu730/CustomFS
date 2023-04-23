@@ -35,7 +35,7 @@ int nufs_getattr(const char *path, struct stat *st) {
   if(strcmp(path, "/") == 0) {
     rv = storage_stat(path, st);
   } else {
-    rv = storage_stat(path + 1, st);
+    rv = storage_stat(path, st);
   }
    
   if (rv < 0) {
@@ -54,7 +54,6 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                  off_t offset, struct fuse_file_info *fi) {
   struct stat st;
   int rv;
-
 
   printf("DEBUG: nufs_readdir(%s, %p, %d) -> Called Function\n",
     path, buf, offset);
