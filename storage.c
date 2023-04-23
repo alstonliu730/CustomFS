@@ -29,6 +29,13 @@ int storage_access(const char *path) {
 // set the stat for the given path
 int storage_stat(const char *path, struct stat *st) {
     printf("DEBUG: storage_stat(%s) -> Called function.\n", path);
+    // makes sure the path is not empty
+    if(!strcmp(path, "")) {
+        fprintf(stderr, "ERROR: storage_stat() -> Given empty path name!\n");
+        return -1;
+    }
+
+    // gets the inode from the path
     int inum = get_inode_path(path);
     if(inum >= 0) {
         memset(st, 0, sizeof(struct stat));
