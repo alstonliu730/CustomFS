@@ -65,11 +65,10 @@ int alloc_inode() {
     new_inode->block[0] = alloc_block();
     
     // if the block can allocate more
-    if(new_inode->block[0]) {
+    if(new_inode->block[0] != NOSPACE) {
         new_inode->blocks++;
-    } else {
-        return NOSPACE;
-    }
+    } 
+
     printf("+ alloc_inode() -> %d\n", inum);
     // return index number
     return inum;
