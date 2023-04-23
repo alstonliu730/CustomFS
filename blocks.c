@@ -106,6 +106,8 @@ void *init_inode_table() {
   printf("\n");
   // allocate blocks for 'max_blocks' blocks
   for(int ii = 0; ii < max_blocks; ++ii) {
+    // DEBUG: Make sure the next two blocks are free
+    bitmap_print(get_blocks_bitmap(), 5);
 
     // make sure the bitmaps of those blocks are free
     if(!bitmap_get(get_blocks_bitmap(), ii + 1)) {

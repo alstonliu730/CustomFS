@@ -11,12 +11,6 @@ void directory_init() {
     int inum = alloc_inode();
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
     root->mode = 40755;
-
-    // add reference to itself
-    char* child_dir = ".";
-    directory_put(root, child_dir, inum);
-
-    root->refs = 2;
 }
 
 // Look through directories to find given name and return the inode number.
