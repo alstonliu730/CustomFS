@@ -24,7 +24,7 @@ void print_inode(inode_t *node) {
 // table is from block 
 inode_t *get_inode(int inum) {
     assert(inum < INODE_LIMIT);
-    inode_t* table = get_inode_table();
+    inode_t* table = (inode_t *) get_inode_table();
 
     printf("DEBUG: get_inode(%i) -> %p\n", inum, table+inum);
     return table + inum;
@@ -34,7 +34,7 @@ inode_t *get_inode(int inum) {
 int alloc_inode() {
     printf("DEBUG: alloc_inode() -> called function!\n");
     int inum = -1;
-    // find an available inode
+    // find an available inode from the bitmap
     for(int ii = 0; ii < INODE_LIMIT; ++ii) {
         if (!bitmap_get(get_inode_bitmap(), ii)) {
             // set the inode status as used
@@ -43,16 +43,19 @@ int alloc_inode() {
             break;
         }
     }
+
     // if theres no more inodes left
     if(inum == -1) {
         fprintf(stderr, "ERROR: alloc_inode() -> No more inodes left!\n");
+        return inum;
     }
-
+    
     // Initialize inode information
     inode_t* new_inode = get_inode(inum);
-    new_inode->refs = 1;
+    memset(new_inode, 0, sizeof(inode_t)); // clear any previous information
+    new_inode->refs = 0;
     new_inode->size = 0;
-    new_inode->mode = 0;
+    new_inode->mode = 10644;
     new_inode->blocks = 0;
     new_inode->indirect = -1; // nonexistent bnum
 
@@ -71,10 +74,14 @@ int alloc_inode() {
     new_inode->block[0] = alloc_block();
     
     // if the block can allocate more
-    if(new_inode->block[0]) {
+    if(new_inode->block[0] > 0) {
         new_inode->blocks++;
+    } else {
+        fprintf(stderr, "ERROR: alloc_inode() -> No available blocks to fill.\n");
+        return -1;
     }
     printf("DEBUG: alloc_inode() -> %d\n", inum);
+
     // return index number
     return inum;
 }

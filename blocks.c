@@ -52,10 +52,10 @@ void blocks_init(const char *image_path) {
 
   // DEBUGGING: make sure bitmap is free
   printf("Bitmap for blocks (initial 10):\n");
-  bitmap_print(get_blocks_bitmap(), 10);
+  bitmap_print(get_blocks_bitmap(), 16);
   printf("\n");
   
-  // block 1 stores the block bitmap and the inode bitmap
+  // block 0 stores the block bitmap and the inode bitmap
   void *bbm = get_blocks_bitmap();
   bitmap_put(bbm, 0, 1); // set block 0 to used
 
@@ -109,6 +109,7 @@ void *init_inode_table() {
   for(int ii = 0; ii < max_blocks; ++ii) {
     // DEBUG: Make sure the next two blocks are free
     bitmap_print(get_blocks_bitmap(), 5);
+    printf("\n");
 
     // make sure the bitmaps of those blocks are free
     if(!bitmap_get(get_blocks_bitmap(), ii + 1)) {
@@ -128,7 +129,7 @@ void *init_inode_table() {
 int alloc_block() {
   void *bbm = get_blocks_bitmap();
 
-  // first two are being used for superblock and bitmap
+  // first one is being used for bitmap
   for (int ii = 1; ii < BLOCK_COUNT; ++ii) {
     if (!bitmap_get(bbm, ii)) {
       bitmap_put(bbm, ii, 1);

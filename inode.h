@@ -26,7 +26,7 @@ typedef struct inode {
   int mode;  // permission & type (4B)
   int size;  // bytes contained (4B)
   int blocks; // blocks allocated (4B)
-  int block[12]; // 12 direct block number (if max file size <= 48KB)
+  int block[MAX_BLOCKS]; // 12 direct block number (if max file size <= 48KB)
   int indirect; // single indirect block when file size >= 48KB
   time_t ctime; // when the file was created
   time_t atime; // when the file was last accessed
