@@ -96,7 +96,7 @@ void *init_inode_table() {
   assert(bitmap_get(get_blocks_bitmap(), 1));
 
   int max_blocks = bytes_to_blocks(INODE_LIMIT * sizeof(inode_t));
-  printf("Max Blocks: %ls", max_blocks);
+  printf("Max Blocks: %u\n", max_blocks);
 
   // allocate blocks for 'max_blocks' blocks
   for(int ii = 0; ii < max_blocks; ++ii) {

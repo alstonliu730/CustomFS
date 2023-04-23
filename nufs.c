@@ -62,7 +62,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   filler(buf, "..", &st, 0);
 
   int inum = get_inode_path(path);
-  if(inum < 0 || pnum < 0) {
+  if(inum < 0) {
     return -1;
   }
 
@@ -89,7 +89,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // Note, for this assignment, you can alternatively implement the create
 // function.
 int nufs_mknod(const char *path, mode_t mode, dev_t rdev) {
-  int rv = storage_mknod(path, mode)
+  int rv = storage_mknod(path, mode);
   printf("mknod(%s, %04o) -> %d\n", path, mode, rv);
   return rv;
 }
