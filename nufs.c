@@ -37,7 +37,7 @@ int nufs_access(const char *path, int mask) {
 int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
   if (rv < 0) {
-    return ERR_ATTR;
+    return 1;
   }
 
   printf("getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
