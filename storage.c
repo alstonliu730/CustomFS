@@ -33,6 +33,7 @@ int storage_stat(const char *path, struct stat *st) {
     if(inum >= 0) {
         memset(st, 0, sizeof(struct stat));
         inode_t* node = get_inode(inum);
+        st->st_uid = getuid();
         st->st_size = node->size;
         st->st_mode = node->mode;
         st->st_nlink = node->refs;
@@ -49,20 +50,24 @@ int storage_stat(const char *path, struct stat *st) {
 
 // read the file at this path for size amount of bytes and copies to the buffer
 int storage_read(const char *path, char *buf, size_t size, off_t offset) {
+    printf("DEBUG: storage_read(%s, %s, %zu, %d) -> Function called\n",
+        path, buf, size, (int)offset);
+    
+    // get the node from the path
     int inum = get_inode_path(path);
     if (inum < 0) {
         fprintf(stderr, "ERROR: storage_read(%s, %s, %zu, %d) -> Cannot find file path\n",
             path, buf, size, (int)offset);
-        return inum;
+        return -1;
     }
 
     // get inode of the path
     inode_t* node = get_inode(inum);
     
     // ensure offset is valid
-    if (offset >= node->size || offset < 0) {
+    if (offset > node->size || offset < 0) {
         fprintf(stderr, "ERROR: storage_read() -> Offset invalid.\n");
-        return 0;
+        return -1;
     }
 
     // read through the block
@@ -85,9 +90,9 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
     }
-    printf("DEBUG: storage_read(%s, %s, %zu, %d) -> (1)\n",
+    printf("DEBUG: storage_read(%s, %s, %zu, %d) -> (0)\n",
             path, buf, size, (int)offset);
-    return 1;
+    return 0;
 }
 
 // writes the file at this path from the buffer with the number of size bytes.
@@ -151,7 +156,8 @@ int storage_truncate(const char *path, off_t size) {
 // creates a new inode for an entry at the path depending on given mode
 int storage_mknod(const char *path, int mode) {
     printf("DEBUG: storage_mknod(%s, %i) -> Called Function.\n", path, mode);
-    if (get_inode_path(path) >= 0) {
+    int inum = get_inode_path(path);
+    if (inum >= 0) {
         fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Inode already exists!\n", path, mode);
         return -1;
     }
