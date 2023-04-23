@@ -24,8 +24,8 @@ int storage_stat(const char *path, struct stat *st) {
         st->st_ctime = node->ctime;
         st->st_atime = node->atime;
         st->st_mtime = node->mtime;
-        printf("DEBUG: storage_stat(%s) -> {inum: %i, mode: %i, size: %i}\n",
-            path, inum, node->mode, node->size);
+        printf("DEBUG: storage_stat(%s) -> {inum: %i, mode: %i, size: %i, refs: %i}\n",
+            path, inum, node->mode, node->size, node->refs);
         return 1;
     }
     fprintf(stderr, "ERROR: storage_stat(%s) -> (-1)\n", path);

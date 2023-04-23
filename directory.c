@@ -17,19 +17,19 @@ void directory_init() {
     dirent_t* entries = inode_get_block(root, 0);
 
     // Create self reference
-    dirent_t self;
-    self.inum = inum;
-    strcpy(self.name, ".");
-    self.used = 1;
-    entries[0] = self;
-
-    // Create parent reference
-    dirent_t parent;
-    parent.inum = inum;
-    strcpy(parent.name, "..");
-    self.used = 1;
-    entries[1] = parent;
+    entries[0].inum = inum;
+    strcpy(entries[0].name, ".");
+    entries[0].used = 1;
     
+    // Create parent reference
+    entries[1].inum = inum;
+    strcpy(entries[1].name, "..");
+    entries[1].used = 1;
+    
+    // update inode
+    root->refs = 2;
+    root->size += 2*(sizeof(dirent_t));
+
     //DEBUG: Get root inode
     print_inode(root);
     printf("--- Finished creating root ---\n");
@@ -103,7 +103,6 @@ int directory_delete(inode_t *di, const char *name) {
         if(!strcmp(entries[ii].name, name) && entries[ii].used) {
             // found entry and delete any sub files
             delete_entry(entries[ii]);
-            entries[ii].used = 0;
         }
     }
 }
@@ -112,7 +111,8 @@ int directory_delete(inode_t *di, const char *name) {
 int delete_entry(dirent_t entry) {
     // get the node from this entry
     inode_t *node = get_inode(entry.inum);
-    
+    entry.used = 0;
+
     // check if the entry is a file
     if(node->mode != 40755) {
         free_inode(entry.inum);
