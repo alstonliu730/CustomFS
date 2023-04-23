@@ -65,10 +65,9 @@ int alloc_inode() {
     new_inode->block[0] = alloc_block();
     
     // if the block can allocate more
-    if(new_inode->block[0] != NOSPACE) {
+    if(new_inode->block[0]) {
         new_inode->blocks++;
-    } 
-
+    }
     printf("+ alloc_inode() -> %d\n", inum);
     // return index number
     return inum;
@@ -94,7 +93,7 @@ int grow_inode(inode_t *node, int size) {
     assert(node);
     assert(node->block[0] != -1);
     assert(size > 0);
-    printf("+ grow_inode(%i)\n", size);
+    
     // new_size of inodes
     int new_size = node->blocks * BLOCK_SIZE + size;
 
@@ -105,10 +104,9 @@ int grow_inode(inode_t *node, int size) {
     if (node->blocks < 12) {
         for(int ii = node->blocks-1; ii < nBlocks && ii < MAX_BLOCKS; ++ii) {
             node->block[ii] = alloc_block();
-            // when fs can't allocate more blocks
-            if(node->block[ii] == NOSPACE) {
+            if(!node->block[ii]) {
                 node->blocks = ii + 1;
-                return NOSPACE; 
+                return 0; // when fs can't allocate more blocks
             }
         }
     }
@@ -118,10 +116,9 @@ int grow_inode(inode_t *node, int size) {
         // create indirect pointer block if it doesn't exist
         if(node->indirect == -1) {
             node->indirect = alloc_block();
-            // when fs can't allocate more blocks
-            if(node->indirect == NOSPACE) {
+            if(!node->indirect) {
                 node->blocks = nBlocks;
-                return NOSPACE; 
+                return 0; // when fs can't allocate more blocks
             }
         }
 
@@ -129,16 +126,15 @@ int grow_inode(inode_t *node, int size) {
         int* ptr_block = blocks_get_block(node->indirect);
         for (int idx = node->blocks - 12; idx < (nBlocks - 12); ++idx) {
             ptr_block[idx] = alloc_block();
-            // when fs can't allocate more blocks
-            if(node->block[idx] == NOSPACE) {
+            if(!node->block[idx]) {
                 node->blocks += (idx + 1);
-                return NOSPACE; 
+                return 0; // when fs can't allocate more blocks
             }
         }
     }
 
     node->blocks = nBlocks;
-    return 0;
+    return 1;
 }
 
 // shrinks the inode by the given size in bytes
@@ -146,7 +142,6 @@ int shrink_inode(inode_t *node, int size) {
     assert(node);
     assert(size > 0);
 
-    printf("+ shrink_inode(%i)\n", size);
     // new size of inodes
     int new_size = node->blocks * BLOCK_SIZE - size;
     new_size = (new_size > 0) ? new_size : 0;
@@ -170,9 +165,9 @@ int shrink_inode(inode_t *node, int size) {
             node->block[ii] = -1;
         }
     }
-    
+
     node->blocks = nBlocks;
-    return 0;
+    return 1;
 }
 
 // file block number is the offset in this inode in bytes

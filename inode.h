@@ -20,9 +20,6 @@
 #define INODE_SIZE sizeof(inode_t)
 #define MAX_BLOCKS 12 // max number of blocks (Max file size = 48KB)
 
-// ERROR CODES
-
-
 // inode structure
 typedef struct inode {
   int refs;  // reference count (4B)

@@ -136,7 +136,7 @@ int alloc_block() {
     }
   }
 
-  return NOSPACE;
+  return -1;
 }
 
 // Deallocate the block with the given index.

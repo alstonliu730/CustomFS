@@ -14,18 +14,12 @@
 #include <fuse.h>
 #include "storage.h"
 
-// ERROR CODES
-#define ERR_ACCESS -30
-#define ERR_ATTR -31
-#define ERR_READDIR -32
-
 // implementation for: man 2 access
 // Checks if a file exists.
 int nufs_access(const char *path, int mask) {
   int rv = get_inode_path(path);
   if(rv < 0) {
-    printf("Cannot access this file/directory!\n");
-    return 1;
+    return -1;
   }
   printf("access(%s, %04o) -> %d\n", path, mask, rv);
   get_inode(rv)->atime = time(NULL);
@@ -38,7 +32,7 @@ int nufs_access(const char *path, int mask) {
 int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
   if (rv < 0) {
-    return ERR_ATTR;
+    return -1;
   }
 
   printf("getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
@@ -69,7 +63,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 
   int inum = get_inode_path(path);
   if(inum < 0) {
-    return ERR_READDIR;
+    return -1;
   }
 
   inode_t* node = get_inode(inum);
@@ -104,7 +98,6 @@ int nufs_mknod(const char *path, mode_t mode, dev_t rdev) {
 // another system call; see section 2 of the manual
 int nufs_mkdir(const char *path, mode_t mode) {
   int rv = nufs_mknod(path, mode | 040000, 0);
-  if(rv == 0)
   printf("mkdir(%s) -> %d\n", path, rv);
   return rv;
 }
