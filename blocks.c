@@ -20,7 +20,6 @@
 
 #include "bitmap.h"
 #include "blocks.h"
-#include "superblock.h"
 #include "inode.h"
 
 static int blocks_fd = -1;
@@ -51,16 +50,12 @@ void blocks_init(const char *image_path) {
       mmap(0, NUFS_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, blocks_fd, 0);
   assert(blocks_base != MAP_FAILED);
 
-  // block 0 stores the superblock
-  initSuperBlock(blocks_base, BLOCK_COUNT, INODE_LIMIT, 2);
-
   // DEBUGGING: make sure bitmap is free
   bitmap_print(get_blocks_bitmap(), 10);
   
   // block 1 stores the block bitmap and the inode bitmap
   void *bbm = get_blocks_bitmap();
   bitmap_put(bbm, 0, 1); // set block 0 to used
-  bitmap_put(bbm, 1, 1); // set block 1 to used
 
   // DEBUGGING: make sure first two bit is used and only the first two
   bitmap_print(bbm, 5);
@@ -78,23 +73,20 @@ void blocks_free() {
 // Get the given block, returning a pointer to its start.
 void *blocks_get_block(int bnum) { return blocks_base + BLOCK_SIZE * bnum; }
 
-// Return the pointer to the beginning of the superblock.
-void *get_superblock() { return blocks_get_block(0); }
-
 // Return a pointer to the beginning of the block bitmap.
 // The size is BLOCK_BITMAP_SIZE bytes.
-void *get_blocks_bitmap() { return blocks_get_block(1); }
+void *get_blocks_bitmap() { return blocks_get_block(0); }
 
 // Return a pointer to the beginning of the inode table bitmap.
 void *get_inode_bitmap() {
-  uint8_t *block = blocks_get_block(1);
+  uint8_t *block = blocks_get_block(0);
 
   // The inode bitmap is stored immediately after the block bitmap
   return (void *) (block + BLOCK_BITMAP_SIZE);
 }
 // Return a pointer to the beginning of the inode table.
 void *get_inode_table() {
-  return blocks_get_block(2);
+  return blocks_get_block(1);
 }
 
 // Initialize the inode table and return the beginning of the table.
@@ -112,7 +104,7 @@ void *init_inode_table() {
     bitmap_print(get_blocks_bitmap(), 5);
 
     // make sure the bitmaps of those blocks are free
-    if(!bitmap_get(get_blocks_bitmap(), ii + 2)) {
+    if(!bitmap_get(get_blocks_bitmap(), ii + 1)) {
       alloc_block();
     }
   }
@@ -130,7 +122,7 @@ int alloc_block() {
   void *bbm = get_blocks_bitmap();
 
   // first two are being used for superblock and bitmap
-  for (int ii = 2; ii < BLOCK_COUNT; ++ii) {
+  for (int ii = 1; ii < BLOCK_COUNT; ++ii) {
     if (!bitmap_get(bbm, ii)) {
       bitmap_put(bbm, ii, 1);
       printf("+ alloc_block() -> %d\n", ii);
