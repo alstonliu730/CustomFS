@@ -24,7 +24,7 @@ int nufs_access(const char *path, int mask) {
   }
   printf("DEBUG: nufs_access(%s, %04o) -> %d\n", path, mask, rv);
   get_inode(rv)->atime = time(NULL);
-  return rv;
+  return 0;
 }
 
 // Gets an object's attributes (type, permissions, size, etc).
@@ -55,8 +55,9 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   struct stat st;
   int rv;
 
+
   printf("DEBUG: nufs_readdir(%s, %p, %d) -> Called Function\n",
-    path, buf, (int)offset);
+    path, buf, offset);
   rv = nufs_getattr(path, &st);
   assert(!rv);
 
