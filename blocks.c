@@ -51,7 +51,9 @@ void blocks_init(const char *image_path) {
   assert(blocks_base != MAP_FAILED);
 
   // DEBUGGING: make sure bitmap is free
+  printf("Bitmap for blocks (initial 10):\n");
   bitmap_print(get_blocks_bitmap(), 10);
+  printf("\n");
   
   // block 1 stores the block bitmap and the inode bitmap
   void *bbm = get_blocks_bitmap();
@@ -59,6 +61,7 @@ void blocks_init(const char *image_path) {
 
   // DEBUGGING: make sure first two bit is used and only the first two
   bitmap_print(bbm, 5);
+  printf("\n");
   
   // block 2 - max_blocks stores the inode table
   init_inode_table();
@@ -97,10 +100,12 @@ void *init_inode_table() {
   int max_blocks = bytes_to_blocks(INODE_LIMIT * sizeof(inode_t));
   printf("Max Blocks: %u\n", max_blocks);
 
+  // DEBUG: Make sure the next two blocks are free
+  printf("Bitmap for blocks:\n");
+  bitmap_print(get_blocks_bitmap(), 5);
+  printf("\n");
   // allocate blocks for 'max_blocks' blocks
   for(int ii = 0; ii < max_blocks; ++ii) {
-    // DEBUG: Make sure the next two blocks are free
-    bitmap_print(get_blocks_bitmap(), 5);
 
     // make sure the bitmaps of those blocks are free
     if(!bitmap_get(get_blocks_bitmap(), ii + 1)) {
@@ -108,8 +113,8 @@ void *init_inode_table() {
     }
   }
 
-  // make sure the first max_blocks + 2 bits are in-use
-  for(int ii = 0; ii < max_blocks + 2; ++ii) {
+  // make sure the first max_blocks + 1 bits are in-use
+  for(int ii = 0; ii < max_blocks + 1; ++ii) {
     assert(bitmap_get(get_blocks_bitmap(), ii));
   }
 
