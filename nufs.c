@@ -24,7 +24,8 @@
 int nufs_access(const char *path, int mask) {
   int rv = get_inode_path(path);
   if(rv < 0) {
-    return ERR_ACCESS;
+    printf("Cannot access this file/directory!\n");
+    return 1;
   }
   printf("access(%s, %04o) -> %d\n", path, mask, rv);
   get_inode(rv)->atime = time(NULL);
@@ -37,7 +38,7 @@ int nufs_access(const char *path, int mask) {
 int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
   if (rv < 0) {
-    return 1;
+    return ERR_ATTR;
   }
 
   printf("getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
