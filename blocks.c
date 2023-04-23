@@ -63,7 +63,7 @@ void blocks_init(const char *image_path) {
   // bitmap_print(bbm, 5);
   // printf("\n");
   
-  // block 2 - max_blocks stores the inode table
+  // block 1 - max_blocks stores the inode table
   init_inode_table();
 }
 
@@ -109,7 +109,7 @@ void *init_inode_table() {
   for(int ii = 0; ii < max_blocks; ++ii) {
     // DEBUG: Make sure the next two blocks are free
     // bitmap_print(get_blocks_bitmap(), 5);
-    printf("\n");
+    // printf("\n");
 
     // make sure the bitmaps of those blocks are free
     if(!bitmap_get(get_blocks_bitmap(), ii + 1)) {

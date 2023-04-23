@@ -72,7 +72,7 @@ int alloc_inode() {
     // set the first block as a new block
     new_inode->block[0] = alloc_block();
     
-    // if the block can allocate more
+    // if the block sucessfully allocated the block
     if(new_inode->block[0] > 0) {
         new_inode->blocks++;
     } else {

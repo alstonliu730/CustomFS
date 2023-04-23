@@ -33,6 +33,7 @@ void directory_init() {
     //DEBUG: Get root inode
     print_inode(root);
     printf("--- Finished creating root ---\n");
+    print_directory(root);
 }
 
 // Look through directories to find given name and return the inode number.
@@ -149,9 +150,12 @@ slist_t *directory_list(const char *path) {
 // print all entries
 void print_directory(inode_t *dd) {
     dirent_t* entries = inode_get_block(dd, 0);
+    printf("Directories:\n");
     for(int ii = 0; ii < dd->refs; ++ii) {
-        printf("%s\n", entries[ii].name);
-        //print_inode(get_inode(entries[ii].inum));
+        printf("Entry #%i:\n", ii);
+        printf("- Name: %s\n", entries[ii].name);
+        printf("- Inum: %i\n", entries[ii].inum);
+        printf("- Used: %i\n", entries[ii].used);
     }
 }
 

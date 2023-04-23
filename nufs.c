@@ -1,5 +1,3 @@
-// based on cs3650 starter code
-
 #include <assert.h>
 #include <bsd/string.h>
 #include <dirent.h>
@@ -12,6 +10,7 @@
 
 #define FUSE_USE_VERSION 26
 #include <fuse.h>
+#include "directory.h"
 #include "storage.h"
 
 // implementation for: man 2 access
@@ -150,7 +149,7 @@ int nufs_truncate(const char *path, off_t size) {
 // open files.
 // You can just check whether the file is accessible.
 int nufs_open(const char *path, struct fuse_file_info *fi) {
-  int rv = nufs_access(path, 0);
+  int rv = 0; // temp
   printf("open(%s) -> %d\n", path, rv);
   return rv;
 }
