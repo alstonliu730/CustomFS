@@ -25,6 +25,9 @@
 // Note: assumes block count is divisible by 8
 #define BLOCK_BITMAP_SIZE (BLOCK_COUNT / 8)
 
+// ERROR CODES
+#define NOSPACE -1
+
 /** 
  * Compute the number of blocks needed to store the given number of bytes.
  *

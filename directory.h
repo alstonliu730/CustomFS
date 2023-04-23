@@ -12,6 +12,13 @@
 #include "inode.h"
 #include "slist.h"
 
+// ERROR CODES
+#define INV_DIR -2
+#define OUT_SCOPE -3
+#define ENT_EXST -4
+#define ERR_INODE -5
+
+
 typedef struct direntry {
   char name[DIR_NAME_LENGTH]; // the string name of directory
   int inum; // inode number

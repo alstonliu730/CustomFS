@@ -11,6 +11,9 @@ void directory_init() {
     int inum = alloc_inode();
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
     root->mode = 40755;
+    
+    //Configure entries
+    dirent_t* entries = inode_get_block(root, 0);
 
     //DEBUG: Get root inode
     print_inode(root);
@@ -23,7 +26,7 @@ int directory_lookup(inode_t *di, const char *name) {
 
     if (strcmp(name, "") == 0) {
         printf("Invalid Directory Lookup.\n");
-        return -1;
+        return INV_DIR;
     }
 
     // gets subdirectories
@@ -39,7 +42,7 @@ int directory_lookup(inode_t *di, const char *name) {
     }
 
     // otherwise no such directory entry
-    return -1;
+    return INV_DIR;
 }
 
 // Add an entry to the directory with the given name and inum
@@ -53,10 +56,10 @@ int directory_put(inode_t *di, const char *name, int inum) {
     dirent_t new_entry;
     int nameLen = strlen(name) + 1;
     if(di->size + nameLen + sizeof(inum) > BLOCK_SIZE) {
-        return -1;
-    } else if (directory_lookup(di, name)) {
+        return OUT_SCOPE;
+    } else if (directory_lookup(di, name) != INV_DIR) {
         printf("Entry already exist!\n");
-        return 0;
+        return ENT_EXST;
     }
 
     // set properties of entry
@@ -68,14 +71,16 @@ int directory_put(inode_t *di, const char *name, int inum) {
     entries[di->refs + 1] = new_entry;
     di->size += sizeof(dirent_t);
     di->refs++;
-    return 1; 
+    return 0; 
 }
 
 // Delete an entry from the directory with the given name
 int directory_delete(inode_t *di, const char *name) {
     // get directory entires
     dirent_t* entries = inode_get_block(di, 0);
-
+    
+    // DEBUG: Call
+    printf("+ directory_delete(%s)\n", name);
     // find the entry
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
@@ -93,9 +98,9 @@ int delete_entry(dirent_t entry) {
     inode_t *node = get_inode(entry.inum);
     
     // check if the entry is a file
-    if(node->mode != 40755) {
+    if(node->mode < 40000) {
         free_inode(entry.inum);
-        return 1;
+        return 0;
     } 
     // case where the entry is a directory
     else if(node->mode == 40755) {
@@ -103,16 +108,20 @@ int delete_entry(dirent_t entry) {
         for(int ii = 0; ii < node->refs; ++ii) {
             delete_entry(entries[ii]);
         }
-        return 1;
+        return 0;
     } else {
         // invalid file
-        return 0; // empty entry
+        return 1; // empty entry
     }
 }
 
 // get list of names of the entries in the directory
 slist_t *directory_list(const char *path) {
     int p_inum = get_inode_path(path);
+    if(p_inum == ERR_INODE) {
+        printf("Error in finding an inode for the given path!\n");
+        return NULL;
+    }
     inode_t* node = get_inode(p_inum);
     assert(node->mode == 40755);
 
@@ -154,8 +163,8 @@ int get_inode_path(const char* path) {
         printf("DEBUG: Inum: %i", inum);
         if(inum < 0) {
             slist_free(path_list);
-            printf("Failed to find directory.\n");
-            return -1;
+            printf("Failed to find inode.\n");
+            return ERR_INODE;
         }
         tmp = tmp->next;
         count++;
