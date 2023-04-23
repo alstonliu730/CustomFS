@@ -165,7 +165,7 @@ int storage_mknod(const char *path, int mode) {
     // DEBUGGING
     printf("DEBUG: storage_mknod(%s, %i) -> Parent: %s\n", path, mode, dir);
     printf("DEBUG: storage_mknod(%s, %i) -> Child: %s\n", path, mode, sub);
-    
+
     // get the parent inode
     int parent_inum = get_inode_path(dir);
     if (parent_inum < 0) {
@@ -235,8 +235,8 @@ int storage_link(const char *from, const char *to) {
     }
 
     // get the names of the child and parent
-    char* dir = (char *) alloca(strlen(from) + 1);
-    char* sub = (char *) alloca(strlen(from) + 1);
+    char* dir = (char *) malloc(strlen(from) + 10);
+    char* sub = (char *) malloc(strlen(from) + 10);
     get_child(from, sub);
     get_parent(from, dir);
 
