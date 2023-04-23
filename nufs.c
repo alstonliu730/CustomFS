@@ -23,7 +23,7 @@ int nufs_access(const char *path, int mask) {
   }
   printf("access(%s, %04o) -> %d\n", path, mask, rv);
   get_inode(rv)->atime = time(NULL);
-  return rv;
+  return 0;
 }
 
 // Gets an object's attributes (type, permissions, size, etc).
@@ -32,12 +32,13 @@ int nufs_access(const char *path, int mask) {
 int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
   if (rv < 0) {
+    fprintf(stderr, "ERROR: nufs_getattr(%s) -> (%i)\n", path, rv);
     return -1;
   }
 
   printf("getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
          st->st_size);
-  return rv;
+  return 0;
 }
 
 // implementation for: man 2 readdir
@@ -81,7 +82,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     filler(buf, child, &st, 0);
   }
 
-  return rv;
+  return 0;
 }
 
 // mknod makes a filesystem object like a file or directory
@@ -91,7 +92,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 int nufs_mknod(const char *path, mode_t mode, dev_t rdev) {
   int rv = storage_mknod(path, mode);
   printf("mknod(%s, %04o) -> %d\n", path, mode, rv);
-  return rv;
+  return 0;
 }
 
 // most of the following callbacks implement
@@ -99,25 +100,25 @@ int nufs_mknod(const char *path, mode_t mode, dev_t rdev) {
 int nufs_mkdir(const char *path, mode_t mode) {
   int rv = nufs_mknod(path, mode | 040000, 0);
   printf("mkdir(%s) -> %d\n", path, rv);
-  return rv;
+  return 0;
 }
 
 int nufs_unlink(const char *path) {
   int rv = storage_unlink(path);
   printf("unlink(%s) -> %d\n", path, rv);
-  return rv;
+  return 0;
 }
 
 int nufs_link(const char *from, const char *to) {
   int rv = storage_link(from, to);
   printf("link(%s => %s) -> %d\n", from, to, rv);
-  return rv;
+  return 0;
 }
 
 int nufs_rmdir(const char *path) {
   int rv = nufs_unlink(path);
   printf("rmdir(%s) -> %d\n", path, rv);
-  return rv;
+  return 0;
 }
 
 // implements: man 2 rename
@@ -125,19 +126,19 @@ int nufs_rmdir(const char *path) {
 int nufs_rename(const char *from, const char *to) {
   int rv = storage_rename(from,to);
   printf("rename(%s => %s) -> %d\n", from, to, rv);
-  return rv;
+  return 0;
 }
 
 int nufs_chmod(const char *path, mode_t mode) {
   int rv = -1;
   printf("chmod(%s, %04o) -> %d\n", path, mode, rv);
-  return rv;
+  return 0;
 }
 
 int nufs_truncate(const char *path, off_t size) {
   int rv = storage_truncate(path, size);
   printf("truncate(%s, %ld bytes) -> %d\n", path, size, rv);
-  return rv;
+  return 0;
 }
 
 // This is called on open, but doesn't need to do much
@@ -147,7 +148,7 @@ int nufs_truncate(const char *path, off_t size) {
 int nufs_open(const char *path, struct fuse_file_info *fi) {
   int rv = nufs_access(path, 0);
   printf("open(%s) -> %d\n", path, rv);
-  return rv;
+  return 0;
 }
 
 // Actually read data
@@ -155,7 +156,7 @@ int nufs_read(const char *path, char *buf, size_t size, off_t offset,
               struct fuse_file_info *fi) {
   int rv = storage_read(path, buf, size, offset);
   printf("read(%s, %ld bytes, @+%ld) -> %d\n", path, size, offset, rv);
-  return rv;
+  return 0;
 }
 
 // Actually write data
@@ -163,7 +164,7 @@ int nufs_write(const char *path, const char *buf, size_t size, off_t offset,
                struct fuse_file_info *fi) {
   int rv = storage_write(path, buf, size, offset);
   printf("write(%s, %ld bytes, @+%ld) -> %d\n", path, size, offset, rv);
-  return rv;
+  return 0;
 }
 
 // Update the timestamps on a file or directory.
@@ -171,7 +172,7 @@ int nufs_utimens(const char *path, const struct timespec ts[2]) {
   int rv = storage_set_time(path, ts);
   printf("utimens(%s, [%ld, %ld; %ld %ld]) -> %d\n", path, ts[0].tv_sec,
          ts[0].tv_nsec, ts[1].tv_sec, ts[1].tv_nsec, rv);
-  return rv;
+  return 0;
 }
 
 // Extended operations
