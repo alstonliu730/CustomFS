@@ -49,6 +49,8 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   struct stat st;
   int rv;
 
+  printf("DEBUG: nufs_readdir(%s, %p, %d) -> Called Function\n",
+    path, buf, offset);
   rv = nufs_getattr(path, &st);
   assert(!rv);
 
