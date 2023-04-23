@@ -47,7 +47,7 @@ int directory_put(inode_t *di, const char *name, int inum) {
     
     // get directory entries
     dirent_t *entries = inode_get_block(di, 0);
-
+    
     // prepare the entry
     dirent_t new_entry;
     int nameLen = strlen(name) + 1;
