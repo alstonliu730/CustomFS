@@ -34,12 +34,12 @@ int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
   if (rv < 0) {
     fprintf(stderr, "ERROR: nufs_getattr(%s) -> (%i)\n", path, rv);
-    return -1;
+    return 1;
   }
 
   printf("DEBUG: getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
          st->st_size);
-  return rv;
+  return 0;
 }
 
 // implementation for: man 2 readdir
