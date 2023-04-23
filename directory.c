@@ -72,10 +72,10 @@ int directory_put(inode_t *di, const char *name, int inum) {
     dirent_t new_entry;
     int nameLen = strlen(name) + 1;
     if(di->size + nameLen + sizeof(inum) > BLOCK_SIZE) {
-        fprintf(stderr, "ERROR: directory_put(%s, %i) -> Exceeds Size limit.\n");
+        fprintf(stderr, "ERROR: directory_put(%s, %i) -> Exceeds Size limit.\n", name, inum);
         return -1;
     } else if (directory_lookup(di, name) > 0) {
-        fprintf(stderr, "ERROR: directory_put(%s, %i) -> Entry already exist!\n");
+        fprintf(stderr, "ERROR: directory_put(%s, %i) -> Entry already exist!\n", name, inum);
         return 0;
     }
 
