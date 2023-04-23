@@ -52,7 +52,7 @@ int alloc_inode() {
     // Initialize inode information
     inode_t* new_inode = get_inode(inum);
     memset(new_inode, 0, sizeof(inode_t)); // clear any previous information
-    new_inode->refs = 0;
+    new_inode->refs = 1;
     new_inode->size = 0;
     new_inode->mode = 0;
     new_inode->blocks = 0;
@@ -105,7 +105,8 @@ int grow_inode(inode_t *node, int size) {
     assert(node);
     assert(node->block[0] != -1);
     assert(size > 0);
-    
+    printf("DEBUG: grow_inode(%i) -> Called Function", size);
+
     // new_size of inodes
     int new_size = node->blocks * BLOCK_SIZE + size;
 
@@ -113,7 +114,7 @@ int grow_inode(inode_t *node, int size) {
     uint16_t nBlocks = bytes_to_blocks(new_size); 
 
     // adding to direct pointers
-    if (node->blocks < 12) {
+    if (node->blocks < MAX_BLOCKS) {
         for(int ii = node->blocks-1; ii < nBlocks && ii < MAX_BLOCKS; ++ii) {
             node->block[ii] = alloc_block();
             if(!node->block[ii]) {
@@ -124,7 +125,7 @@ int grow_inode(inode_t *node, int size) {
     }
     
     // adding to indirect pointers
-    if (node->blocks >= 12 || nBlocks > 12) {
+    if (node->blocks >= MAX_BLOCKS || nBlocks > MAX_BLOCKS) {
         // create indirect pointer block if it doesn't exist
         if(node->indirect == -1) {
             node->indirect = alloc_block();
@@ -136,7 +137,7 @@ int grow_inode(inode_t *node, int size) {
 
         // create new blocks to the indirect pointers
         int* ptr_block = blocks_get_block(node->indirect);
-        for (int idx = node->blocks - 12; idx < (nBlocks - 12); ++idx) {
+        for (int idx = node->blocks - MAX_BLOCKS; idx < (nBlocks - MAX_BLOCKS); ++idx) {
             ptr_block[idx] = alloc_block();
             if(!node->block[idx]) {
                 node->blocks += (idx + 1);
@@ -153,7 +154,7 @@ int grow_inode(inode_t *node, int size) {
 int shrink_inode(inode_t *node, int size) {
     assert(node);
     assert(size > 0);
-
+    printf("DEBUG: shrink_inode(%i) -> Called Function", size);
     // new size of inodes
     int new_size = node->blocks * BLOCK_SIZE - size;
     new_size = (new_size > 0) ? new_size : 0;
@@ -163,15 +164,15 @@ int shrink_inode(inode_t *node, int size) {
     
     // shrink the indirect pointers
     int* ptr_block = blocks_get_block(node->indirect);
-    if (node->blocks > 12) {
-        for(int idx = node->blocks - 12; idx >= 0 && idx >= (nBlocks - 12); --idx) {
+    if (node->blocks > MAX_BLOCKS) {
+        for(int idx = node->blocks - MAX_BLOCKS; idx >= 0 && idx >= (nBlocks - MAX_BLOCKS); --idx) {
             free_block(ptr_block[idx]);
             ptr_block[idx] = -1;
         }
     }
 
     // shrink the direct pointers
-    if (nBlocks < 12) {
+    if (nBlocks < MAX_BLOCKS) {
         for(int ii = node->blocks - 1; ii > nBlocks; --ii) {
             free_block(node->block[ii]);
             node->block[ii] = -1;
@@ -187,13 +188,14 @@ int inode_get_bnum(inode_t *node, int offset) {
     assert(offset >= 0);
     printf("DEBUG: inode_get_bnum(%i) -> Called Function\n", offset);
     int nBlocks = offset / BLOCK_SIZE;
-    if(nBlocks < 12) {
+    if(nBlocks < MAX_BLOCKS) {
         printf("DEBUG: inode_get_bnum(%i) -> Direct bnum: %i\n", offset, nBlocks);
         return node->block[nBlocks];
     } else {
         int *ind_block = blocks_get_block(node->indirect);
-        printf("DEBUG: inode_get_bnum(%i) -> Indirect bnum: %i\n", offset, ind_block[nBlocks-12]);
-        return ind_block[nBlocks - 12];
+        printf("DEBUG: inode_get_bnum(%i) -> Indirect bnum: %i\n", 
+            offset, ind_block[nBlocks - MAX_BLOCKS]);
+        return ind_block[nBlocks - MAX_BLOCKS];
     }
 }
 

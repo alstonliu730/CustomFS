@@ -150,6 +150,7 @@ int storage_truncate(const char *path, off_t size) {
 
 // creates a new inode for an entry at the path depending on given mode
 int storage_mknod(const char *path, int mode) {
+    printf("DEBUG: storage_mknod(%s, %i) -> Called Function.\n", path, mode);
     if (get_inode_path(path) >= 0) {
         fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Inode already exists!\n", path, mode);
         return -1;
@@ -161,6 +162,10 @@ int storage_mknod(const char *path, int mode) {
     get_child(path, sub);
     get_parent(path, dir);
 
+    // DEBUGGING
+    printf("DEBUG: storage_mknod(%s, %i) -> Parent: %s\n", path, mode, dir);
+    printf("DEBUG: storage_mknod(%s, %i) -> Child: %s\n", path, mode, sub);
+    
     // get the parent inode
     int parent_inum = get_inode_path(dir);
     if (parent_inum < 0) {
@@ -189,7 +194,7 @@ int storage_mknod(const char *path, int mode) {
     }
 
     directory_put(parent_node, sub, child_inum);
-    printf("DEBUG: storage_mknod(%s, %i) -> (1)", path, mode);
+    printf("DEBUG: storage_mknod(%s, %i) -> (1)\n", path, mode);
 
     free(sub);
     free(dir);
@@ -214,7 +219,7 @@ int storage_unlink(const char *path) {
 
     inode_t* parent_node = get_inode(parent_inum);
     int del = directory_delete(parent_node, sub);
-    printf("DEBUG: storage_unlink(%s) -> (%i)", path, del);
+    printf("DEBUG: storage_unlink(%s) -> (%i)\n", path, del);
     free(sub);
     free(dir);
     return del;
@@ -281,10 +286,12 @@ slist_t *storage_list(const char *path) {
 
 // set the parent path to the given str
 void get_parent(const char *path, char* str) {
+    printf("DEBUG: get_parent(%s) -> Called Function.\n", path);
     slist_t* path_names = slist_explode(path, '/');
     slist_t* copy = path_names;
     str[0] = '\0';
     while (copy->next) {
+        printf("DEBUG: get_parent(%s) -> str: %s\n", path, str);
         strncat(str, "/", 2);
         strncat(str, copy->data, strlen(copy->data) + 1);
         copy = copy->next;
