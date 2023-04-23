@@ -48,7 +48,7 @@ int alloc_inode() {
     if(inum == -1) {
         fprintf(stderr, "ERROR: alloc_inode() -> No more inodes left!\n");
         return inum;
-    
+    }
     // Initialize inode information
     inode_t* new_inode = get_inode(inum);
     memset(new_inode, 0, sizeof(inode_t)); // clear any previous information
