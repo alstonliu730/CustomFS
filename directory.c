@@ -11,7 +11,7 @@ void directory_init() {
     printf("---Creating root directory!---\n");
     int inum = alloc_inode();
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
-    root->mode = 40755; // permissions as a directory
+    root->mode = 040755; // permissions as a directory
 
     // Configure self reference and parent reference
     dirent_t* entries = inode_get_block(root, 0);
@@ -65,7 +65,7 @@ int directory_lookup(inode_t *di, const char *name) {
 
 // Add an entry to the directory with the given name and inum
 int directory_put(inode_t *di, const char *name, int inum) {
-    assert(di->mode == 40755);
+    assert(di->mode == 040755);
     // get directory entries
     dirent_t *entries = inode_get_block(di, 0);
     
@@ -115,12 +115,12 @@ int delete_entry(dirent_t entry) {
     entry.used = 0;
 
     // check if the entry is a file
-    if(node->mode != 40755) {
+    if(node->mode != 040755) {
         free_inode(entry.inum);
         return 1;
     } 
     // case where the entry is a directory
-    else if(node->mode == 40755) {
+    else if(node->mode == 040755) {
         dirent_t *entries = inode_get_block(node, 0);
         for(int ii = 0; ii < node->refs; ++ii) {
             delete_entry(entries[ii]);
@@ -136,7 +136,7 @@ int delete_entry(dirent_t entry) {
 slist_t *directory_list(const char *path) {
     int p_inum = get_inode_path(path);
     inode_t* node = get_inode(p_inum);
-    assert(node->mode == 40755);
+    assert(node->mode == 040755);
 
     dirent_t* entries = inode_get_block(node, 0);
     slist_t* names;
