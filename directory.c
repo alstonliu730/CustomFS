@@ -32,15 +32,16 @@ void directory_init() {
     
     //DEBUG: Get root inode
     print_inode(root);
+    printf("--- Finished creating root ---\n");
 }
 
 // Look through directories to find given name and return the inode number.
 int directory_lookup(inode_t *di, const char *name) {
     // DEBUG:
-    printf("+ directory_lookup(%s)\n", name);
+    printf("DEBUG: directory_lookup(%s) -> Called function\n", name);
 
     if (strcmp(name, "") == 0) {
-        printf("Invalid Directory Lookup.\n");
+        fprintf(stderr, "ERROR: directory_lookup(%s) -> Given name is empty.\n", name);
         return -1;
     }
 
@@ -51,11 +52,12 @@ int directory_lookup(inode_t *di, const char *name) {
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
         if(!strcmp(name, subdir[ii].name) && subdir[ii].used) {
-            printf("DEBUG: Inode Num: %i\n", subdir[ii].inum);
+            printf("DEBUG: directory_lookup(%s) -> Inode Num: %i.\n", name, subdir[ii].inum);
             return subdir[ii].inum; // return the inum
         }
     }
-
+    
+    fprintf(stderr, "ERROR: directory_lookup(%s) -> No such directory entry.\n", name);
     // otherwise no such directory entry
     return -1;
 }
@@ -63,7 +65,6 @@ int directory_lookup(inode_t *di, const char *name) {
 // Add an entry to the directory with the given name and inum
 int directory_put(inode_t *di, const char *name, int inum) {
     assert(di->mode == 40755);
-    // DEBUG: CALL
     // get directory entries
     dirent_t *entries = inode_get_block(di, 0);
     
@@ -71,9 +72,10 @@ int directory_put(inode_t *di, const char *name, int inum) {
     dirent_t new_entry;
     int nameLen = strlen(name) + 1;
     if(di->size + nameLen + sizeof(inum) > BLOCK_SIZE) {
+        fprintf(stderr, "ERROR: directory_put(%s, %i) -> Exceeds Size limit.\n");
         return -1;
-    } else if (directory_lookup(di, name)) {
-        printf("Entry already exist!\n");
+    } else if (directory_lookup(di, name) > 0) {
+        fprintf(stderr, "ERROR: directory_put(%s, %i) -> Entry already exist!\n");
         return 0;
     }
 
@@ -86,7 +88,7 @@ int directory_put(inode_t *di, const char *name, int inum) {
     entries[di->refs + 1] = new_entry;
     di->size += sizeof(dirent_t);
     di->refs++;
-    printf("+ directory_put(%s, %i) -> %i\n", name, inum, 1);
+    printf("DEBUG: directory_put(%s, %i) -> %i\n", name, inum, 1);
     return 1; 
 }
 
@@ -94,7 +96,7 @@ int directory_put(inode_t *di, const char *name, int inum) {
 int directory_delete(inode_t *di, const char *name) {
     // get directory entires
     dirent_t* entries = inode_get_block(di, 0);
-
+    printf("DEBUG: directory_delete(%s) -> Attempting to delete!\n", name);
     // find the entry
     for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
@@ -148,7 +150,7 @@ slist_t *directory_list(const char *path) {
 void print_directory(inode_t *dd) {
     dirent_t* entries = inode_get_block(dd, 0);
     for(int ii = 0; ii < dd->refs; ++ii) {
-        printf("%s ", entries[ii].name);
+        printf("%s\n", entries[ii].name);
         //print_inode(get_inode(entries[ii].inum));
     }
 }
@@ -158,7 +160,7 @@ int get_inode_path(const char* path) {
     assert(path[0] == '/');
     
     if(strcmp(path, "/") == 0) {
-        printf("+ get_inode_path(%s) -> %i\n", path, nROOT);
+        printf("DEBUG: get_inode_path(%s) -> returned root inum (%i)\n", path, nROOT);
         return nROOT;
     }
 
@@ -170,18 +172,19 @@ int get_inode_path(const char* path) {
     int inum = nROOT;
     while(tmp) {
         //DEBUG: Get Path Names
-        printf("DEBUG: Path Name %i: %s\n", count, path_list->data);
+        printf("DEBUG: get_inode_path(%s) -> Path Name %s.\n", path, path_list->data);
         inum = directory_lookup(get_inode(inum), path_list->data);
-        printf("DEBUG: Inum: %i", inum);
+        printf("DEBUG: get_inode_path(%s) -> Inum: %i.\n", path, inum);
         if(inum < 0) {
             slist_free(path_list);
-            printf("Failed to find directory.\n");
+            fprintf(stderr, "ERROR: get_inode_path(%s) -> Failed to find inode in this path.(-1)\n",
+                path);
             return -1;
         }
         tmp = tmp->next;
         count++;
     }
     slist_free(path_list);
-    printf("+ get_inode_path(%s) -> %i\n", path, inum);
+    printf("DEBUG: get_inode_path(%s) -> (%i)\n", path, inum);
     return inum;
 }

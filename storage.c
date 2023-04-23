@@ -31,16 +31,18 @@ int storage_stat(const char *path, struct stat *st) {
 // read the file at this path for size amount of bytes and copies to the buffer
 int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     int inum = get_inode_path(path);
-    if (inum == 0) {
+    if (inum < 0) {
+        fprintf(stderr, "ERROR: storage_read(%s, %s, %zu, %d) -> Cannot find file path\n",
+            path, buf, size, (int)offset);
         return inum;
     }
 
-    // make sure the offset is not 
     // get inode of the path
     inode_t* node = get_inode(inum);
     
     // ensure offset is valid
     if (offset >= node->size || offset < 0) {
+        fprintf(stderr, "ERROR: storage_read() -> Offset invalid.\n");
         return 0;
     }
 
@@ -64,7 +66,8 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
     }
-
+    printf("DEBUG: storage_read(%s, %s, %zu, %d) -> (1)\n",
+            path, buf, size, (int)offset);
     return 1;
 }
 
@@ -72,10 +75,14 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
 int storage_write(const char *path, const char *buf, size_t size, off_t offset) {
     int size_change = storage_truncate(path, offset + size);
     if(size_change < 0) {
+        fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Failed to truncate file.\n",
+            path, buf, size, (int)offset);
         return -1;
     }
 
-    if(get_inode_path(path) == -1) {
+    if(get_inode_path(path) < 0) {
+        fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Could not get inode from path.\n",
+            path, buf, size, (int)offset);
         return -1;
     }
 
@@ -101,6 +108,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         bytesWritten += bytesToWrite;
         bytesRem -= bytesToWrite;
     }
+    printf("DEBUG: storage_write(%s, %s, %zu, %d) -> (1)\n", path, buf, size, (int)offset);
     return 1;
 }
 
@@ -108,6 +116,8 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
 int storage_truncate(const char *path, off_t size) {
     int inum = get_inode_path(path);
     if(inum < 0) {
+        fprintf(stderr, "ERROR: storage_truncate(%s, %zu) -> Could not get inode from path.\n",
+            path, size);
         return -1;
     }
 
@@ -121,8 +131,8 @@ int storage_truncate(const char *path, off_t size) {
 
 // creates a new inode for an entry at the path depending on given mode
 int storage_mknod(const char *path, int mode) {
-    if (get_inode_path(path) != -1) {
-        printf("Inode already exists!\n");
+    if (get_inode_path(path) >= 0) {
+        fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Inode already exists!\n", path, mode);
         return -1;
     }
 
@@ -134,8 +144,9 @@ int storage_mknod(const char *path, int mode) {
 
     // get the parent inode
     int parent_inum = get_inode_path(dir);
-    if (parent_inum == -1) {
-        printf("Parent Inode cannot be found!\n");
+    if (parent_inum < 0) {
+        fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Parent Inode cannot be found!\n", 
+            path, mode);
         return -1;
     }
     inode_t* parent_node = get_inode(parent_inum);
@@ -149,12 +160,15 @@ int storage_mknod(const char *path, int mode) {
 
     // if the given path is a directory
     if (mode >= 40755) {
+        printf("DEBUG: storage_mknod(%s, %i) -> Creating self and parent reference.\n", 
+            path, mode);
         // set the child directory's default entries
         directory_put(node, ".", child_inum);
         directory_put(node, "..", parent_inum);
     }
 
     directory_put(parent_node, sub, child_inum);
+    printf("DEBUG: storage_mknod(%s, %i) -> (1)", path, mode);
     return 1;
 }
 
@@ -167,14 +181,14 @@ int storage_unlink(const char *path) {
     get_parent(path, dir);
 
     int parent_inum = get_inode_path(dir);
-    if (parent_inum == -1) {
-        printf("Parent Inode cannot be found!\n");
+    if (parent_inum < 0) {
+        fprintf(stderr, "ERROR: storage_unlink(%s) -> Parent Inode cannot be found!\n", path);
         return -1;
     }
 
     inode_t* parent_node = get_inode(parent_inum);
     int del = directory_delete(parent_node, sub);
-
+    printf("DEBUG: storage_unlink(%s) -> (%i)", path, del);
     return del;
 }
 
@@ -183,6 +197,7 @@ int storage_link(const char *from, const char *to) {
     // make sure 'to' exist
     int dest_inum = get_inode_path(to);
     if (dest_inum < 0) {
+        fprintf(stderr, "ERROR: storage_link(%s, %s) -> Could not find path \'to\'.\n", from, to);
         return -1;
     }
 
@@ -193,19 +208,20 @@ int storage_link(const char *from, const char *to) {
     get_parent(from, dir);
 
     int parent_inum = get_inode_path(dir);
-    if (parent_inum == -1) {
-        printf("Parent Inode cannot be found!\n");
+    if (parent_inum < 0) {
+        fprintf(stderr, "ERROR: storage_link(%s, %s) -> Parent Inode cannot be found!\n", from, to);
         return -1;
     }
 
     inode_t* p_node = get_inode(parent_inum);
     directory_put(p_node, sub, dest_inum);
-
+    printf("DEBUG: storage_unlink(%s, %s) -> (1)", from, to);
     return 1;
 }
 
 // rename the directories
 int storage_rename(const char *from, const char *to) {
+    printf("DEBUG: storage_rename(%s, %s) -> Called link and unlink here.\n", from, to);
     storage_link(to, from);
     storage_unlink(from);
     return 0;
@@ -215,12 +231,14 @@ int storage_rename(const char *from, const char *to) {
 int storage_set_time(const char *path, const struct timespec ts[2]) {
     int inum = get_inode_path(path);
     if (inum < 0) {
+        fprintf(stderr, "ERROR: storage_set_time(%s) -> Could not find inode of given path.\n", path);
         return -1;
     }
 
     inode_t* node = get_inode(inum);
     node->atime = ts[0].tv_sec;
     node->mtime = ts[1].tv_sec;
+    printf("DEBUG: storage_set_time(%s) -> (0)\n", path);
     return 0;
 }
 
@@ -239,6 +257,8 @@ void get_parent(const char *path, char* str) {
         strncat(str, copy->data, strlen(copy->data) + 1);
         copy = copy->next;
     }
+
+    printf("DEBUG: get_parent(%s) -> Parent: %s\n", path, str);
     slist_free(path_names);
 }
 
@@ -251,5 +271,6 @@ void get_child(const char *path, char* str) {
     }
     memcpy(str, copy->data, strlen(copy->data));
     strncat("\0", str, 1);
+    printf("DEBUG: get_child(%s) -> Child: %s\n", path, str);
     slist_free(path_names);
 }
