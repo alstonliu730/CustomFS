@@ -162,26 +162,27 @@ int get_inode_path(const char* path) {
         printf("DEBUG: get_inode_path(%s) -> returned root inum (%i)\n", path, nROOT);
         return nROOT;
     }
-    path += 1;
+    char* name = strdup(path);
+    name += 1;
     // Get the path names
-    slist_t* path_list = slist_explode(path, '/');
+    slist_t* path_list = slist_explode(name, '/');
     slist_t* tmp = path_list;
     
     int inum = nROOT;
     while(tmp) {
         //DEBUG: Get Path Names
-        printf("DEBUG: get_inode_path(%s) -> Path Name %s\n", path, tmp->data);
+        printf("DEBUG: get_inode_path(%s) -> Path Name %s\n", name, tmp->data);
         inum = directory_lookup(get_inode(inum), tmp->data);
-        printf("DEBUG: get_inode_path(%s) -> Inum: %i\n", path, inum);
+        printf("DEBUG: get_inode_path(%s) -> Inum: %i\n", name, inum);
         if(inum < 0) {
             slist_free(path_list);
             fprintf(stderr, "ERROR: get_inode_path(%s) -> Failed to find inode in this path.\n",
-                path);
+                name);
             return -1;
         }
         tmp = tmp->next;
     }
     slist_free(path_list);
-    printf("DEBUG: get_inode_path(%s) -> (%i)\n", path, inum);
+    printf("DEBUG: get_inode_path(%s) -> (%i)\n", name, inum);
     return inum;
 }
