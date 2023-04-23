@@ -161,7 +161,7 @@ void print_directory(inode_t *dd) {
 
 // get inode number from the given path
 int get_inode_path(const char* path) {
-    assert(path[0] == '/');
+    assert(!strcmp(path[0], "/"));
     if(strcmp(path, "/") == 0) {
         printf("DEBUG: get_inode_path(%s) -> returned root inum (%i)\n", path, nROOT);
         return nROOT;
