@@ -14,6 +14,7 @@ void storage_init(const char *path) {
 
 // set the stat for the given path
 int storage_stat(const char *path, struct stat *st) {
+    printf("DEBUG: storage_stat(%s) -> Called function.\n", path);
     int inum = get_inode_path(path);
     if(inum >= 0) {
         inode_t* node = get_inode(inum);
@@ -23,8 +24,11 @@ int storage_stat(const char *path, struct stat *st) {
         st->st_ctime = node->ctime;
         st->st_atime = node->atime;
         st->st_mtime = node->mtime;
+        printf("DEBUG: storage_stat(%s) -> {inum: %i, mode: %i, size: %i}\n",
+            path, inum, node->mode, node->size);
         return 1;
     }
+    fprintf(stderr, "ERROR: storage_stat(%s) -> (-1)\n", path);
     return -1; // couldn't find file/directory
 }
 

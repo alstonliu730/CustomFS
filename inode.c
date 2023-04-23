@@ -25,13 +25,15 @@ void print_inode(inode_t *node) {
 inode_t *get_inode(int inum) {
     assert(inum < INODE_LIMIT);
     inode_t* table = get_inode_table();
-    
+
+    printf("DEBUG: get_inode(%i) -> %p\n", inum, table+inum);
     return table + inum;
 }
 
 // creates a new inode and returns the index number of the inode.
 int alloc_inode() {
-    int inum;
+    printf("DEBUG: alloc_inode() -> called function!\n");
+    int inum = -1;
     // find an available inode
     for(int ii = 0; ii < INODE_LIMIT; ++ii) {
         if (!bitmap_get(get_inode_bitmap(), ii)) {
@@ -41,7 +43,11 @@ int alloc_inode() {
             break;
         }
     }
-
+    // if theres no more inodes left
+    if(inum == -1) {
+        fprintf(stderr, "ERROR: alloc_inode() -> No more inodes left!\n");
+    }
+    
     // Initialize inode information
     inode_t* new_inode = get_inode(inum);
     new_inode->refs = 1;

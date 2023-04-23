@@ -19,9 +19,10 @@
 int nufs_access(const char *path, int mask) {
   int rv = get_inode_path(path);
   if(rv < 0) {
+    fprintf(stderr, "ERROR: nufs_access(%s, %04o) -> %d\n", path, mask, rv);
     return -1;
   }
-  printf("access(%s, %04o) -> %d\n", path, mask, rv);
+  printf("DEBUG: nufs_access(%s, %04o) -> %d\n", path, mask, rv);
   get_inode(rv)->atime = time(NULL);
   return rv;
 }
@@ -36,9 +37,9 @@ int nufs_getattr(const char *path, struct stat *st) {
     return -1;
   }
 
-  printf("getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
+  printf("DEBUG: getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
          st->st_size);
-  return 0;
+  return rv;
 }
 
 // implementation for: man 2 readdir
@@ -82,7 +83,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     filler(buf, child, &st, 0);
   }
 
-  return 0;
+  return rv;
 }
 
 // mknod makes a filesystem object like a file or directory

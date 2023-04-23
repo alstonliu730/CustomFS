@@ -104,6 +104,7 @@ void *init_inode_table() {
   printf("Bitmap for blocks:\n");
   bitmap_print(get_blocks_bitmap(), 5);
   printf("\n");
+
   // allocate blocks for 'max_blocks' blocks
   for(int ii = 0; ii < max_blocks; ++ii) {
     // DEBUG: Make sure the next two blocks are free
@@ -131,17 +132,18 @@ int alloc_block() {
   for (int ii = 1; ii < BLOCK_COUNT; ++ii) {
     if (!bitmap_get(bbm, ii)) {
       bitmap_put(bbm, ii, 1);
-      printf("+ alloc_block() -> %d\n", ii);
+      printf("DEBUG: alloc_block() -> %d\n", ii);
       return ii;
     }
   }
 
+  fprintf(stderr, "ERROR: alloc_block() -> (-1)\n");
   return -1;
 }
 
 // Deallocate the block with the given index.
 void free_block(int bnum) {
-  printf("+ free_block(%d)\n", bnum);
+  printf("DEBUG: free_block(%d)\n", bnum);
   void *bbm = get_blocks_bitmap();
   bitmap_put(bbm, bnum, 0);
 }
