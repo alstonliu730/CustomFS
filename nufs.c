@@ -39,7 +39,7 @@ int nufs_getattr(const char *path, struct stat *st) {
 
   printf("DEBUG: getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
          st->st_size);
-  return 0;
+  return rv;
 }
 
 // implementation for: man 2 readdir
