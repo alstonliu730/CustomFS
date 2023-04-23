@@ -11,9 +11,6 @@ void directory_init() {
     int inum = alloc_inode();
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
     root->mode = 40755;
-    
-    //Configure entries
-    dirent_t* entries = inode_get_block(root, 0);
 
     //DEBUG: Get root inode
     print_inode(root);

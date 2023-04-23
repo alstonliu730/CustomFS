@@ -25,7 +25,7 @@ int storage_stat(const char *path, struct stat *st) {
         st->st_mtime = node->mtime;
         return 0;
     }
-    return 1; // couldn't find file/directory
+    return -1; // couldn't find file/directory
 }
 
 // read the file at this path for size amount of bytes and copies to the buffer
