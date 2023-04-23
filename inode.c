@@ -202,6 +202,6 @@ int inode_get_bnum(inode_t *node, int offset) {
 // returns the pointer to the block given the block index of the inode
 void *inode_get_block(inode_t *node, int offset) {
     printf("DEBUG: inode_get_block(%i) -> %p\n",
-        offset, blocks_get_block(inode_get_bnum(node, offset)));
-    return blocks_get_block(inode_get_bnum(node, offset));
+        offset, blocks_get_block(inode_get_bnum(node, offset * BLOCK_SIZE)));
+    return blocks_get_block(inode_get_bnum(node, offset * BLOCK_SIZE));
 }

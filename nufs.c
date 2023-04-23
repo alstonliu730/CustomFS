@@ -23,7 +23,6 @@ int nufs_access(const char *path, int mask) {
     return -ENOENT;
   }
   printf("DEBUG: nufs_access(%s, %04o) -> %d\n", path, mask, rv);
-  get_inode(rv)->atime = time(NULL);
   return 0;
 }
 
@@ -32,15 +31,15 @@ int nufs_access(const char *path, int mask) {
 // This is a crucial function.
 int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
-   
+  printf("DEBUG: nufs_getattr(%s) -> Function called\n");
   if (rv < 0) {
     fprintf(stderr, "ERROR: nufs_getattr(%s) -> (%i)\n", path, rv);
     return -1;
+  } else {
+    printf("DEBUG: getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", 
+      path, rv, st->st_mode, st->st_size);
+    return rv;
   }
-
-  printf("DEBUG: getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
-         st->st_size);
-  return rv;
 }
 
 // implementation for: man 2 readdir
@@ -58,7 +57,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   filler(buf, ".", &st, 0);
 
   // get parent directory
-  char *parent = alloca(DIR_NAME_LENGTH);
+  char *parent = (char *) malloc(strlen(path) + 10);
   get_parent(path, parent);
   
   rv = nufs_getattr(parent, &st);
@@ -94,6 +93,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // Note, for this assignment, you can alternatively implement the create
 // function.
 int nufs_mknod(const char *path, mode_t mode, dev_t rdev) {
+  printf("mknod(%s, %04o) -> Function called.\n", path, mode);
   int rv = storage_mknod(path, mode);
   printf("mknod(%s, %04o) -> %d\n", path, mode, rv);
   return rv;

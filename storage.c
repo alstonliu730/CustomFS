@@ -41,7 +41,7 @@ int storage_stat(const char *path, struct stat *st) {
         st->st_mtime = node->mtime;
         printf("DEBUG: storage_stat(%s) -> {inum: %i, mode: %i, size: %i, refs: %i}\n",
             path, inum, node->mode, node->size, node->refs);
-        return 1;
+        return 0;
     }
     fprintf(stderr, "ERROR: storage_stat(%s) -> (-1)\n", path);
     return -1; // couldn't find file/directory

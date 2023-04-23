@@ -15,7 +15,7 @@ void directory_init() {
 
     // Configure self reference and parent reference
     dirent_t* entries = inode_get_block(root, 0);
-    
+
     // Create self reference
     entries[0].inum = inum;
     strcpy(entries[0].name, ".");
@@ -162,7 +162,7 @@ int get_inode_path(const char* path) {
         printf("DEBUG: get_inode_path(%s) -> returned root inum (%i)\n", path, nROOT);
         return nROOT;
     }
-
+    path += 1;
     // Get the path names
     slist_t* path_list = slist_explode(path, '/');
     slist_t* tmp = path_list;
@@ -170,12 +170,12 @@ int get_inode_path(const char* path) {
     int inum = nROOT;
     while(tmp) {
         //DEBUG: Get Path Names
-        printf("DEBUG: get_inode_path(%s) -> Path Name %s.\n", path, path_list->data);
-        inum = directory_lookup(get_inode(inum), path_list->data);
-        printf("DEBUG: get_inode_path(%s) -> Inum: %i.\n", path, inum);
+        printf("DEBUG: get_inode_path(%s) -> Path Name %s\n", path, tmp->data);
+        inum = directory_lookup(get_inode(inum), tmp->data);
+        printf("DEBUG: get_inode_path(%s) -> Inum: %i\n", path, inum);
         if(inum < 0) {
             slist_free(path_list);
-            fprintf(stderr, "ERROR: get_inode_path(%s) -> Failed to find inode in this path.(-1)\n",
+            fprintf(stderr, "ERROR: get_inode_path(%s) -> Failed to find inode in this path.\n",
                 path);
             return -1;
         }
