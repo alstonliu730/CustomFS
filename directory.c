@@ -8,6 +8,7 @@
 
 // initialize the directory inode
 void directory_init() {
+    printf("---Creating root directory!---\n");
     int inum = alloc_inode();
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
     root->mode = 40755;
@@ -62,7 +63,7 @@ int directory_lookup(inode_t *di, const char *name) {
 // Add an entry to the directory with the given name and inum
 int directory_put(inode_t *di, const char *name, int inum) {
     assert(di->mode == 40755);
-    
+    // DEBUG: CALL
     // get directory entries
     dirent_t *entries = inode_get_block(di, 0);
     
@@ -85,6 +86,7 @@ int directory_put(inode_t *di, const char *name, int inum) {
     entries[di->refs + 1] = new_entry;
     di->size += sizeof(dirent_t);
     di->refs++;
+    printf("+ directory_put(%s, %i) -> %i\n", name, inum, 1);
     return 1; 
 }
 
@@ -154,11 +156,13 @@ void print_directory(inode_t *dd) {
 // get inode from the given path
 int get_inode_path(const char* path) {
     assert(path[0] == '/');
-
+    
     if(strcmp(path, "/") == 0) {
+        printf("+ get_inode_path(%s) -> %i\n", path, nROOT);
         return nROOT;
     }
 
+    // Get the path names
     slist_t* path_list = slist_explode(path += 1, '/');
     slist_t* tmp = path_list;
     
