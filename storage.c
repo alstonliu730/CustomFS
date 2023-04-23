@@ -12,6 +12,20 @@ void storage_init(const char *path) {
     directory_init();
 }
 
+// returns if the given path has access
+int storage_access(const char *path) {
+    int inum = get_inode_path(path);
+
+    if (inum < 0) {
+        return -1;
+    }
+
+    inode_t *node = get_inode(inum);
+    node->atime = time(NULL);
+
+    return 0;
+}
+
 // set the stat for the given path
 int storage_stat(const char *path, struct stat *st) {
     printf("DEBUG: storage_stat(%s) -> Called function.\n", path);
@@ -142,8 +156,8 @@ int storage_mknod(const char *path, int mode) {
     }
 
     // get the names of the child and parent
-    char* dir = (char *) alloca(strlen(path) + 1);
-    char* sub = (char *) alloca(strlen(path) + 1);
+    char* dir = (char *) malloc(strlen(path) + 10);
+    char* sub = (char *) malloc(strlen(path) + 10);
     get_child(path, sub);
     get_parent(path, dir);
 
@@ -152,6 +166,8 @@ int storage_mknod(const char *path, int mode) {
     if (parent_inum < 0) {
         fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Parent Inode cannot be found!\n", 
             path, mode);
+        free(dir);
+        free(sub);
         return -1;
     }
     inode_t* parent_node = get_inode(parent_inum);
@@ -174,26 +190,33 @@ int storage_mknod(const char *path, int mode) {
 
     directory_put(parent_node, sub, child_inum);
     printf("DEBUG: storage_mknod(%s, %i) -> (1)", path, mode);
+
+    free(sub);
+    free(dir);
     return 1;
 }
 
 // unlink the given path from the disk
 int storage_unlink(const char *path) {
     // get the names of the child and parent
-    char* dir = (char *) alloca(strlen(path) + 1);
-    char* sub = (char *) alloca(strlen(path) + 1);
+    char* dir = (char *) malloc(strlen(path) + 10);
+    char* sub = (char *) malloc(strlen(path) + 10);
     get_child(path, sub);
     get_parent(path, dir);
 
     int parent_inum = get_inode_path(dir);
     if (parent_inum < 0) {
         fprintf(stderr, "ERROR: storage_unlink(%s) -> Parent Inode cannot be found!\n", path);
+        free(sub);
+        free(dir);
         return -1;
     }
 
     inode_t* parent_node = get_inode(parent_inum);
     int del = directory_delete(parent_node, sub);
     printf("DEBUG: storage_unlink(%s) -> (%i)", path, del);
+    free(sub);
+    free(dir);
     return del;
 }
 
@@ -215,12 +238,16 @@ int storage_link(const char *from, const char *to) {
     int parent_inum = get_inode_path(dir);
     if (parent_inum < 0) {
         fprintf(stderr, "ERROR: storage_link(%s, %s) -> Parent Inode cannot be found!\n", from, to);
+        free(sub);
+        free(dir);
         return -1;
     }
 
     inode_t* p_node = get_inode(parent_inum);
     directory_put(p_node, sub, dest_inum);
     printf("DEBUG: storage_unlink(%s, %s) -> (1)", from, to);
+    free(sub);
+    free(dir);
     return 1;
 }
 

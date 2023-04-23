@@ -17,7 +17,7 @@
 // implementation for: man 2 access
 // Checks if a file exists.
 int nufs_access(const char *path, int mask) {
-  int rv = get_inode_path(path);
+  int rv = storage_access(path);
   if(rv < 0) {
     fprintf(stderr, "ERROR: nufs_access(%s, %04o) -> %d\n", path, mask, rv);
     return -ENOENT;
@@ -31,16 +31,11 @@ int nufs_access(const char *path, int mask) {
 // Implementation for: man 2 stat
 // This is a crucial function.
 int nufs_getattr(const char *path, struct stat *st) {
-  int rv;
-  if(strcmp(path, "/") == 0) {
-    rv = storage_stat(path, st);
-  } else {
-    rv = storage_stat(path, st);
-  }
+  int rv = storage_stat(path, st);
    
   if (rv < 0) {
     fprintf(stderr, "ERROR: nufs_getattr(%s) -> (%i)\n", path, rv);
-    return -ENOENT;
+    return -1;
   }
 
   printf("DEBUG: getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", path, rv, st->st_mode,
