@@ -132,19 +132,27 @@ int storage_mknod(const char *path, int mode) {
     get_child(path, sub);
     get_parent(path, dir);
 
+    // get the parent inode
     int parent_inum = get_inode_path(dir);
     if (parent_inum == -1) {
         printf("Parent Inode cannot be found!\n");
         return -1;
     }
-
     inode_t* parent_node = get_inode(parent_inum);
 
+    // initialize the inode
     int child_inum = alloc_inode();
     inode_t* node = get_inode(child_inum);
     node->mode = mode;
     node->size = 0;
     node->refs = 1;
+
+    // if the given path is a directory
+    if (mode >= 40755) {
+        // set the child directory's default entries
+        directory_put(node, ".", child_inum);
+        directory_put(node, "..", parent_inum);
+    }
 
     directory_put(parent_node, sub, child_inum);
     return 1;

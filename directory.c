@@ -12,6 +12,23 @@ void directory_init() {
     inode_t *root = get_inode(inum); //inode 0 is the root dir.
     root->mode = 40755;
 
+    // Configure self reference and parent reference
+    dirent_t* entries = inode_get_block(root, 0);
+
+    // Create self reference
+    dirent_t self;
+    self.inum = inum;
+    strcpy(self.name, ".");
+    self.used = 1;
+    entries[0] = self;
+
+    // Create parent reference
+    dirent_t parent;
+    parent.inum = inum;
+    strcpy(parent.name, "..");
+    self.used = 1;
+    entries[1] = parent;
+    
     //DEBUG: Get root inode
     print_inode(root);
 }
