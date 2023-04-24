@@ -323,5 +323,5 @@ void get_child(const char *path, char* str) {
     // go through the list until the last one
 
     // DEBUG: Output of the function
-    printf("DEBUG: get_child(%s) -> Child: %s\n", str);
+    //printf("DEBUG: get_child(%s) -> Child: %s\n", str);
 }
