@@ -42,8 +42,8 @@ int directory_lookup(inode_t *di, const char *name) {
     printf("DEBUG: directory_lookup(%s) -> Called function\n", name);
 
     if (strcmp(name, "") == 0) {
-        fprintf(stderr, "ERROR: directory_lookup(%s) -> Given name is empty. Returning root (0)\n", name);
-        return 0;
+        fprintf(stderr, "ERROR: directory_lookup(%s) -> Given name is empty.\n", name);
+        return -1;
     }
 
     // gets subdirectories
@@ -178,6 +178,11 @@ int path_lookup(const char* path) {
     // Get the path names
     slist_t* path_list = slist_explode(name, '/');
     slist_t* tmp = path_list;
+
+    // the case where the first string is a slash
+    if(!strcmp(tmp->data, "") && tmp->next) {
+        tmp = tmp->next; // go to the next case since we give the root anyways
+    }
 
     int inum = nROOT;
     while(tmp) {
