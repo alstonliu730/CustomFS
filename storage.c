@@ -171,11 +171,11 @@ int storage_mknod(const char *path, int mode) {
     
     // get the names of the child and parent
     printf("DEBUG: storage_mknod(%s, %i) -> Getting name of parent.\n", path, mode);
-    char* dir[strlen(path)];
+    char dir[strlen(path)];
     get_parent(path, dir);
 
     printf("DEBUG: storage_mknod(%s, %i) -> Getting name of child.\n", path, mode);
-    char* sub[DIR_NAME_LENGTH];
+    char sub[DIR_NAME_LENGTH];
     get_child(path, sub);   
 
     // DEBUGGING
@@ -315,6 +315,7 @@ void get_parent(const char *path, char* str) {
 
 // set the child name to the given str
 void get_child(const char *path, char* str) {
+    printf("DEBUG: get_child(%s) -> Called Function.\n", path);
     strcpy(str, path);
 
     int wordLen = 0;
@@ -324,4 +325,5 @@ void get_child(const char *path, char* str) {
 
     str += strlen(path) - wordLen;
     str ++;
+    printf("DEBUG: get_child(%s) -> Child: %s\n", str);
 }
