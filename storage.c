@@ -320,8 +320,9 @@ void get_child(const char *path, char* str) {
     printf("DEBUG: get_child(%s) -> Called Function.\n", dup);
     slist_t* path_names = slist_explode(dup, '/');
     slist_t* copy = path_names;
-    
+
     while (copy->next) {
+        printf("DEBUG: get_child(%s) -> Next path name: %s\n", dup, copy->next->data);
         printf("DEBUG: get_child(%s) -> Current path name: %s\n", dup, copy->data);
         copy = copy->next; // NULL
     }
