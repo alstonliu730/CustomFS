@@ -168,13 +168,16 @@ int storage_mknod(const char *path, int mode) {
         fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Inode already exists!\n", path, mode);
         return -1;
     }
-
+    
     // get the names of the child and parent
+    printf("DEBUG: storage_mknod(%s, %i) -> Getting name of parent.\n", path, mode);
     char dir[strlen(path)];
-    char sub[strlen(path)];
-    get_child(path, sub);
     get_parent(path, dir);
 
+    printf("DEBUG: storage_mknod(%s, %i) -> Getting name of child.\n", path, mode);
+    char sub[strlen(path)];
+    get_child(path, sub);   
+    
     // DEBUGGING
     printf("DEBUG: storage_mknod(%s, %i) -> Parent: %s\n", path, mode, dir);
     printf("DEBUG: storage_mknod(%s, %i) -> Child: %s\n", path, mode, sub);
