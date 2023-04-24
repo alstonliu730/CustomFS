@@ -36,6 +36,7 @@ void slist_free(slist_t *xs) {
 }
 
 slist_t *slist_explode(const char *text, char delim) {
+  printf("DEBUG: slist_explode(%s, %c) -> Called function.\n", text, delim);
   if (*text == 0) {
     return 0;
   }
