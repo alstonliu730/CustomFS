@@ -313,17 +313,15 @@ void get_parent(const char *path, char* str) {
     slist_free(path_names);
 }
 
-// set the child name to the given str
+// set the child name to the given str and given full path
 void get_child(const char *path, char* str) {
+    // DEBUG: Enter in the function
     printf("DEBUG: get_child(%s) -> Called Function.\n", path);
-    strcpy(str, path);
+    assert(path[0] == '/');
+    slist_t* path_names = slist_explode(str, '/');
+    
+    // go through the list until the last one
 
-    int wordLen = 0;
-    for (int ii = strlen(path) - 1; path[ii] != '/'; ii--) {
-        wordLen++;
-    }
-
-    str += strlen(path) - wordLen;
-    str ++;
+    // DEBUG: Output of the function
     printf("DEBUG: get_child(%s) -> Child: %s\n", str);
 }
