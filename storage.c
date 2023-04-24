@@ -175,9 +175,9 @@ int storage_mknod(const char *path, int mode) {
     get_parent(path, dir);
 
     printf("DEBUG: storage_mknod(%s, %i) -> Getting name of child.\n", path, mode);
-    char sub[strlen(path)];
+    char sub[DIR_NAME_LENGTH];
     get_child(path, sub);   
-    
+
     // DEBUGGING
     printf("DEBUG: storage_mknod(%s, %i) -> Parent: %s\n", path, mode, dir);
     printf("DEBUG: storage_mknod(%s, %i) -> Child: %s\n", path, mode, sub);
@@ -314,6 +314,7 @@ void get_parent(const char *path, char* str) {
 
 // set the child name to the given str
 void get_child(const char *path, char* str) {
+    printf("DEBUG: get_child(%s) -> Called Function.\n", path);
     slist_t* path_names = slist_explode(path, '/');
     slist_t* copy = path_names;
     while (copy->next) {
