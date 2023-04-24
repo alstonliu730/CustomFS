@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
+#include <assert.h>
 
 #include "slist.h"
 #include "blocks.h"
