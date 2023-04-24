@@ -184,8 +184,6 @@ int storage_mknod(const char *path, int mode) {
     if (parent_inum < 0) {
         fprintf(stderr, "ERROR: storage_mknod(%s, %i) -> Parent Inode cannot be found!\n", 
             path, mode);
-        free(dir);
-        free(sub);
         return -1;
     }
     inode_t* parent_node = get_inode(parent_inum);
@@ -208,9 +206,6 @@ int storage_mknod(const char *path, int mode) {
 
     directory_put(parent_node, sub, child_inum);
     printf("DEBUG: storage_mknod(%s, %i) -> (1)\n", path, mode);
-
-    free(sub);
-    free(dir);
     return 1;
 }
 
