@@ -86,10 +86,10 @@ int directory_put(inode_t *di, const char *name, int inum) {
     new_entry.used = 1;
     
     // add new entry to the list of entries
-    entries[di->refs + 1] = new_entry;
+    memcpy(&entries[di->refs + 1], &new_entry, sizeof(dirent_t));
     di->size += sizeof(dirent_t);
     di->refs++;
-    printf("DEBUG: directory_put(%s, %i) -> %i\n", name, inum, 1);
+    printf("DEBUG: directory_put(%s, %i) -> {Name: %s, Inum: %i}\n", name, inum, entries[di->refs].name, nentries[di->refs].inum);
     return 1; 
 }
 

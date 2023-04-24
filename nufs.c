@@ -89,7 +89,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     dirent_t* entries = inode_get_block(node, 0);
 
     // go through each entry
-    for(int ii = 0; ii < node->refs; ++ii) {
+    for(int ii = 2; ii < node->refs; ++ii) {
       dirent_t entry = entries[ii];
       char *child = entry.name;
       strcat(child,"/");
