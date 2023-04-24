@@ -314,15 +314,19 @@ void get_parent(const char *path, char* str) {
 
 // set the child name to the given str
 void get_child(const char *path, char* str) {
-    printf("DEBUG: get_child(%s) -> Called Function.\n", path);
-    slist_t* path_names = slist_explode(path, '/');
+    assert(path[0] == '/');
+    char* dup = strdup(path);
+    dup += 1;
+
+    printf("DEBUG: get_child(%s) -> Called Function.\n", dup);
+    slist_t* path_names = slist_explode(dup, '/');
     slist_t* copy = path_names;
     while (copy->next) {
-        printf("DEBUG: get_child(%s) -> Current path name: %s\n", path, copy->data);
+        printf("DEBUG: get_child(%s) -> Current path name: %s\n", dup, copy->data);
         copy = copy->next; // NULL
     }
     memcpy(str, copy->data, strlen(copy->data));
     strncat("\0", str, 1);
-    printf("DEBUG: get_child(%s) -> Child: %s\n", path, str);
+    printf("DEBUG: get_child(%s) -> Child: %s\n", dup, str);
     slist_free(path_names);
 }
