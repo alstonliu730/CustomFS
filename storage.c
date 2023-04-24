@@ -170,8 +170,8 @@ int storage_mknod(const char *path, int mode) {
     }
 
     // get the names of the child and parent
-    char* dir = (char *) malloc(strlen(path) + 10);
-    char* sub = (char *) malloc(strlen(path) + 10);
+    char dir[strlen(path)];
+    char sub[strlen(path)];
     get_child(path, sub);
     get_parent(path, dir);
 
