@@ -57,5 +57,6 @@ slist_t *slist_explode(const char *text, char delim) {
   memcpy(part, text, plen);
   part[plen] = 0;
 
+  printf("DEBUG: slist_explode(%s, %c) -> (%p)\n", text, delim, slist_cons(part, rest));
   return slist_cons(part, rest);
 }
