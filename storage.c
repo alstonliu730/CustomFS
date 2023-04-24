@@ -322,5 +322,4 @@ void get_child(const char *path, char* str) {
     }
 
     str += strlen(path) - wordLen;
-    return str;
 }
