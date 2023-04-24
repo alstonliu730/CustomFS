@@ -317,11 +317,22 @@ void get_parent(const char *path, char* str) {
 void get_child(const char *path, char* str) {
     // DEBUG: Enter in the function
     printf("DEBUG: get_child(%s) -> Called Function.\n", path);
-    assert(path[0] == '/');
-    slist_t* path_names = slist_explode(str, '/');
-    
+    slist_t* path_names = slist_explode(path, '/');
+    slist_t* copy = path_names;
+    printf("DEBUG: get_child(%s) -> Exploding path into an slist\n");
+    print_list(copy);
+    // the case where the first string is a slash
+    if(copy->data == "" && copy->next) {
+        copy = copy->next; // go to the next case
+    }
     // go through the list until the last one
-
+    while(copy->next || copy->next->data != "") {
+        printf("DEBUG: get_child(%s) -> Curr Name: %s\n", path, copy->data);
+        copy = copy->next; // skip to the end
+    }
+    strcpy(str, copy->data);
+    slist_free(path_names);
+    
     // DEBUG: Output of the function
-    //printf("DEBUG: get_child(%s) -> Child: %s\n", str);
+    printf("DEBUG: get_child(%s) -> Child: %s\n", str);
 }
