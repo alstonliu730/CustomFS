@@ -322,14 +322,17 @@ void get_child(const char *path, char* str) {
     printf("DEBUG: get_child(%s) -> Exploding path into an slist\n", path);
     print_list(copy);
     // the case where the first string is a slash
-    if(copy->data == "" && copy->next) {
+    if(!strcmp(copy->data, "") && copy->next) {
         copy = copy->next; // go to the next case
     }
+
     // go through the list until the last one
-    while(copy->next || copy->next->data != "") {
+    while(copy->next || !strcmp(copy->data, "")) {
         printf("DEBUG: get_child(%s) -> Curr Name: %s\n", path, copy->data);
         copy = copy->next; // skip to the end
     }
+
+    // copy data into the string
     strcpy(str, copy->data);
     slist_free(path_names);
 

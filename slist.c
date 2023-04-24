@@ -63,7 +63,7 @@ slist_t *slist_explode(const char *text, char delim) {
 
 void print_list(slist_t *list) {
   while (list != NULL) {
-    printf("%s.\n", list->data);
+    printf("%s\n", list->data);
     list = list->next;
   }
 }
