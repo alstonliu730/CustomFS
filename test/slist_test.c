@@ -11,11 +11,10 @@ int main(int argc, char **argv) {
   print_list(list1);
 
   // Try splitting
-  const char *str =
-      "Each|of|these|words|should|be|a|separate|entry|except these three";
+  const char *str = "/hello/dir1/dir2/test1/test2/whole lotta gang shit/hello.txt";
 
   printf("\nExploding \"%s\":\n", str);
-  slist_t *list2 = slist_explode(str, '|');
+  slist_t *list2 = slist_explode(str, '/');
 
   print_list(list2);
 
