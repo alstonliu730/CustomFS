@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "bitmap.h"
-#include "blocks.h"
+#include "../bitmap.h"
+#include "../blocks.h"
 
 #define TEST_NAME "block_test.img"
 

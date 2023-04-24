@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 
-#include "slist.h"
+#include "../slist.h"
 
 void print_list(slist_t *list) {
   while (list != NULL) {

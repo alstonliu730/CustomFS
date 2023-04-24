@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "bitmap.h"
+#include "../bitmap.h"
 
 #define SIZE 256
 
