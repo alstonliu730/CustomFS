@@ -199,7 +199,7 @@ int storage_mknod(const char *path, int mode) {
     node->refs = 1;
 
     // if the given path is a directory
-    if (mode >= 040755) {
+    if (mode == 040755) {
         printf("DEBUG: storage_mknod(%s, %i) -> Creating self and parent reference.\n", 
             path, mode);
         // set the child directory's default entries
