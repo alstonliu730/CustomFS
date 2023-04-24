@@ -209,6 +209,7 @@ int storage_mknod(const char *path, int mode) {
 
     directory_put(parent_node, sub, child_inum);
     printf("DEBUG: storage_mknod(%s, %i) -> (1)\n", path, mode);
+    print_directory(parent_node);
     return 1;
 }
 
