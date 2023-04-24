@@ -171,11 +171,11 @@ int storage_mknod(const char *path, int mode) {
     
     // get the names of the child and parent
     printf("DEBUG: storage_mknod(%s, %i) -> Getting name of parent.\n", path, mode);
-    char dir[strlen(path)];
+    char* dir[strlen(path)];
     get_parent(path, dir);
 
     printf("DEBUG: storage_mknod(%s, %i) -> Getting name of child.\n", path, mode);
-    char sub[DIR_NAME_LENGTH];
+    char* sub[DIR_NAME_LENGTH];
     get_child(path, sub);   
 
     // DEBUGGING
@@ -210,7 +210,7 @@ int storage_mknod(const char *path, int mode) {
     directory_put(parent_node, sub, child_inum);
     printf("DEBUG: storage_mknod(%s, %i) -> (1)\n", path, mode);
     print_directory(parent_node);
-    return 1;
+    return 0;
 }
 
 // unlink the given path from the disk
@@ -323,4 +323,5 @@ void get_child(const char *path, char* str) {
     }
 
     str += strlen(path) - wordLen;
+    str ++;
 }
