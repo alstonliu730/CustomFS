@@ -42,8 +42,8 @@ int directory_lookup(inode_t *di, const char *name) {
     printf("DEBUG: directory_lookup(%s) -> Called function\n", name);
 
     if (strcmp(name, "") == 0) {
-        fprintf(stderr, "ERROR: directory_lookup(%s) -> Given name is empty.\n", name);
-        return -1;
+        fprintf(stderr, "ERROR: directory_lookup(%s) -> Given name is empty. Returning root (0)\n", name);
+        return 0;
     }
 
     // gets subdirectories
@@ -66,6 +66,9 @@ int directory_lookup(inode_t *di, const char *name) {
 // Add an entry to the directory with the given name and inum
 int directory_put(inode_t *di, const char *name, int inum) {
     assert(di->mode == 040755);
+    // Debugging:
+    printf("DEBUG: directory_put(%s, %i) -> Called Function\n", name, inum);
+
     // get directory entries
     dirent_t *entries = inode_get_block(di, 0);
     
@@ -85,10 +88,12 @@ int directory_put(inode_t *di, const char *name, int inum) {
     new_entry.inum = inum;
     new_entry.used = 1;
     
+    print_inode(di);
     // add new entry to the list of entries
     memcpy(&entries[di->refs + 1], &new_entry, sizeof(dirent_t));
     di->size += sizeof(dirent_t);
     di->refs++;
+    print_inode(di);
     printf("DEBUG: directory_put(%s, %i) -> {Name: %s, Inum: %i}\n", name, inum, entries[di->refs].name, entries[di->refs].inum);
     return 1; 
 }
@@ -173,7 +178,7 @@ int path_lookup(const char* path) {
     // Get the path names
     slist_t* path_list = slist_explode(name, '/');
     slist_t* tmp = path_list;
-    
+
     int inum = nROOT;
     while(tmp) {
         //DEBUG: Get Path Names

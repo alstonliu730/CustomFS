@@ -208,7 +208,7 @@ int storage_mknod(const char *path, int mode) {
     }
 
     directory_put(parent_node, sub, child_inum);
-    printf("DEBUG: storage_mknod(%s, %i) -> (1)\n", path, mode);
+    printf("DEBUG: storage_mknod(%s, %i) -> Printing directory entries\n", path, mode);
     print_directory(parent_node);
     return 0;
 }
@@ -321,6 +321,7 @@ void get_child(const char *path, char* str) {
     slist_t* copy = path_names;
     printf("DEBUG: get_child(%s) -> Exploding path into an slist\n", path);
     print_list(copy);
+    
     // the case where the first string is a slash
     if(!strcmp(copy->data, "") && copy->next) {
         copy = copy->next; // go to the next case
