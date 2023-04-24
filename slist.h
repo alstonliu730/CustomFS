@@ -44,4 +44,13 @@ void slist_free(slist_t *xs);
  */
 slist_t *slist_explode(const char *text, char delim);
 
+/**
+ * Prints the entire linked list.
+ * 
+ * @param list List of strings to print
+ * 
+ * @return prints each data to the console
+*/
+void print_list(slist_t *list);
+
 #endif
