@@ -318,6 +318,7 @@ void get_child(const char *path, char* str) {
     slist_t* path_names = slist_explode(path, '/');
     slist_t* copy = path_names;
     while (copy->next) {
+        printf("DEBUG: get_child(%s) -> Current path name: %s\n", path, copy->data);
         copy = copy->next; // NULL
     }
     memcpy(str, copy->data, strlen(copy->data));
