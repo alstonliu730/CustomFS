@@ -60,3 +60,10 @@ slist_t *slist_explode(const char *text, char delim) {
   printf("DEBUG: slist_explode(%s, %c) -> (%p)\n", text, delim, slist_cons(part, rest));
   return slist_cons(part, rest);
 }
+
+void print_list(slist_t *list) {
+  while (list != NULL) {
+    printf("%s\n", list->data);
+    list = list->next;
+  }
+}
