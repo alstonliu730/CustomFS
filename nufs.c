@@ -33,7 +33,7 @@ int nufs_getattr(const char *path, struct stat *st) {
   int rv = storage_stat(path, st);
   if (rv < 0) {
     fprintf(stderr, "ERROR: nufs_getattr(%s) -> (%i)\n", path, rv);
-    return -1;
+    return -ENOENT;
   } else {
     printf("DEBUG: getattr(%s) -> (%d) {mode: %04o, size: %ld}\n", 
       path, rv, st->st_mode, st->st_size);
@@ -75,7 +75,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     fprintf(stderr, "ERROR: nufs_readdir(%s, %p, %ld) -> Cannot get inode from path!\n",
       path, buf, offset);
     free(parent);
-    return -1;
+    return -ENOENT;
   }
 
   // get the inode from the path
@@ -104,7 +104,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
       filler(buf, child, &st, 0);
     }
   }
-  
+
   return rv;
 }
 
@@ -113,7 +113,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // Note, for this assignment, you can alternatively implement the create
 // function.
 int nufs_mknod(const char *path, mode_t mode, dev_t rdev) {
-  printf("mknod(%s, %04o) -> Function called.\n", path, mode);
+  printf("DEBUG: nufs_mknod(%s, %04o) -> Function called.\n", path, mode);
   int rv = storage_mknod(path, mode);
   printf("mknod(%s, %04o) -> %d\n", path, mode, rv);
   return rv;
@@ -170,7 +170,7 @@ int nufs_truncate(const char *path, off_t size) {
 // open files.
 // You can just check whether the file is accessible.
 int nufs_open(const char *path, struct fuse_file_info *fi) {
-  int rv = 0; // temp
+  int rv = nufs_access(path, 0);
   printf("open(%s) -> %d\n", path, rv);
   return rv;
 }
