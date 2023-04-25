@@ -204,6 +204,7 @@ int storage_mknod(const char *path, int mode) {
         // set the child directory's default entries
         directory_put(node, ".", child_inum);
         directory_put(node, "..", parent_inum);
+        node->refs = 2;
     } else {
         node->refs = 1;
     }
