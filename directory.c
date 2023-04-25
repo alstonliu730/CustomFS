@@ -187,7 +187,7 @@ int path_lookup(const char* path) {
     int inum = nROOT;
     while(tmp) {
         //DEBUG: Get Path Names
-        printf("DEBUG: path_lookup(%s) -> Path Name %s\n", name, tmp->data);
+        printf("DEBUG: path_lookup(%s) -> Path Name: %s\n", name, tmp->data);
         inum = directory_lookup(get_inode(inum), tmp->data);
         printf("DEBUG: path_lookup(%s) -> Inum: %i\n", name, inum);
         if(inum < 0) {

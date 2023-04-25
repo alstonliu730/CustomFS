@@ -303,6 +303,7 @@ void get_parent(const char *path, char* str) {
     printf("DEBUG: get_parent(%s) -> Called Function.\n", path);
     slist_t* path_names = slist_explode(path, '/');
     slist_t* copy = path_names;
+    str[0] = '\0';
     // the case where the first string is a slash
     if(!strcmp(copy->data, "") && copy->next) {
         strcat(str, "/"); // will always add the root
