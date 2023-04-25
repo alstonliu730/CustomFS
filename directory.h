@@ -7,6 +7,7 @@
 #define DIRECTORY_H
 
 #define DIR_NAME_LENGTH 48
+#define DIR_MODE 040775
 
 #include "blocks.h"
 #include "inode.h"
