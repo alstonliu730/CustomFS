@@ -199,7 +199,7 @@ int storage_mknod(const char *path, int mode) {
     node->refs = 1;
 
     // if the given path is a directory
-    if (mode == 040755) {
+    if (mode == DIR_MODE) {
         printf("DEBUG: storage_mknod(%s, %i) -> Creating self and parent reference.\n", 
             path, mode);
         // set the child directory's default entries
@@ -321,7 +321,7 @@ void get_child(const char *path, char* str) {
     slist_t* copy = path_names;
     printf("DEBUG: get_child(%s) -> Exploding path into an slist\n", path);
     print_list(copy);
-    
+
     // the case where the first string is a slash
     if(!strcmp(copy->data, "") && copy->next) {
         copy = copy->next; // go to the next case
