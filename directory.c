@@ -84,7 +84,7 @@ int directory_put(inode_t *di, const char *name, int inum) {
     }
 
     // set properties of entry
-    strncpy(new_entry.name, name, nameLen); // copy name to entry
+    strcpy(new_entry.name, name); // copy name to entry
     new_entry.inum = inum;
     new_entry.used = 1;
     
