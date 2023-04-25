@@ -92,8 +92,11 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     for(int ii = 2; ii < node->refs; ++ii) {
       dirent_t entry = entries[ii];
       char *child = entry.name;
-      strcat(child,"/");
-      char *child_path = strcat(child, path);
+      char *child_path = child;
+      if (strcmp(path, "/")) {
+        child_path = strcat("/", child_path);
+      }
+      child_path = strcat(path, child_path);
       printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Child Path: %s\n", 
         path, buf, offset, child_path);
       
