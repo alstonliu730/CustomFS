@@ -306,12 +306,13 @@ void get_parent(const char *path, char* str) {
     str[0] = '\0';
     // the case where the first string is a slash
     if(!strcmp(copy->data, "") && copy->next) {
+        strcat(str, "/"); // will always add the root
         copy = copy->next; // go to the next case
     }
 
     while (copy->next) {
         printf("DEBUG: get_parent(%s) -> str: %s\n", path, str);
-        strcat(str, "/"); // will always add the root
+        strcat(str, "/"); 
         strncat(str, copy->data, strlen(copy->data) + 1);
         copy = copy->next;
     }
