@@ -73,7 +73,7 @@ int directory_put(inode_t *di, const char *name, int inum) {
     dirent_t *entries = inode_get_block(di, 0);
     
     // prepare the entry
-    dirent_t* new_entry = &entries[di->refs + 1];
+    dirent_t new_entry;
     int nameLen = strlen(name) + 1;
     if(di->size + nameLen + sizeof(inum) > BLOCK_SIZE) {
         fprintf(stderr, "ERROR: directory_put(%s, %i) -> Exceeds Size limit.\n", name, inum);
@@ -84,16 +84,17 @@ int directory_put(inode_t *di, const char *name, int inum) {
     }
 
     // set properties of entry
-    strcpy(new_entry->name, name); // copy name to entry
-    new_entry->inum = inum;
-    new_entry->used = 1;
+    strcpy(new_entry.name, name); // copy name to entry
+    new_entry.inum = inum;
+    new_entry.used = 1;
     
     print_inode(di);
-    // change inode properties
+    // add new entry to the list of entries
+    memcpy(&entries[di->refs], &new_entry, sizeof(dirent_t));
+    printf("DEBUG: directory_put(%s, %i) -> {Name: %s, Inum: %i}\n", name, inum, entries[di->refs].name, entries[di->refs].inum);
     di->size += sizeof(dirent_t);
     di->refs++;
     print_inode(di);
-    printf("DEBUG: directory_put(%s, %i) -> {Name: %s, Inum: %i}\n", name, inum, entries[di->refs].name, entries[di->refs].inum);
     return 1; 
 }
 
