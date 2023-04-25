@@ -82,8 +82,9 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   inode_t* node = get_inode(inum);
   
   // make sure this inode is a directory inode
-  assert(node->mode == 040755);
   print_inode(node);
+  assert(node->mode == 040755);
+  
 
   if(node->refs > 2) {
     // get the entries in this directory
