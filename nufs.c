@@ -96,7 +96,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
       if (strcmp(path, "/")) {
         child_path = strcat("/", child_path);
       }
-      child_path = strcat(path, child_path);
+      child_path = strcat(strdup(path), child_path);
       printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Child Path: %s\n", 
         path, buf, offset, child_path);
       
