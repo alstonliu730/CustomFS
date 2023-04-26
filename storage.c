@@ -74,7 +74,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     // ensure offset is valid
     if (offset > node->size || offset < 0) {
         fprintf(stderr, "ERROR: storage_read() -> Offset invalid.\n");
-        return -1;
+        return 0;
     }
 
     // read through the block
@@ -88,7 +88,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         char* end = start + BLOCK_SIZE;
 
         int bytesToRead;
-        if (bytesRem + file_ptr >= end) {
+        if (bytesRem + file_ptr > end) {
             bytesToRead = end - file_ptr;
         } else {
             bytesToRead = bytesRem;
@@ -157,8 +157,10 @@ int storage_truncate(const char *path, off_t size) {
     inode_t* node = get_inode(inum);
     if (node->size < size) {
         return grow_inode(node, (size - node->size));
-    } else {
+    } else if (size > node->size) {
         return shrink_inode(node, node->size - size);
+    } else {
+        return 0;
     }
 }
 
