@@ -77,6 +77,7 @@ int alloc_inode() {
         new_inode->blocks++;
     } else {
         fprintf(stderr, "ERROR: alloc_inode() -> No available blocks to fill.\n");
+        // TODO: make sure to reset this inode
         return -1;
     }
     printf("DEBUG: alloc_inode() -> %d\n", inum);

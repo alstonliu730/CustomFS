@@ -106,7 +106,7 @@ int directory_delete(inode_t *di, const char *name) {
     printf("DEBUG: directory_delete(%s) -> Attempting to delete!\n", name);
 
     // find the entry after the self and parent references
-    for(int ii = 2; ii < di->refs; ++ii) {
+    for(int ii = 0; ii < di->refs; ++ii) {
         // if name matches
         if(!strcmp(entries[ii].name, name) && entries[ii].used) {
             // found entry and delete any sub files
@@ -116,7 +116,7 @@ int directory_delete(inode_t *di, const char *name) {
     }
     // update number of links in the inode
     di->refs--;
-    
+    printf("DEBUG: directory_delete(%s) -> # of refs: %i\n", di->refs);
     // cannot find entry
     return -1;
 }
@@ -125,12 +125,13 @@ int directory_delete(inode_t *di, const char *name) {
 int delete_entry(dirent_t* entry) {
     // get the node from this entry
     inode_t *node = get_inode(entry->inum);
-    entry->used = 0; // set 
+    entry->used = 0; // free the entry
 
     // check if the entry is a file
     if(S_ISREG(node->mode)) {
         free_inode(entry->inum);
         memset(entry->name, 0, DIR_NAME_LENGTH);
+        entry->inum = -1;
         return 0;
     } 
     // case where the entry is a directory
