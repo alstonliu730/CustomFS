@@ -100,40 +100,48 @@ int directory_put(inode_t *di, const char *name, int inum) {
 
 // Delete an entry from the directory with the given name
 int directory_delete(inode_t *di, const char *name) {
+    assert(S_ISDIR(di->mode));
     // get directory entires
     dirent_t* entries = inode_get_block(di, 0);
     printf("DEBUG: directory_delete(%s) -> Attempting to delete!\n", name);
-    // find the entry
-    for(int ii = 0; ii < di->refs; ++ii) {
+
+    // find the entry after the self and parent references
+    for(int ii = 2; ii < di->refs; ++ii) {
         // if name matches
         if(!strcmp(entries[ii].name, name) && entries[ii].used) {
             // found entry and delete any sub files
-            delete_entry(entries[ii]);
+            delete_entry(&entries[ii]);
+            return 0;
         }
     }
+
+    // cannot find entry
+    return -1;
 }
 
 // RECURSIVE: deletes all data in the entry
-int delete_entry(dirent_t entry) {
+int delete_entry(dirent_t* entry) {
     // get the node from this entry
-    inode_t *node = get_inode(entry.inum);
-    entry.used = 0;
+    inode_t *node = get_inode(entry->inum);
+    entry->used = 0; // set 
 
     // check if the entry is a file
     if(S_ISREG(node->mode)) {
-        free_inode(entry.inum);
-        return 1;
+        free_inode(entry->inum);
+        memset(entry->name, 0, DIR_NAME_LENGTH);
+        return 0;
     } 
     // case where the entry is a directory
     else if(S_ISDIR(node->mode)) {
         dirent_t *entries = inode_get_block(node, 0);
+        // delete every entry in this directory
         for(int ii = 0; ii < node->refs; ++ii) {
-            delete_entry(entries[ii]);
+            delete_entry(&entries[ii]);
         }
-        return 1;
+        return 0;
     } else {
         // invalid file
-        return 0; // empty entry
+        return -1; // empty entry
     }
 }
 

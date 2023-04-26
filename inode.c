@@ -96,7 +96,7 @@ void free_inode(int inum) {
     shrink_inode(node, node->blocks*BLOCK_SIZE);
 
     // clear the bit at the given index number
-    bitmap_put(get_inode_bitmap(), inum, 0); 
+    bitmap_put(get_inode_bitmap(), inum, 0); // set inode bit to free 
     printf("DEBUG: free_inode(%d)\n", inum);
 }
 
@@ -154,7 +154,7 @@ int grow_inode(inode_t *node, int size) {
 int shrink_inode(inode_t *node, int size) {
     assert(node);
     assert(size > 0);
-    printf("DEBUG: shrink_inode(%i) -> Called Function", size);
+    printf("DEBUG: shrink_inode(%i) -> Called Function\n", size);
     // new size of inodes
     int new_size = node->blocks * BLOCK_SIZE - size;
     new_size = (new_size > 0) ? new_size : 0;
@@ -164,23 +164,27 @@ int shrink_inode(inode_t *node, int size) {
     
     // shrink the indirect pointers
     int* ptr_block = blocks_get_block(node->indirect);
-    if (node->blocks > MAX_BLOCKS) {
-        for(int idx = node->blocks - MAX_BLOCKS; idx >= 0 && idx >= (nBlocks - MAX_BLOCKS); --idx) {
-            free_block(ptr_block[idx]);
-            ptr_block[idx] = -1;
+    if (node->blocks >= MAX_BLOCKS) {
+        assert(node->indirect != -1);
+        int ind_blocks = node->blocks - MAX_BLOCKS;
+        int target = (nBlocks > MAX_BLOCKS) ? (nBlocks - MAX_BLOCKS) : 0;
+        int* ind_bnums = blocks_get_block(node->indirect);
+        for(int ii = ind_blocks - 1; ii >= target; --ii) {
+            free_block(ind_bnums[ii]);
         }
+        node->blocks -= (ind_blocks - target);
     }
 
     // shrink the direct pointers
-    if (nBlocks < MAX_BLOCKS) {
-        for(int ii = node->blocks - 1; ii > nBlocks; --ii) {
+    if (node->blocks < MAX_BLOCKS) {
+        for(int ii = node->blocks - 1; ii > node->blocks - nBlocks; --ii) {
             free_block(node->block[ii]);
             node->block[ii] = -1;
         }
     }
 
-    node->blocks = nBlocks;
-    return 1;
+    assert(node->blocks == nBlocks);
+    return 0;
 }
 
 // file block number is the offset in this inode in bytes

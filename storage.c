@@ -59,7 +59,6 @@ int storage_stat(const char *path, struct stat *st) {
 int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     printf("DEBUG: storage_read(%s, %s, %zu, %d) -> Function called\n",
         path, buf, size, (int)offset);
-    
     // get the node from the path
     int inum = path_lookup(path);
     if (inum < 0) {
@@ -70,7 +69,8 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
 
     // get inode of the path
     inode_t* node = get_inode(inum);
-    
+    assert(S_ISREG(node->mode));
+
     // ensure offset is valid
     if (offset > node->size || offset < 0) {
         fprintf(stderr, "ERROR: storage_read() -> Offset invalid.\n");
@@ -230,7 +230,7 @@ int storage_unlink(const char *path) {
         free(dir);
         return -1;
     }
-
+    
     inode_t* parent_node = get_inode(parent_inum);
     int del = directory_delete(parent_node, sub);
     printf("DEBUG: storage_unlink(%s) -> (%i)\n", path, del);
