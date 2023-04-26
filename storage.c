@@ -136,13 +136,13 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
     while (bytesWritten < size) {
         // get address point to the offset in the data block
         int bnum = inode_get_bnum(node, offset + bytesWritten);
-        char* start = inode_get_block(node, bnum);
+        char* start = (char *) inode_get_block(node, bnum);
         char* file_ptr = start + ((offset + bytesWritten) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
-
+        printf("DEBUG: storage_write() -> {start: %c}\n", start);
         // calculate how many bytes to write to buffer
-        int bytesToWrite;
-        if (bytesRem + file_ptr >= end) {
+        size_t bytesToWrite;
+        if (bytesRem + file_ptr >=  end) {
             bytesToWrite = end - file_ptr;
         } else {
             bytesToWrite = bytesRem;
@@ -152,8 +152,10 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         memcpy(file_ptr + bytesWritten, buf + bytesWritten, bytesToWrite);
         bytesWritten += bytesToWrite;
         bytesRem -= bytesToWrite;
+        printf("DEBUG: storage_write() -> Written:\"%s\"\n", (file_ptr + bytesWritten));
     }
-    printf("DEBUG: storage_write(%s, %s, %zu, %d) -> (1)\n", path, buf, size, (int)offset);
+    printf("DEBUG: storage_write(%s, %s, %zu, %d) -> (%i)\n", 
+        path, buf, size, (int)offset, bytesWritten);
     return bytesWritten;
 }
 
