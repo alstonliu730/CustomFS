@@ -114,7 +114,9 @@ int directory_delete(inode_t *di, const char *name) {
             return 0;
         }
     }
-
+    // update number of links in the inode
+    di->refs--;
+    
     // cannot find entry
     return -1;
 }
