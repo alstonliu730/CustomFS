@@ -160,14 +160,14 @@ int shrink_inode(inode_t *node, int size) {
     new_size = (new_size > 0) ? new_size : 0;
 
     // new size in blocks
-    uint16_t nBlocks = bytes_to_blocks(new_size);
+    uint16_t new_size_blocks = bytes_to_blocks(new_size);
     
     // shrink the indirect pointers
     int* ptr_block = blocks_get_block(node->indirect);
     if (node->blocks >= MAX_BLOCKS) {
         assert(node->indirect != -1);
         int ind_blocks = node->blocks - MAX_BLOCKS;
-        int target = (nBlocks > MAX_BLOCKS) ? (nBlocks - MAX_BLOCKS) : 0;
+        int target = (new_size_blocks > MAX_BLOCKS) ? (new_size_blocks - MAX_BLOCKS) : 0;
         int* ind_bnums = blocks_get_block(node->indirect);
         for(int ii = ind_blocks - 1; ii >= target; --ii) {
             free_block(ind_bnums[ii]);
@@ -177,13 +177,13 @@ int shrink_inode(inode_t *node, int size) {
 
     // shrink the direct pointers
     if (node->blocks < MAX_BLOCKS) {
-        for(int ii = node->blocks - 1; ii > node->blocks - nBlocks; --ii) {
+        for(int ii = node->blocks - 1; ii >= node->blocks - new_size_blocks; --ii) {
             free_block(node->block[ii]);
             node->block[ii] = -1;
         }
     }
 
-    assert(node->blocks == nBlocks);
+    assert(node->blocks == new_size_blocks);
     return 0;
 }
 
