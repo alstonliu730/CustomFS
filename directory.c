@@ -116,7 +116,7 @@ int directory_delete(inode_t *di, const char *name) {
     }
     // update number of links in the inode
     di->refs--;
-    printf("DEBUG: directory_delete(%s) -> # of refs: %i\n", di->refs);
+    printf("DEBUG: directory_delete(%s) -> # of refs: %i\n", name, di->refs);
     // cannot find entry
     return -1;
 }
