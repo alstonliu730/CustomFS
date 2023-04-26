@@ -82,7 +82,8 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     int bytesRem = size;
     while (bytesRead < size) {
         // get address pointing to the offset in the data block
-        char* start = inode_get_block(node, offset + bytesRead);
+        int bnum = inode_get_bnum(node, offset + bytesRead);
+        char* start = inode_get_block(node, bnum);
         char* file_ptr = start + ((offset + bytesRead) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
 
@@ -99,7 +100,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     }
     printf("DEBUG: storage_read(%s, %s, %zu, %d) -> (0)\n",
             path, buf, size, (int)offset);
-    return 0;
+    return bytesRead;
 }
 
 // writes the file at this path from the buffer with the number of size bytes.
@@ -122,7 +123,8 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
     int bytesRem = size;
     while (bytesWritten < size) {
         // get address point to the offset in the data block
-        char* start = inode_get_block(node, offset + bytesWritten);
+        int bnum = inode_get_bnum(node, offset + bytesWritten);
+        char* start = inode_get_block(node, bnum);
         char* file_ptr = start + ((offset + bytesWritten) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
 
@@ -140,7 +142,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         bytesRem -= bytesToWrite;
     }
     printf("DEBUG: storage_write(%s, %s, %zu, %d) -> (1)\n", path, buf, size, (int)offset);
-    return 1;
+    return bytesWritten;
 }
 
 // truncate the file to the given size
