@@ -105,20 +105,31 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
 
 // writes the file at this path from the buffer with the number of size bytes.
 int storage_write(const char *path, const char *buf, size_t size, off_t offset) {
-    int size_change = storage_truncate(path, offset + size);
-    if(size_change < 0) {
-        fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Failed to truncate file.\n",
-            path, buf, size, (int)offset);
-        return -1;
-    }
-
-    if(path_lookup(path) < 0) {
+    printf("DEBUG: storage_write(%s, %s, %zu, %d) -> Called Function.\n",
+        path, buf, size, (int)offset);
+        
+    // case where the file can't be found
+    int inum = path_lookup(path);
+    if(inum < 0) {
         fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Could not get inode from path.\n",
             path, buf, size, (int)offset);
         return -1;
     }
 
-    inode_t* node = get_inode(path_lookup(path));
+    // if the file needs more space
+    inode_t* node = get_inode(inum);
+    if(offset + size > node->blocks * BLOCK_SIZE) {
+        printf("DEBUG: storage_write(%s, %s, %zu, %d) -> Size change: %i\n",
+            path, buf, size, (int)offset, offset + size);
+        int size_change = storage_truncate(path, offset + size);
+        if(size_change < 0) {
+            fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Failed to truncate file.\n",
+                path, buf, size, (int)offset);
+            return -1;
+        }
+    }
+
+    // prepare writing variables
     int bytesWritten = 0;
     int bytesRem = size;
     while (bytesWritten < size) {
