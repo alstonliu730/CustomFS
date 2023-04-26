@@ -217,6 +217,7 @@ int storage_mknod(const char *path, int mode) {
 
 // unlink the given path from the disk
 int storage_unlink(const char *path) {
+    printf("DEBUG: storage_unlink(%s) -> Called Function.\n", path);
     // get the names of the child and parent
     char* dir = (char *) malloc(strlen(path) + 10);
     char* sub = (char *) malloc(strlen(path) + 10);

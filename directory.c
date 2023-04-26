@@ -111,12 +111,14 @@ int directory_delete(inode_t *di, const char *name) {
         if(!strcmp(entries[ii].name, name) && entries[ii].used) {
             // found entry and delete any sub files
             delete_entry(&entries[ii]);
+            // update number of links in the inode
+            di->refs--;
+            printf("DEBUG: directory_delete(%s) -> # of refs: %i\n", name, di->refs);
             return 0;
         }
     }
-    // update number of links in the inode
-    di->refs--;
-    printf("DEBUG: directory_delete(%s) -> # of refs: %i\n", name, di->refs);
+    
+    fprintf(stderr, "ERROR: directory_delete(%s) -> Cannot find entry with given name!\n");
     // cannot find entry
     return -1;
 }
