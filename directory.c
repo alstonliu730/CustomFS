@@ -118,7 +118,7 @@ int directory_delete(inode_t *di, const char *name) {
         }
     }
     
-    fprintf(stderr, "ERROR: directory_delete(%s) -> Cannot find entry with given name!\n");
+    fprintf(stderr, "ERROR: directory_delete(%s) -> Cannot find entry with given name!\n", name);
     // cannot find entry
     return -1;
 }
