@@ -94,7 +94,11 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
             bytesToRead = bytesRem;
         }
 
-        memcpy(buf + bytesRead, file_ptr, bytesToRead);
+        // memcpy(buf + bytesRead, file_ptr, bytesToRead);
+        for(int ii = 0; ii < bytesToRead; ++ii) {
+            memset(&buf[ii + bytesRead], file_ptr[ii + bytesRead], sizeof(char));
+            printf("DEBUG: storage_read() -> Letter read: %c\n", buf[ii + bytesRead]);
+        }
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
     }
@@ -142,7 +146,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         printf("DEBUG: storage_write() -> {start: %p}\n", start);
         // calculate how many bytes to write to buffer
         size_t bytesToWrite;
-        if (bytesRem + file_ptr >=  end) {
+        if (bytesRem + file_ptr > end) {
             bytesToWrite = end - file_ptr;
         } else {
             bytesToWrite = bytesRem;
@@ -153,7 +157,6 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         for(int ii = 0; ii < bytesToWrite; ++ii) {
             memset(&file_ptr[ii + bytesWritten], buf[ii + bytesWritten], sizeof(char));
             printf("DEBUG: storage_write() -> Letter written: %c\n", file_ptr[ii + bytesWritten]);
-            
         }
         bytesWritten += bytesToWrite;
         bytesRem -= bytesToWrite;
