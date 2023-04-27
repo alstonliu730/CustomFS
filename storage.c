@@ -153,8 +153,9 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         for(int ii = 0; ii < bytesToWrite; ++ii) {
             memset(&file_ptr[ii + bytesWritten], buf[ii + bytesWritten], sizeof(char));
             printf("DEBUG: storage_write() -> Letter written: %c\n", file_ptr[ii + bytesWritten]);
-            bytesWritten++;
+            
         }
+        bytesWritten += bytesToWrite;
         bytesRem -= bytesToWrite;
         // printf("DEBUG: storage_write() -> Written:\"%s\"\n", (file_ptr + bytesWritten));
     }
