@@ -104,8 +104,8 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
     }
-    printf("DEBUG: storage_read(%s, %s, %zu, %d) -> (0)\n",
-            path, buf, size, (int)offset);
+    printf("DEBUG: storage_read(%s, %s, %zu, %d) -> (%i)\n",
+            path, buf, size, (int)offset, bytesRead);
     return bytesRead;
 }
 
