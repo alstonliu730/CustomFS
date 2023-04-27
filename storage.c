@@ -95,9 +95,11 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         }
 
         // memcpy(buf + bytesRead, file_ptr, bytesToRead);
-        for(int ii = 0; ii < bytesToRead; ++ii) {
+        int ii = 0;
+        while(ii < bytesToRead && strcmp(file_ptr[ii + bytesRead], "")) {
             memset(&buf[ii + bytesRead], file_ptr[ii + bytesRead], sizeof(char));
             printf("DEBUG: storage_read() -> Letter read: %c\n", buf[ii + bytesRead]);
+            ++ii;
         }
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
