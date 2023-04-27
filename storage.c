@@ -96,7 +96,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
 
         // memcpy(buf + bytesRead, file_ptr, bytesToRead);
         int ii = 0;
-        while(ii < bytesToRead && strcmp(file_ptr[ii + bytesRead], "")) {
+        while(ii < bytesToRead && strcmp(file_ptr[ii + bytesRead], "\0")) {
             memset(&buf[ii + bytesRead], file_ptr[ii + bytesRead], sizeof(char));
             printf("DEBUG: storage_read() -> Letter read: %c\n", buf[ii + bytesRead]);
             ++ii;
@@ -164,6 +164,11 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         bytesRem -= bytesToWrite;
         // printf("DEBUG: storage_write() -> Written:\"%s\"\n", (file_ptr + bytesWritten));
     }
+    // update the inode with the new size
+    if (size + offset > node->size) {
+        node->size = size + offset;
+    }
+    
     printf("DEBUG: storage_write(%s, %s, %zu, %d) -> (%i)\n", 
         path, buf, size, (int)offset, bytesWritten);
     return bytesWritten;
