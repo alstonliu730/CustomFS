@@ -109,20 +109,20 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         bytesRead += bytesToRead;
     }
     printf("DEBUG: storage_read(%s, %zu, %d) -> (%i)\n",
-            path, buf, size, (int)offset, bytesRead);
+            path, size, (int)offset, bytesRead);
     return bytesRead;
 }
 
 // writes the file at this path from the buffer with the number of size bytes.
 int storage_write(const char *path, const char *buf, size_t size, off_t offset) {
-    printf("DEBUG: storage_write(%s, %s, %zu, %d) -> Called Function.\n",
-        path, buf, size, (int)offset);
+    printf("DEBUG: storage_write(%s, %zu, %d) -> Called Function.\n",
+        path, size, (int)offset);
 
     // case where the file can't be found
     int inum = path_lookup(path);
     if(inum < 0) {
-        fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Could not get inode from path.\n",
-            path, buf, size, (int)offset);
+        fprintf(stderr, "ERROR: storage_write(%s, %zu, %d) -> Could not get inode from path.\n",
+            path, size, (int)offset);
         return -1;
     }
 
@@ -130,12 +130,12 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
     inode_t* node = get_inode(inum);
     int new_size = offset + size;
     if(new_size > node->blocks * BLOCK_SIZE) {
-        printf("DEBUG: storage_write(%s, %s, %zu, %d) -> Size change: %i\n",
-            path, buf, size, (int)offset, new_size);
+        printf("DEBUG: storage_write(%s, %zu, %d) -> Size change: %i\n",
+            path, size, (int)offset, new_size);
         int size_change = storage_truncate(path, new_size);
         if(size_change < 0) {
             fprintf(stderr, "ERROR: storage_write(%s, %zu, %d) -> Failed to truncate file.\n",
-                path, buf, size, (int)offset);
+                path, size, (int)offset);
             return -1;
         }
     }
@@ -154,6 +154,8 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         char* file_ptr = start + ((offset + bytesWritten) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
         printf("DEBUG: storage_write() -> {start: %p}\n", start);
+        printf("DEBUG: storage_write() -> {file_ptr: %p}\n", file_ptr);
+        printf("DEBUG: storage_write() -> {start: %p}\n", end);
         
         // calculate how many bytes to write to buffer
         size_t bytesToWrite;
@@ -167,7 +169,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         //memcpy(file_ptr + bytesWritten, buf + bytesWritten, bytesToWrite);
         for(int ii = 0; ii < bytesToWrite; ++ii) {
             memset(&file_ptr[ii + bytesWritten], buf[ii + bytesWritten], sizeof(char));
-            printf("DEBUG: storage_write() -> Letter written: %c\n", file_ptr[ii + bytesWritten]);
+            //printf("DEBUG: storage_write() -> Letter written: %c\n", file_ptr[ii + bytesWritten]);
         }
         bytesWritten += bytesToWrite;
         bytesRem -= bytesToWrite;
@@ -179,7 +181,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
     }
 
     printf("DEBUG: storage_write(%s, %zu, %d) -> (%i)\n", 
-        path, buf, size, (int)offset, bytesWritten);
+        path, size, (int)offset, bytesWritten);
     return bytesWritten;
 }
 
