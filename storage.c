@@ -80,9 +80,13 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     // read through the block
     int bytesRead = 0;
     int bytesRem = size;
-    while (bytesRead < size) {
+    while (bytesRead <= size) {
         // get address pointing to the offset in the data block
         int bnum = inode_get_bnum(node, offset + bytesRead);
+        if (bnum < 0) {
+            fprintf(stderr, "ERROR: storage_read() -> cannot find bnum at this point: %ld\n", offset + bytesRead);
+            return bytesRead;
+        }
         char* start = inode_get_block(node, bnum);
         char* file_ptr = start + ((offset + bytesRead) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
@@ -104,7 +108,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
     }
-    printf("DEBUG: storage_read(%s, %s, %zu, %d) -> (%i)\n",
+    printf("DEBUG: storage_read(%s, %zu, %d) -> (%i)\n",
             path, buf, size, (int)offset, bytesRead);
     return bytesRead;
 }
@@ -130,7 +134,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
             path, buf, size, (int)offset, new_size);
         int size_change = storage_truncate(path, new_size);
         if(size_change < 0) {
-            fprintf(stderr, "ERROR: storage_write(%s, %s, %zu, %d) -> Failed to truncate file.\n",
+            fprintf(stderr, "ERROR: storage_write(%s, %zu, %d) -> Failed to truncate file.\n",
                 path, buf, size, (int)offset);
             return -1;
         }
@@ -142,13 +146,18 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
     while (bytesWritten < size) {
         // get address point to the offset in the data block
         int bnum = inode_get_bnum(node, offset + bytesWritten);
+        if (bnum < 0) {
+            fprintf(stderr, "ERROR: storage_write() -> cannot find bnum\n");
+            return (bytesWritten > 0) ? bytesWritten : -1;
+        }
         char* start = (char *) inode_get_block(node, bnum);
         char* file_ptr = start + ((offset + bytesWritten) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
         printf("DEBUG: storage_write() -> {start: %p}\n", start);
+        
         // calculate how many bytes to write to buffer
         size_t bytesToWrite;
-        if (bytesRem + file_ptr > end) {
+        if (file_ptr + bytesRem > end) {
             bytesToWrite = end - file_ptr;
         } else {
             bytesToWrite = bytesRem;
@@ -169,7 +178,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         node->size = size + offset;
     }
 
-    printf("DEBUG: storage_write(%s, %s, %zu, %d) -> (%i)\n", 
+    printf("DEBUG: storage_write(%s, %zu, %d) -> (%i)\n", 
         path, buf, size, (int)offset, bytesWritten);
     return bytesWritten;
 }
