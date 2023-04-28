@@ -155,7 +155,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         char* end = start + BLOCK_SIZE;
         printf("DEBUG: storage_write() -> {start: %p}\n", start);
         printf("DEBUG: storage_write() -> {file_ptr: %p}\n", file_ptr);
-        printf("DEBUG: storage_write() -> {start: %p}\n", end);
+        printf("DEBUG: storage_write() -> {end: %p}\n", end);
         
         // calculate how many bytes to write to buffer
         size_t bytesToWrite;
