@@ -98,7 +98,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         } else {
             bytesToRead = bytesRem;
         }
-        printf("DEBUG: storage_read() -> Difference in pointer: %i\n", bytesToRead);
+        printf("DEBUG: storage_read() -> bytes to read: %i\n", bytesToRead);
 
         // memcpy(buf + bytesRead, file_ptr, bytesToRead);
         int ii = 0;
@@ -155,18 +155,19 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         char* start = (char *) inode_get_block(node, bnum);
         char* file_ptr = start + ((offset + bytesWritten) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
-        printf("DEBUG: storage_write() -> {start: %p}\n", start);
-        printf("DEBUG: storage_write() -> {file_ptr: %p}\n", file_ptr);
-        printf("DEBUG: storage_write() -> {end: %p}\n", end);
+        // printf("DEBUG: storage_write() -> {start: %p}\n", start);
+        // printf("DEBUG: storage_write() -> {file_ptr: %p}\n", file_ptr);
+        // printf("DEBUG: storage_write() -> {end: %p}\n", end);
         
         // calculate how many bytes to write to buffer
-        size_t bytesToWrite;
-        if (file_ptr + bytesRem > end) {
+        int bytesToWrite;
+        char* target = file_ptr + bytesRem;
+        if (target > end) {
             bytesToWrite = end - file_ptr;
         } else {
             bytesToWrite = bytesRem;
         }
-
+        printf("DEBUG: storage_write() -> bytes to write: %i\n", bytesToWrite);
         // write to buffer and update inode
         //memcpy(file_ptr + bytesWritten, buf + bytesWritten, bytesToWrite);
         for(int ii = 0; ii < bytesToWrite; ++ii) {
