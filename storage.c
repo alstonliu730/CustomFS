@@ -92,19 +92,19 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         char* end = start + BLOCK_SIZE;
 
         int bytesToRead;
-        int p1 = (int) (file_ptr + bytesRem);
-        int p2 = (int) (end);
-        if (p1 > p2) {
+        char* target = file_ptr + bytesRem;
+        if (target > end) {
             bytesToRead = end - file_ptr;
         } else {
             bytesToRead = bytesRem;
         }
+        printf("DEBUG: storage_read() -> Difference in pointer: %i\n");
 
         // memcpy(buf + bytesRead, file_ptr, bytesToRead);
         int ii = 0;
         while(ii < bytesToRead && file_ptr[ii + bytesRead] != '\0') {
             memset(&buf[ii + bytesRead], file_ptr[ii + bytesRead], sizeof(char));
-            printf("DEBUG: storage_read() -> Letter read: %c\n", buf[ii + bytesRead]);
+            //printf("DEBUG: storage_read() -> Letter read: %c\n", buf[ii + bytesRead]);
             ++ii;
         }
         bytesRem -= bytesToRead;
