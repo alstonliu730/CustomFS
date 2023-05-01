@@ -92,7 +92,9 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         char* end = start + BLOCK_SIZE;
 
         int bytesToRead;
-        if ((int) (bytesRem + file_ptr) > (int) end) {
+        int p1 = (int) (file_ptr + bytesRem);
+        int p2 = (int) (end);
+        if (p1 > p2) {
             bytesToRead = end - file_ptr;
         } else {
             bytesToRead = bytesRem;
