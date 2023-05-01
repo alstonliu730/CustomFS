@@ -98,7 +98,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         } else {
             bytesToRead = bytesRem;
         }
-        printf("DEBUG: storage_read() -> Difference in pointer: %i\n");
+        printf("DEBUG: storage_read() -> Difference in pointer: %i\n", bytesToRead);
 
         // memcpy(buf + bytesRead, file_ptr, bytesToRead);
         int ii = 0;
