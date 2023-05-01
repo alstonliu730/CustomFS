@@ -141,12 +141,14 @@ int delete_entry(dirent_t* entry) {
         dirent_t *entries = inode_get_block(node, 0);
         // delete every entry in this directory
         for(int ii = 0; ii < node->refs; ++ii) {
-            delete_entry(&entries[ii]);
+            if(entries[ii].used) {
+                delete_entry(&entries[ii]);
+            }
         }
         return 0;
     } else {
-        // invalid file
-        return -1; // empty entry
+        // empty directory / file
+        return 0; // empty entry
     }
 }
 

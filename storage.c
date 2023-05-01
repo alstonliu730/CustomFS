@@ -80,7 +80,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     // read through the block
     int bytesRead = 0;
     int bytesRem = size;
-    while (bytesRead <= size) {
+    while (bytesRead < size) {
         // get address pointing to the offset in the data block
         int bnum = inode_get_bnum(node, offset + bytesRead);
         if (bnum < 0) {
@@ -92,7 +92,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         char* end = start + BLOCK_SIZE;
 
         int bytesToRead;
-        if (bytesRem + file_ptr > end) {
+        if ((int) (bytesRem + file_ptr) > (int) end) {
             bytesToRead = end - file_ptr;
         } else {
             bytesToRead = bytesRem;
