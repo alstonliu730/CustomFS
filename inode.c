@@ -198,7 +198,7 @@ int inode_get_bnum(inode_t *node, int offset) {
     printf("DEBUG: inode_get_bnum(%i) -> Called Function\n", offset);
     int nBlocks = offset / BLOCK_SIZE;
     if(nBlocks < MAX_BLOCKS) {
-        printf("DEBUG: inode_get_bnum(%i) -> Direct bnum: %i\n", offset, nBlocks);
+        printf("DEBUG: inode_get_bnum(%i) -> Direct bnum: %i\n", offset, node->block[nBlocks]);
         return node->block[nBlocks];
     } else {
         int *ind_block = blocks_get_block(node->indirect);
