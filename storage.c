@@ -191,7 +191,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
 
 // truncate the file to the given size
 int storage_truncate(const char *path, size_t size) {
-    prinf("DEBUG: storage_truncate(%s, %zu) -> Called Function\n", path, size);
+    printf("DEBUG: storage_truncate(%s, %zu) -> Called Function\n", path, size);
     int inum = path_lookup(path);
     if(inum < 0) {
         fprintf(stderr, "ERROR: storage_truncate(%s, %zu) -> Could not get inode from path.\n",
