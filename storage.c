@@ -87,7 +87,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
             fprintf(stderr, "ERROR: storage_read() -> cannot find bnum at this point: %ld\n", offset + bytesRead);
             return bytesRead;
         }
-        char* start = inode_get_block(node, bnum);
+        char* start = blocks_get_block(bnum);
         char* file_ptr = start + ((offset + bytesRead) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
 
@@ -153,7 +153,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
             fprintf(stderr, "ERROR: storage_write() -> cannot find bnum\n");
             return (bytesWritten > 0) ? bytesWritten : -1;
         }
-        char* start = (char *) inode_get_block(node, bnum);
+        char* start = blocks_get_block(bnum);
         char* file_ptr = start + ((offset + bytesWritten) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
         // printf("DEBUG: storage_write() -> {start: %p}\n", start);
@@ -190,7 +190,8 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
 }
 
 // truncate the file to the given size
-int storage_truncate(const char *path, off_t size) {
+int storage_truncate(const char *path, size_t size) {
+    prinf("DEBUG: storage_truncate(%s, %zu) -> Called Function\n", path, size);
     int inum = path_lookup(path);
     if(inum < 0) {
         fprintf(stderr, "ERROR: storage_truncate(%s, %zu) -> Could not get inode from path.\n",
@@ -200,6 +201,7 @@ int storage_truncate(const char *path, off_t size) {
 
     inode_t* node = get_inode(inum);
     if (node->size < size) {
+        prinf("DEBUG: storage_truncate(%s, %zu) -> Growing inode(%i) to %i B\n", path, size, inum);
         return grow_inode(node, (size - node->size));
     } else if (size > node->size) {
         return shrink_inode(node, node->size - size);
