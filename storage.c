@@ -107,6 +107,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
             //printf("DEBUG: storage_read() -> Letter read: %c\n", buf[ii + bytesRead]);
             ++ii;
         }
+        printf("DEBUG: storage_read() -> String read: %s\n", buf[bytesRead]);
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
     }
