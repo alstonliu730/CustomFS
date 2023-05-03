@@ -201,7 +201,7 @@ int storage_truncate(const char *path, size_t size) {
 
     inode_t* node = get_inode(inum);
     if (node->size < size) {
-        prinf("DEBUG: storage_truncate(%s, %zu) -> Growing inode(%i) to %i B\n", path, size, inum);
+        printf("DEBUG: storage_truncate(%s, %zu) -> Growing inode(%i) to %i B\n", path, size, inum);
         return grow_inode(node, (size - node->size));
     } else if (size > node->size) {
         return shrink_inode(node, node->size - size);
