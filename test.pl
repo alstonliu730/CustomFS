@@ -153,9 +153,9 @@ $size or $size = 0;
 say "# Actual size: $size";
 my $has_size = $size eq 16 * $chunks + 1;
 ok(($listed and $exists and $has_size), "Large file exists and has the correct size");
-my $back1 = read_text("large.txt");
+my $back = read_text("large.txt");
 say "# Content: '$content'";
-say "# Message read: '$back1'";
+say "# Message read: '$back'";
 ok($content eq $back1, "Read back data from large file correctly");
 
 say "# -> 4 blocks";
@@ -170,9 +170,9 @@ $size or $size = 0;
 say "# Actual size: $size";
 $has_size = $size eq 16 * $chunks + 1;
 ok(($listed and $exists and $has_size), "Larger file exists and has the correct size");
-$back2 = read_text("larger.txt");
+$back = read_text("larger.txt");
 say "# Content: '$content'";
-say "# Message read: '$back2'";
+say "# Message read: '$back'";
 ok($content eq $back2, "Read back data from larger file correctly");
 
 unmount()
