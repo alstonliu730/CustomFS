@@ -200,13 +200,15 @@ int storage_truncate(const char *path, size_t size) {
     }
 
     inode_t* node = get_inode(inum);
-    if (node->size < size) {
+    int maxSize = node->blocks * BLOCK_SIZE;
+    if (size > maxSize) {
         printf("DEBUG: storage_truncate(%s, %zu) -> Growing inode(%i) by %zu bytes\n", path, size, inum, (size - node->size));
-        return grow_inode(node, size - node->size);
-    } else if (size > node->size) {
+        return grow_inode(node, size - maxSize);
+    } else if (maxSize > size) {
         printf("DEBUG: storage_truncate(%s, %zu) -> Shrinking inode(%i) by %zu bytes\n", path, size, inum, (node->size - size));
-        return shrink_inode(node, node->size - size);
+        return shrink_inode(node, maxSize - size);
     } else {
+        // Already equal in size
         return 0;
     }
 }

@@ -115,14 +115,22 @@ int grow_inode(inode_t *node, int size) {
     uint16_t nBlocks = bytes_to_blocks(new_size); 
 
     // adding to direct pointers
-    if (node->blocks < MAX_BLOCKS) {
-        for(int ii = node->blocks; ii < nBlocks && ii < MAX_BLOCKS; ++ii) {
-            node->block[ii] = alloc_block();
-            if(!node->block[ii]) {
-                node->blocks = ii + 1;
-                return 0; // when fs can't allocate more blocks
-            }
+    if(node->blocks < MAX_BLOCKS) {
+        int allocBlocks;
+        // Case where the new number of blocks is greater than MAX_BLOCKS
+        if(nBlocks >= MAX_BLOCKS) {
+            allocBlocks = MAX_BLOCKS - node->blocks;
+        } else {
+            allocBlocks = nBlocks - node->blocks;
         }
+
+        // allocate the blocks to the direct pointers
+        for(int ii = 0; ii < allocBlocks; ++ii) {
+            node->block[node->blocks + ii] = alloc_block();
+        }
+        
+        // update the number of blocks in the inode
+        node->blocks += allocBlocks;
     }
     
     // adding to indirect pointers
@@ -132,23 +140,23 @@ int grow_inode(inode_t *node, int size) {
             node->indirect = alloc_block();
             if(!node->indirect) {
                 node->blocks = nBlocks;
-                return 0; // when fs can't allocate more blocks
+                return -1; // when fs can't allocate more blocks
             }
         }
 
         // create new blocks to the indirect pointers
         int* ptr_block = blocks_get_block(node->indirect);
-        for (int idx = node->blocks - MAX_BLOCKS; idx < (nBlocks - MAX_BLOCKS); ++idx) {
+        int allocBlocks = nBlocks - MAX_BLOCKS;
+        for (int idx = node->blocks - MAX_BLOCKS; idx < allocBlocks; ++idx) {
             ptr_block[idx] = alloc_block();
             if(!node->block[idx]) {
                 node->blocks += (idx + 1);
-                return 0; // when fs can't allocate more blocks
+                return -1; // when fs can't allocate more blocks
             }
         }
     }
 
-    node->blocks = nBlocks;
-    return 1;
+    return 0;
 }
 
 // shrinks the inode by the given size in bytes
