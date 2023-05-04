@@ -156,7 +156,7 @@ ok(($listed and $exists and $has_size), "Large file exists and has the correct s
 my $back = read_text("large.txt");
 say "# Content: '$content'";
 say "# Message read: '$back'";
-ok($content eq $back1, "Read back data from large file correctly");
+ok($content eq $back, "Read back data from large file correctly");
 
 say "# -> 4 blocks";
 $chunks = 3 * 256 + 128;
@@ -173,7 +173,7 @@ ok(($listed and $exists and $has_size), "Larger file exists and has the correct 
 $back = read_text("larger.txt");
 say "# Content: '$content'";
 say "# Message read: '$back'";
-ok($content eq $back2, "Read back data from larger file correctly");
+ok($content eq $back, "Read back data from larger file correctly");
 
 unmount()
 
