@@ -13,15 +13,15 @@ DEBUG: alloc_block() -> 1
 DEBUG: alloc_block() -> 2
 ---Creating root directory!---
 DEBUG: alloc_inode() -> called function!
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: alloc_block() -> 3
 DEBUG: alloc_inode() -> 0
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
-Inode Address: 0x7f07032c0000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
+Inode Address: 0x7f179f018000
 # of refs: 2
 Permission & File Type: 16877
 Size: 128
@@ -42,7 +42,7 @@ Indirect bnum: -1
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 Directories:
 Entry #0:
 - Name: .
@@ -56,25 +56,23 @@ DEBUG: nufs_getattr(/large.txt) -> Function called
 DEBUG: storage_stat(/large.txt) -> Called function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: path_lookup(/large.txt) -> Inum: -1
-
---------- CREATED LARGE.TXT --------------------------
 DEBUG: nufs_mknod(/large.txt, 100664) -> Function called.
 DEBUG: storage_mknod(/large.txt, 33204) -> Called Function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: path_lookup(/large.txt) -> Inum: -1
 DEBUG: storage_mknod(/large.txt, 33204) -> Getting name of parent.
 DEBUG: get_parent(/large.txt) -> Called Function.
@@ -89,23 +87,23 @@ DEBUG: storage_mknod(/large.txt, 33204) -> Parent: /
 DEBUG: storage_mknod(/large.txt, 33204) -> Child: large.txt
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: alloc_inode() -> called function!
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: alloc_block() -> 4
 DEBUG: alloc_inode() -> 1
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: directory_put(large.txt, 1) -> Called Function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
-Inode Address: 0x7f07032c0000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
+Inode Address: 0x7f179f018000
 # of refs: 2
 Permission & File Type: 16877
 Size: 128
@@ -123,7 +121,7 @@ Block bnum 10: -1
 Block bnum 11: -1
 Indirect bnum: -1
 DEBUG: directory_put(large.txt, 1) -> {Name: large.txt, Inum: 1}
-Inode Address: 0x7f07032c0000
+Inode Address: 0x7f179f018000
 # of refs: 3
 Permission & File Type: 16877
 Size: 192
@@ -144,7 +142,7 @@ DEBUG: storage_mknod(/large.txt, 33204) -> Printing directory entries
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 Directories:
 Entry #0:
 - Name: .
@@ -163,112 +161,111 @@ DEBUG: nufs_getattr(/large.txt) -> Function called
 DEBUG: storage_stat(/large.txt) -> Called function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: storage_stat(/large.txt) -> {inum: 1, mode: 33204, size: 0, refs: 1}
 DEBUG: getattr(/large.txt) -> (0) {mode: 100664, size: 0}
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: nufs_access(/large.txt, 0000) -> 0
 open(/large.txt) -> 0
 ioctl(/large.txt, 21505, ...) -> -1
-
---------- WRITE TO LARGE TEXT 1 --------------------------
 DEBUG: storage_write(/large.txt, 4096, 0) -> Called Function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 4
 DEBUG: storage_write() -> bytes to write: 4096
 DEBUG: storage_write(/large.txt, 4096, 0) -> (4096)
 write(/large.txt, 4096 bytes, @+0) -> 4096
-
---------- WRITE TO LARGE TEXT 2 --------------------------
 DEBUG: storage_write(/large.txt, 2049, 4096) -> Called Function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: storage_write(/large.txt, 2049, 4096) -> Size change: 6145
 DEBUG: storage_truncate(/large.txt, 6145) -> Called Function
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: storage_truncate(/large.txt, 6145) -> Growing inode(1) by 2049 bytes
 DEBUG: grow_inode(2049) -> Called Function
+DEBUG: grow_inode(2049) -> new_size: 6145
+DEBUG: grow_inode(2049) -> New Size in Blocks: 2
+DEBUG: grow_inode(2049) -> # of new blocks: 1
 DEBUG: alloc_block() -> 5
+DEBUG: grow_inode(2049) -> # of blocks in this node: 2
 DEBUG: inode_get_bnum(4096) -> Called Function
 DEBUG: inode_get_bnum(4096) -> Direct bnum: 5
 DEBUG: storage_write() -> bytes to write: 2049
 DEBUG: storage_write(/large.txt, 2049, 4096) -> (2049)
 write(/large.txt, 2049 bytes, @+4096) -> 2049
-
 DEBUG: nufs_getattr(/) -> Function called
 DEBUG: storage_stat(/) -> Called function.
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: storage_stat(/) -> {inum: 0, mode: 16877, size: 192, refs: 3}
 DEBUG: getattr(/) -> (0) {mode: 40755, size: 192}
-DEBUG: nufs_readdir(/, 0x55f54627b270, 0) -> Called Function
+DEBUG: nufs_readdir(/, 0x564927ded270, 0) -> Called Function
 DEBUG: nufs_getattr(/) -> Function called
 DEBUG: storage_stat(/) -> Called function.
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: storage_stat(/) -> {inum: 0, mode: 16877, size: 192, refs: 3}
 DEBUG: getattr(/) -> (0) {mode: 40755, size: 192}
 DEBUG: get_parent(/) -> Called Function.
 DEBUG: get_parent(/) -> Parent: 
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
-Inode Address: 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
+Inode Address: 0x7f179f018000
 # of refs: 3
 Permission & File Type: 16877
 Size: 192
@@ -288,113 +285,106 @@ Indirect bnum: -1
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
-DEBUG: nufs_readdir(/, 0x55f54627b270, 0) -> Child Path: /large.txt
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
+DEBUG: nufs_readdir(/, 0x564927ded270, 0) -> Child Path: /large.txt
 DEBUG: nufs_getattr(/large.txt) -> Function called
 DEBUG: storage_stat(/large.txt) -> Called function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: storage_stat(/large.txt) -> {inum: 1, mode: 33204, size: 6145, refs: 1}
 DEBUG: getattr(/large.txt) -> (0) {mode: 100664, size: 6145}
 DEBUG: nufs_getattr(/large.txt) -> Function called
 DEBUG: storage_stat(/large.txt) -> Called function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: storage_stat(/large.txt) -> {inum: 1, mode: 33204, size: 6145, refs: 1}
 DEBUG: getattr(/large.txt) -> (0) {mode: 100664, size: 6145}
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: nufs_access(/large.txt, 0000) -> 0
 open(/large.txt) -> 0
 ioctl(/large.txt, 21505, ...) -> -1
-
---------- READ LARGE TEXT 1 --------------------------
 DEBUG: storage_read(/large.txt, , 8192, 0) -> Function called
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 4
 DEBUG: storage_read() -> bytes to read: 4096
-DEBUG: storage_read() -> String read: 1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_
-ERROR: directory_lookup(larger.txt) -> No such directory entry.
+DEBUG: storage_read() -> String read: 1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_ERROR: directory_lookup(larger.txt) -> No such directory entry.
 ERROR: path_lookup(/larger.txt) -> Failed to find inode in this path.
 ERROR: storage_stat(/larger.txt) -> (-1)
 ERROR: nufs_getattr(/larger.txt) -> (-1)
 ERROR: directory_lookup(larger.txt) -> No such directory entry.
 ERROR: path_lookup(/larger.txt) -> Failed to find inode in this path.
 ERROR: directory_lookup(larger.txt) -> No such directory entry.
-8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_
+8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_
 DEBUG: inode_get_bnum(4096) -> Called Function
 DEBUG: inode_get_bnum(4096) -> Direct bnum: 5
 DEBUG: storage_read() -> bytes to read: 4096
 DEBUG: storage_read() -> String read: 
 DEBUG: storage_read(/large.txt, 8192, 0) -> (8192)
 read(/large.txt, 8192 bytes, @+0) -> 8192
-
-
 DEBUG: nufs_getattr(/larger.txt) -> Function called
 DEBUG: storage_stat(/larger.txt) -> Called function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: path_lookup(/larger.txt) -> Inum: -1
-
---------- CREATED LARGER.TXT --------------------------
 DEBUG: nufs_mknod(/larger.txt, 100664) -> Function called.
 DEBUG: storage_mknod(/larger.txt, 33204) -> Called Function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: path_lookup(/larger.txt) -> Inum: -1
 DEBUG: storage_mknod(/larger.txt, 33204) -> Getting name of parent.
 DEBUG: get_parent(/larger.txt) -> Called Function.
@@ -409,23 +399,23 @@ DEBUG: storage_mknod(/larger.txt, 33204) -> Parent: /
 DEBUG: storage_mknod(/larger.txt, 33204) -> Child: larger.txt
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: alloc_inode() -> called function!
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: alloc_block() -> 6
 DEBUG: alloc_inode() -> 2
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: directory_put(larger.txt, 2) -> Called Function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
-Inode Address: 0x7f07032c0000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
+Inode Address: 0x7f179f018000
 # of refs: 3
 Permission & File Type: 16877
 Size: 192
@@ -443,7 +433,7 @@ Block bnum 10: -1
 Block bnum 11: -1
 Indirect bnum: -1
 DEBUG: directory_put(larger.txt, 2) -> {Name: larger.txt, Inum: 2}
-Inode Address: 0x7f07032c0000
+Inode Address: 0x7f179f018000
 # of refs: 4
 Permission & File Type: 16877
 Size: 256
@@ -464,7 +454,7 @@ DEBUG: storage_mknod(/larger.txt, 33204) -> Printing directory entries
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 Directories:
 Entry #0:
 - Name: .
@@ -487,185 +477,189 @@ DEBUG: nufs_getattr(/larger.txt) -> Function called
 DEBUG: storage_stat(/larger.txt) -> Called function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_stat(/larger.txt) -> {inum: 2, mode: 33204, size: 0, refs: 1}
 DEBUG: getattr(/larger.txt) -> (0) {mode: 100664, size: 0}
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: nufs_access(/larger.txt, 0000) -> 0
 open(/larger.txt) -> 0
 ioctl(/larger.txt, 21505, ...) -> -1
---------- WRITING TO LARGER TEXT 1 --------------------------
 DEBUG: storage_write(/larger.txt, 4096, 0) -> Called Function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 6
 DEBUG: storage_write() -> bytes to write: 4096
 DEBUG: storage_write(/larger.txt, 4096, 0) -> (4096)
 write(/larger.txt, 4096 bytes, @+0) -> 4096
-
---------- WRITING TO LARGER TEXT 2 --------------------------
 DEBUG: storage_write(/larger.txt, 4096, 4096) -> Called Function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_write(/larger.txt, 4096, 4096) -> Size change: 8192
 DEBUG: storage_truncate(/larger.txt, 8192) -> Called Function
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_truncate(/larger.txt, 8192) -> Growing inode(2) by 4096 bytes
 DEBUG: grow_inode(4096) -> Called Function
+DEBUG: grow_inode(4096) -> new_size: 8192
+DEBUG: grow_inode(4096) -> New Size in Blocks: 2
+DEBUG: grow_inode(4096) -> # of new blocks: 1
 DEBUG: alloc_block() -> 7
+DEBUG: grow_inode(4096) -> # of blocks in this node: 2
 DEBUG: inode_get_bnum(4096) -> Called Function
 DEBUG: inode_get_bnum(4096) -> Direct bnum: 7
 DEBUG: storage_write() -> bytes to write: 4096
 DEBUG: storage_write(/larger.txt, 4096, 4096) -> (4096)
-
---------- WRITING TO LARGER TEXT 3 --------------------------
 write(/larger.txt, 4096 bytes, @+4096) -> 4096
 DEBUG: storage_write(/larger.txt, 4096, 8192) -> Called Function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_write(/larger.txt, 4096, 8192) -> Size change: 12288
 DEBUG: storage_truncate(/larger.txt, 12288) -> Called Function
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_truncate(/larger.txt, 12288) -> Growing inode(2) by 4096 bytes
 DEBUG: grow_inode(4096) -> Called Function
+DEBUG: grow_inode(4096) -> new_size: 12288
+DEBUG: grow_inode(4096) -> New Size in Blocks: 3
+DEBUG: grow_inode(4096) -> # of new blocks: 1
 DEBUG: alloc_block() -> 8
+DEBUG: grow_inode(4096) -> # of blocks in this node: 3
 DEBUG: inode_get_bnum(8192) -> Called Function
 DEBUG: inode_get_bnum(8192) -> Direct bnum: 8
 DEBUG: storage_write() -> bytes to write: 4096
 DEBUG: storage_write(/larger.txt, 4096, 8192) -> (4096)
 write(/larger.txt, 4096 bytes, @+8192) -> 4096
-
---------- WRITING TO LARGER TEXT 4 --------------------------
 DEBUG: storage_write(/larger.txt, 2049, 12288) -> Called Function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_write(/larger.txt, 2049, 12288) -> Size change: 14337
 DEBUG: storage_truncate(/larger.txt, 14337) -> Called Function
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_truncate(/larger.txt, 14337) -> Growing inode(2) by 2049 bytes
 DEBUG: grow_inode(2049) -> Called Function
+DEBUG: grow_inode(2049) -> new_size: 14337
+DEBUG: grow_inode(2049) -> New Size in Blocks: 4
+DEBUG: grow_inode(2049) -> # of new blocks: 1
 DEBUG: alloc_block() -> 9
+DEBUG: grow_inode(2049) -> # of blocks in this node: 4
 DEBUG: inode_get_bnum(12288) -> Called Function
 DEBUG: inode_get_bnum(12288) -> Direct bnum: 9
 DEBUG: storage_write() -> bytes to write: 2049
 DEBUG: storage_write(/larger.txt, 2049, 12288) -> (2049)
 write(/larger.txt, 2049 bytes, @+12288) -> 2049
--------------------------------------------------------
 DEBUG: nufs_getattr(/) -> Function called
 DEBUG: storage_stat(/) -> Called function.
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: storage_stat(/) -> {inum: 0, mode: 16877, size: 256, refs: 4}
 DEBUG: getattr(/) -> (0) {mode: 40755, size: 256}
-DEBUG: nufs_readdir(/, 0x55f54627b950, 0) -> Called Function
+DEBUG: nufs_readdir(/, 0x564927ded950, 0) -> Called Function
 DEBUG: nufs_getattr(/) -> Function called
 DEBUG: storage_stat(/) -> Called function.
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: storage_stat(/) -> {inum: 0, mode: 16877, size: 256, refs: 4}
 DEBUG: getattr(/) -> (0) {mode: 40755, size: 256}
 DEBUG: get_parent(/) -> Called Function.
 DEBUG: get_parent(/) -> Parent: 
 DEBUG: path_lookup(/) -> First Char: /
 DEBUG: path_lookup(/) -> returned root inum (0)
-DEBUG: get_inode(0) -> 0x7f07032c0000
-Inode Address: 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
+Inode Address: 0x7f179f018000
 # of refs: 4
 Permission & File Type: 16877
 Size: 256
@@ -685,87 +679,85 @@ Indirect bnum: -1
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
-DEBUG: nufs_readdir(/, 0x55f54627b950, 0) -> Child Path: /large.txt
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
+DEBUG: nufs_readdir(/, 0x564927ded950, 0) -> Child Path: /large.txt
 DEBUG: nufs_getattr(/large.txt) -> Function called
 DEBUG: storage_stat(/large.txt) -> Called function.
 DEBUG: path_lookup(/large.txt) -> First Char: /
 DEBUG: path_lookup(/large.txt) -> Path Name: large.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(large.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(large.txt) -> Inode Num: 1.
 DEBUG: path_lookup(/large.txt) -> Inum: 1
 DEBUG: path_lookup(/large.txt) -> (1)
-DEBUG: get_inode(1) -> 0x7f07032c0060
+DEBUG: get_inode(1) -> 0x7f179f018060
 DEBUG: storage_stat(/large.txt) -> {inum: 1, mode: 33204, size: 6145, refs: 1}
 DEBUG: getattr(/large.txt) -> (0) {mode: 100664, size: 6145}
-DEBUG: nufs_readdir(/, 0x55f54627b950, 0) -> Child Path: /larger.txt
+DEBUG: nufs_readdir(/, 0x564927ded950, 0) -> Child Path: /larger.txt
 DEBUG: nufs_getattr(/larger.txt) -> Function called
 DEBUG: storage_stat(/larger.txt) -> Called function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_stat(/larger.txt) -> {inum: 2, mode: 33204, size: 14337, refs: 1}
 DEBUG: getattr(/larger.txt) -> (0) {mode: 100664, size: 14337}
 DEBUG: nufs_getattr(/larger.txt) -> Function called
 DEBUG: storage_stat(/larger.txt) -> Called function.
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: storage_stat(/larger.txt) -> {inum: 2, mode: 33204, size: 14337, refs: 1}
 DEBUG: getattr(/larger.txt) -> (0) {mode: 100664, size: 14337}
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: nufs_access(/larger.txt, 0000) -> 0
 open(/larger.txt) -> 0
 ioctl(/larger.txt, 21505, ...) -> -1
-
---------- READING LARGER TEXT 1 --------------------------
 DEBUG: storage_read(/larger.txt, , 16384, 0) -> Function called
 DEBUG: path_lookup(/larger.txt) -> First Char: /
 DEBUG: path_lookup(/larger.txt) -> Path Name: larger.txt
-DEBUG: get_inode(0) -> 0x7f07032c0000
+DEBUG: get_inode(0) -> 0x7f179f018000
 DEBUG: directory_lookup(larger.txt) -> Called function
 DEBUG: inode_get_block(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 3
-DEBUG: inode_get_block(0) -> 0x7f07032c2000
+DEBUG: inode_get_block(0) -> 0x7f179f01a000
 DEBUG: directory_lookup(larger.txt) -> Inode Num: 2.
 DEBUG: path_lookup(/larger.txt) -> Inum: 2
 DEBUG: path_lookup(/larger.txt) -> (2)
-DEBUG: get_inode(2) -> 0x7f07032c00c0
+DEBUG: get_inode(2) -> 0x7f179f0180c0
 DEBUG: inode_get_bnum(0) -> Called Function
 DEBUG: inode_get_bnum(0) -> Direct bnum: 6
 DEBUG: storage_read() -> bytes to read: 4096
@@ -773,9 +765,9 @@ DEBUG: storage_read() -> String read: 1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_
 DEBUG: inode_get_bnum(4096) -> Called Function
 DEBUG: inode_get_bnum(4096) -> Direct bnum: 7
 DEBUG: storage_read() -> bytes to read: 4096
-DEBUG: storage_read() -> String read: 1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2make[1]: Entering directory '/home/user/project2'
+DEBUG: storage_read() -> String read: 1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1make[1]: Entering directory '/home/user/project2'
 fusermount -u mnt || true
-_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_
+_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_1_2_3_4_5_6_7_8_
 DEBUG: inode_get_bnum(8192) -> Called Function
 DEBUG: inode_get_bnum(8192) -> Direct bnum: 8
 DEBUG: storage_read() -> bytes to read: 4096
