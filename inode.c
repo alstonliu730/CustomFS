@@ -110,9 +110,11 @@ int grow_inode(inode_t *node, int size) {
 
     // new_size of inodes
     int new_size = node->blocks * BLOCK_SIZE + size;
+    printf("DEBUG: grow_inode(%i) -> new_size: %i\n", size, new_size);
 
     // its new size in blocks
-    uint16_t nBlocks = bytes_to_blocks(new_size); 
+    uint8_t nBlocks = bytes_to_blocks(new_size); 
+    printf("DEBUG: grow_inode(%i) -> New Size in Blocks: %i\n", size, nBlocks);
 
     // adding to direct pointers
     if(node->blocks < MAX_BLOCKS) {
@@ -123,7 +125,7 @@ int grow_inode(inode_t *node, int size) {
         } else {
             allocBlocks = nBlocks - node->blocks;
         }
-
+        printf("DEBUG: grow_inode(%i) -> # of new blocks: %i\n", size, allocBlocks);
         // allocate the blocks to the direct pointers
         for(int ii = 0; ii < allocBlocks; ++ii) {
             node->block[node->blocks + ii] = alloc_block();
@@ -131,6 +133,7 @@ int grow_inode(inode_t *node, int size) {
         
         // update the number of blocks in the inode
         node->blocks += allocBlocks;
+        printf("DEBUG: grow_inode(%i) -> # of blocks in this node: %i\n", size, node->blocks);
     }
     
     // adding to indirect pointers

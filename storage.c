@@ -72,7 +72,7 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
     assert(S_ISREG(node->mode));
 
     // ensure offset is valid
-    if (offset > node->size || offset < 0) {
+    if (offset > node->blocks * BLOCK_SIZE || offset < 0) {
         fprintf(stderr, "ERROR: storage_read() -> Offset invalid.\n");
         return 0;
     }
@@ -199,6 +199,7 @@ int storage_truncate(const char *path, size_t size) {
         return -1;
     }
 
+    // change depending on the size
     inode_t* node = get_inode(inum);
     int maxSize = node->blocks * BLOCK_SIZE;
     if (size > maxSize) {
