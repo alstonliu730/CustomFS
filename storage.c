@@ -168,17 +168,20 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         } else {
             bytesToWrite = bytesRem;
         }
+        
         printf("DEBUG: storage_write() -> bytes to write: %i\n", bytesToWrite);
         // write to buffer and update inode
-        //memcpy(file_ptr + bytesWritten, buf + bytesWritten, bytesToWrite);
-        for(int ii = 0; ii < bytesToWrite; ++ii) {
-            memset(&file_ptr[ii + bytesWritten], buf[ii + bytesWritten], sizeof(char));
-            //printf("DEBUG: storage_write() -> Letter written: %c\n", file_ptr[ii + bytesWritten]);
-        }
+        memcpy(file_ptr + bytesWritten, buf + bytesWritten, bytesToWrite);
+        // for(int ii = 0; ii < bytesToWrite; ++ii) {
+        //     memset(&file_ptr[ii + bytesWritten], buf[ii + bytesWritten], sizeof(char));
+        //     //printf("DEBUG: storage_write() -> Letter written: %c\n", file_ptr[ii + bytesWritten]);
+        // }
+        printf("DEBUG: storage_write() -> String written: %s\n", file_ptr + bytesWritten);
         bytesWritten += bytesToWrite;
         bytesRem -= bytesToWrite;
         // printf("DEBUG: storage_write() -> Written:\"%s\"\n", (file_ptr + bytesWritten));
     }
+
     // update the inode with the new size
     if (size + offset > node->size) {
         node->size = size + offset;
