@@ -96,9 +96,10 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
       char *child = entry.name;
       char *child_path = (char *) malloc(DIR_NAME_LENGTH);
       if (strcmp(path, "/")) {
-        printf("DEBUG: nufs_readir() -> adding slash to child path\n");
+        printf("DEBUG: nufs_readdir() -> adding slash to child path\n");
         child_path = strcat("/", child);
       } else {
+        printf("DEBUG: nufs_readdir() -> directory is root\n");
         child_path = child;
       }
       child_path = strcat(strdup(path), child_path);
