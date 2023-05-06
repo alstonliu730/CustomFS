@@ -93,8 +93,8 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     for(int ii = 2; ii < node->refs; ++ii) {
       dirent_t entry = entries[ii];
       printf("DEBUG: nufs_readdir() -> Entry name: %s\n", entry.name);
-      char *child = entry.name;
-      char *child_path = (char *) malloc(DIR_NAME_LENGTH);
+      char *child = strdup(entry.name);
+      char *child_path;
       if (strcmp(path, "/")) {
         printf("DEBUG: nufs_readdir() -> adding slash to child path\n");
         child_path = strcat("/", child);
