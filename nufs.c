@@ -50,6 +50,22 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 
   printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Called Function\n",
     path, buf, offset);
+  
+  // get the inode number from the path
+  int inum = path_lookup(path);
+  if(inum < 0) {
+      fprintf(stderr, "ERROR: nufs_readdir(%s, %p, %ld) -> Cannot get inode from path!\n",
+      path, buf, offset);
+      return -ENOENT;
+  }
+
+  // get the inode from the path
+  inode_t* node = get_inode(inum);
+  // make sure this inode is a directory inode
+  assert(S_ISDIR(node->mode));
+  print_inode(node);
+  
+  // self reference to the current directory
   rv = nufs_getattr(path, &st);
   assert(!rv);
 
@@ -68,23 +84,8 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     // root self references since it's the parent
     filler(buf, "..", &st, 0);
   }
-  
-  // get the inode number from the path
-  int inum = path_lookup(path);
-  if(inum < 0) {
-    fprintf(stderr, "ERROR: nufs_readdir(%s, %p, %ld) -> Cannot get inode from path!\n",
-      path, buf, offset);
-    free(parent);
-    return -ENOENT;
-  }
 
-  // get the inode from the path
-  inode_t* node = get_inode(inum);
-  
-  // make sure this inode is a directory inode
-  assert(S_ISDIR(node->mode));
-  print_inode(node);
-
+  // if the directory has entries beside the parent and self-ref
   if(node->refs > 2) {
     // get the entries in this directory
     dirent_t* entries = inode_get_block(node, 0);
@@ -92,6 +93,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     // go through each entry
     for(int ii = 2; ii < node->refs; ++ii) {
       dirent_t entry = entries[ii];
+      printf("DEBUG: nufs_readdir() -> Entry name: %s\n", entry.name);
       char *child = entry.name;
       char *child_path = child;
       if (strcmp(path, "/")) {
