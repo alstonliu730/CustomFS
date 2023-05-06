@@ -98,7 +98,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
       char *child_path = (char *) malloc(DIR_NAME_LENGTH + strlen(path) + 1);
       if (strcmp(path, "/")) {
         printf("DEBUG: nufs_readdir() -> adding slash to child path\n");
-        strcat(child_path, strdup(path));
+        strcat(child_path, path);
         strcat(child_path, "/");
         strcat(child_path, child);
       } else {
