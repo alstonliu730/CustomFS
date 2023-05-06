@@ -102,6 +102,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
         printf("DEBUG: nufs_readdir() -> directory is root\n");
         child_path = child;
       }
+      printf("DEBUG: nufs_readdir() -> Child Path before adding to Path: %s\n", child_path);
       child_path = strcat(strdup(path), child_path);
       printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Child Path: %s\n", 
         path, buf, offset, child_path);
