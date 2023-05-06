@@ -251,20 +251,20 @@ int storage_mknod(const char *path, int mode) {
 
     // initialize the inode
     int child_inum = alloc_inode();
-    inode_t* node = get_inode(child_inum);
-    node->mode = mode;
-    node->size = 0;
+    inode_t* child_node = get_inode(child_inum);
+    child_node->mode = mode;
+    child_node->size = 0;
     
     // if the given path is a directory
     if (S_ISDIR(mode)) {
         printf("DEBUG: storage_mknod(%s, %i) -> Creating self and parent reference.\n", 
             path, mode);
         // set the child directory's default entries
-        directory_put(node, ".", child_inum);
-        directory_put(node, "..", parent_inum);
-        node->refs = 2;
+        directory_put(child_node, ".", child_inum);
+        directory_put(child_node, "..", parent_inum);
+        child_node->refs = 2;
     } else {
-        node->refs = 1;
+        child_node->refs = 1;
     }
 
     directory_put(parent_node, sub, child_inum);

@@ -50,7 +50,6 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 
   printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Called Function\n",
     path, buf, offset);
-  
   // get the inode number from the path
   int inum = path_lookup(path);
   if(inum < 0) {
@@ -64,11 +63,11 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   // make sure this inode is a directory inode
   assert(S_ISDIR(node->mode));
   print_inode(node);
-  
+  print_directory(node);
+
   // self reference to the current directory
   rv = nufs_getattr(path, &st);
   assert(!rv);
-
   filler(buf, ".", &st, 0);
 
   // get parent directory
@@ -95,9 +94,11 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
       dirent_t entry = entries[ii];
       printf("DEBUG: nufs_readdir() -> Entry name: %s\n", entry.name);
       char *child = entry.name;
-      char *child_path = child;
+      char *child_path = (char *) malloc(DIR_NAME_LENGTH);
       if (strcmp(path, "/")) {
-        child_path = strcat("/", child_path);
+        child_path = strcat("/", child);
+      } else {
+        child_path = child;
       }
       child_path = strcat(strdup(path), child_path);
       printf("DEBUG: nufs_readdir(%s, %p, %ld) -> Child Path: %s\n", 
@@ -108,6 +109,7 @@ int nufs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
       assert(!rv);
 
       filler(buf, child, &st, 0);
+      free(child_path);
     }
   }
 
