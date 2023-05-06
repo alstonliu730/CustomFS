@@ -88,8 +88,8 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
             return bytesRead;
         }
         char* start = blocks_get_block(bnum);
-        char* file_ptr = start + ((offset + bytesRead) % BLOCK_SIZE);
         char* end = start + BLOCK_SIZE;
+        char* file_ptr = (bytesRead > 0) ? start : start + (offset % BLOCK_SIZE);
 
         int bytesToRead;
         char* target = file_ptr + bytesRem;
@@ -100,13 +100,14 @@ int storage_read(const char *path, char *buf, size_t size, off_t offset) {
         }
         printf("DEBUG: storage_read() -> bytes to read: %i\n", bytesToRead);
 
-        // memcpy(buf + bytesRead, file_ptr, bytesToRead);
+        memcpy(buf + bytesRead, file_ptr, bytesToRead);
+        /*
         int ii = 0;
         while(ii < bytesToRead && file_ptr[ii + bytesRead] != '\0') {
             memset(&buf[ii + bytesRead], file_ptr[ii + bytesRead], sizeof(char));
             //printf("DEBUG: storage_read() -> Letter read: %c\n", buf[ii + bytesRead]);
             ++ii;
-        }
+        } */
         printf("DEBUG: storage_read() -> String read: %s\n", buf + bytesRead);
         bytesRem -= bytesToRead;
         bytesRead += bytesToRead;
@@ -175,7 +176,7 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
         // write to buffer and update inode
         memcpy(file_ptr, buf + bytesWritten, bytesToWrite);
         printf("DEBUG: storage_write() -> File pointer: %p\n", file_ptr);
-        printf("DEBUG: storage_write() -> Written:\"%s\"\n", file_ptr);
+        printf("DEBUG: storage_write() -> Written:\"%s\"\n", file_ptr + bytesWritten);
         
         // update write variables
         bytesWritten += bytesToWrite;
