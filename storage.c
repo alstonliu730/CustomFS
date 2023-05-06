@@ -171,13 +171,13 @@ int storage_write(const char *path, const char *buf, size_t size, off_t offset) 
             bytesToWrite = bytesRem;
         }
         printf("DEBUG: storage_write() -> bytes to write: %i\n", bytesToWrite);
+
         // write to buffer and update inode
-        memcpy(file_ptr + bytesWritten, buf + bytesWritten, bytesToWrite);
-        // for(int ii = 0; ii < bytesToWrite; ++ii) {
-        //     memset(&file_ptr[ii + bytesWritten], buf[ii + bytesWritten], sizeof(char));
-        //     //printf("DEBUG: storage_write() -> Letter written: %c\n", file_ptr[ii + bytesWritten]);
-        // }
-        printf("DEBUG: storage_write() -> Written:\"%s\"\n", (file_ptr + bytesWritten));
+        memcpy(file_ptr, buf + bytesWritten, bytesToWrite);
+        printf("DEBUG: storage_write() -> File pointer: %p\n", file_ptr);
+        printf("DEBUG: storage_write() -> Written:\"%s\"\n", file_ptr);
+        
+        // update write variables
         bytesWritten += bytesToWrite;
         bytesRem -= bytesToWrite;
     }
