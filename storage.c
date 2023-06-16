@@ -300,41 +300,104 @@ int storage_unlink(const char *path) {
 
 // link the given name of the directories
 int storage_link(const char *from, const char *to) {
+    // if the paths are the same
+    if(!strcmp(from, to)) {
+        return 0;
+    }
+
+    // make sure from exist
+    int from_inum = path_lookup(from);
+    if (from_inum < 0) {
+        fprintf(stderr, "ERROR: storage_link(%s, %s) -> Could not find path \'from\'.\n", from, to);
+        return -1;
+    }
+
     // make sure 'to' exist
-    int dest_inum = path_lookup(to);
-    if (dest_inum < 0) {
+    int to_inum = path_lookup(to);
+
+    // case where the destination doesn't exist
+    if (to_inum < 0) {
         fprintf(stderr, "ERROR: storage_link(%s, %s) -> Could not find path \'to\'.\n", from, to);
-        return -1;
+        storage_mknod(to, DIR_MODE | 0775);
+        to_inum = path_lookup(to);
     }
 
-    // get the names of the child and parent
-    char* dir = (char *) malloc(strlen(from) + 10);
-    char* sub = (char *) malloc(strlen(from) + 10);
+    // get the inode for 'to' path
+    inode_t* to_node = get_inode(to_inum);
+    inode_t* from_inode = get_inode(from_inum);
+    inode_t* dir_inode;
+
+    // allocate memory for the 'to'  directory
+    char *dir = (char *) malloc(strlen(to) + 1);
+
+    // get the name of the file or directory
+    char *sub = (char *) malloc(DIR_NAME_LENGTH);
     get_child(from, sub);
-    get_parent(from, dir);
 
-    int parent_inum = path_lookup(dir);
-    if (parent_inum < 0) {
-        fprintf(stderr, "ERROR: storage_link(%s, %s) -> Parent Inode cannot be found!\n", from, to);
-        free(sub);
-        free(dir);
-        return -1;
+    // if the 'to' path is a file
+    if(S_ISREG(to_node->mode)) {
+        // set parent and child names
+        get_parent(to, dir);
+        get_child(to, sub);
+
+        // get the directory inode of the 'to' path
+        dir_inode = get_inode(path_lookup(dir));
+
+        // add it to the directory with the name of the file
+        directory_put(dir_inode, sub, from_inum);
+    } else {
+        // assert that the 'to' path is a directory
+        assert(S_ISDIR(to_node->mode));
+
+        // add the file/directory to the entries
+        directory_put(to_node, sub, from_inum);
     }
 
-    inode_t* p_node = get_inode(parent_inum);
-    directory_put(p_node, sub, dest_inum);
-    printf("DEBUG: storage_unlink(%s, %s) -> (1)", from, to);
+    // clear the memory from the allocated variable
     free(sub);
     free(dir);
-    return 1;
+    return 0;
 }
 
-// rename the directories
+// TODO: rename the directories
 int storage_rename(const char *from, const char *to) {
-    printf("DEBUG: storage_rename(%s, %s) -> Called link and unlink here.\n", from, to);
-    storage_link(to, from);
-    storage_unlink(from);
-    return 0;
+    printf("DEBUG: storage_rename(%s, %s) -> Called function.\n", from, to);
+
+    // make sure the from path exists
+    int from_inum = path_lookup(from);
+    if(from_inum < 0) {
+        fprintf(stderr, "ERROR: storage_rename(%s, %s) -> Cannot find given \'from\' path\n");
+        return -1;
+    }
+    
+    // link the 'from' to 'to' path
+    storage_link(from, to);
+
+    // delete the file/directory from the parent entries
+    // get parent directory
+    char* dir = (char *) malloc(strlen(from) + 1);
+    get_parent(from, dir);
+
+    char* sub = (char *) malloc(DIR_NAME_LENGTH + 1);
+    get_child(from, sub);
+
+    int dir_inum = path_lookup(dir);
+    inode_t* dir_inode = get_inode(dir_inum);
+    dirent_t* entries = inode_get_block(dir_inode, 0);
+
+    // go through entries and find the name
+    for(int ii = 0; ii < dir_inode->refs; ++ii) {
+        dirent_t entry = entries[ii];
+        if(!strcmp(entry.name, sub)) {
+            entry.used = 0;
+            entry.inum = -1;
+            memset(&entry.name, 0, DIR_NAME_LENGTH);
+            return 0;
+        }
+    }
+
+    // couldn't find the name in the entry
+    return -1;
 }
 
 // set the time of the given file to the given timespec

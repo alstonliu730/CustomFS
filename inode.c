@@ -119,6 +119,7 @@ int grow_inode(inode_t *node, int size) {
     // adding to direct pointers
     if(node->blocks < MAX_BLOCKS) {
         int allocBlocks;
+        
         // Case where the new number of blocks is greater than MAX_BLOCKS
         if(nBlocks >= MAX_BLOCKS) {
             allocBlocks = MAX_BLOCKS - node->blocks;
